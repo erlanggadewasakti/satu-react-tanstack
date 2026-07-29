@@ -2,6 +2,7 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
 import Avatar from 'components/@extended/Avatar';
 
 // project-imports
@@ -21,9 +22,7 @@ export default function UserProfileCard() {
 
   const userPhoto = user?.photo && user.photo !== '-' ? user.photo : defaultAvatar;
   const usernameText = user?.username ? `@${user.username}` : '';
-  const lecturerCodeText = user?.lecturerCode ? `Kode: ${user.lecturerCode}` : '';
-
-  const detailsText = [usernameText, lecturerCodeText].filter(Boolean).join(' | ');
+  const lecturerCode = user?.lecturerCode || '';
 
   if (!drawerOpen) {
     return (
@@ -65,20 +64,34 @@ export default function UserProfileCard() {
           >
             {user?.name || 'Guest User'}
           </Typography>
-          <Typography
-            variant="caption"
-            sx={{
-              fontSize: '0.75rem',
-              color: '#5b6b79',
-              textAlign: 'center',
-              width: '100%',
-              whiteSpace: 'nowrap',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden'
-            }}
-          >
-            {detailsText || 'No details available'}
-          </Typography>
+          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', justifyContent: 'center', mt: 0.5, flexWrap: 'wrap', gap: 0.5 }}>
+            {usernameText && (
+              <Typography
+                variant="caption"
+                sx={{
+                  fontSize: '0.75rem',
+                  color: '#5b6b79',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {usernameText}
+              </Typography>
+            )}
+            {lecturerCode && (
+              <Chip
+                label={lecturerCode}
+                color="success"
+                size="small"
+                sx={{
+                  height: 20,
+                  fontSize: '0.675rem',
+                  fontWeight: 600,
+                  bgcolor: 'success.main',
+                  color: '#fff'
+                }}
+              />
+            )}
+          </Stack>
         </Stack>
       </Box>
     </Box>

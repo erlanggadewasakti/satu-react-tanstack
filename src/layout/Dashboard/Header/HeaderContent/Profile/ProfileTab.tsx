@@ -41,11 +41,25 @@ export default function ProfileTab({ handleLogout }: Props) {
         </ListItemIcon>
         <ListItemText primary="Billing" />
       </ListItemButton>
-      <ListItemButton onClick={handleLogout}>
+      <ListItemButton
+        onClick={handleLogout}
+        sx={(theme) => ({
+          color: 'error.main',
+          borderRadius: 1,
+          mt: 0.5,
+          '&:hover': {
+            bgcolor: 'error.lighter',
+            ...theme.applyStyles('dark', { bgcolor: 'error.darker' })
+          },
+          '& .MuiListItemIcon-root': {
+            color: 'error.main'
+          }
+        })}
+      >
         <ListItemIcon>
           <Logout variant="Bulk" size={18} />
         </ListItemIcon>
-        <ListItemText primary="Logout" />
+        <ListItemText primary="Logout" slotProps={{ primary: { sx: { color: 'error.main', fontWeight: 600 } } }} />
       </ListItemButton>
     </List>
   );

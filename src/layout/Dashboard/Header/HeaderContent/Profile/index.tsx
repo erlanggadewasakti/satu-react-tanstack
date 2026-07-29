@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import CardContent from '@mui/material/CardContent';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
@@ -149,26 +149,29 @@ export default function ProfilePage() {
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard border={false} content={false}>
                   <CardContent sx={{ px: 2.5, pt: 3 }}>
-                    <Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Grid>
-                        <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center' }}>
-                          <Avatar alt={user?.name || 'profile user'} src={user?.photo && user.photo !== '-' ? user.photo : avatar1} />
-                          <Stack>
-                            <Typography variant="subtitle1">{user?.name || 'Guest User'}</Typography>
-                            <Typography variant="body2" color="secondary">
-                              {[user?.username ? `@${user.username}` : '', user?.lecturerCode ? `Kode: ${user.lecturerCode}` : ''].filter(Boolean).join(' • ')}
+                    <Stack direction="row" spacing={1.25} sx={{ alignItems: 'flex-start', overflow: 'hidden' }}>
+                      <Avatar alt={user?.name || 'profile user'} src={user?.photo && user.photo !== '-' ? user.photo : avatar1} sx={{ width: 40, height: 40, mt: 0.5 }} />
+                      <Stack sx={{ overflow: 'hidden' }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
+                          {user?.name || 'Guest User'}
+                        </Typography>
+                        <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mt: 0.25, flexWrap: 'wrap' }}>
+                          {user?.username && (
+                            <Typography variant="caption" color="secondary" sx={{ fontSize: '0.75rem' }}>
+                              {`@${user.username}`}
                             </Typography>
-                          </Stack>
+                          )}
+                          {user?.lecturerCode && (
+                            <Chip
+                              label={user.lecturerCode}
+                              color="success"
+                              size="small"
+                              sx={{ height: 20, fontSize: '0.675rem', fontWeight: 600, bgcolor: 'success.main', color: '#fff' }}
+                            />
+                          )}
                         </Stack>
-                      </Grid>
-                      <Grid>
-                        <Tooltip title="Logout">
-                          <IconButton size="large" color="error" sx={{ p: 1 }} onClick={handleLogout}>
-                            <Logout variant="Bulk" />
-                          </IconButton>
-                        </Tooltip>
-                      </Grid>
-                    </Grid>
+                      </Stack>
+                    </Stack>
                   </CardContent>
 
                   <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
