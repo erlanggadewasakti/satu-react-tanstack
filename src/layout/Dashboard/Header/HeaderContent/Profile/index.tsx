@@ -123,7 +123,7 @@ export default function ProfilePage() {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <Avatar alt="profile user" src={avatar1} />
+        <Avatar alt={user?.name || 'profile user'} src={user?.photo && user.photo !== '-' ? user.photo : avatar1} />
       </ButtonBase>
       <Popper
         placement="bottom-end"
@@ -152,11 +152,11 @@ export default function ProfilePage() {
                     <Grid container sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                       <Grid>
                         <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center' }}>
-                          <Avatar alt="profile user" src={avatar1} />
+                          <Avatar alt={user?.name || 'profile user'} src={user?.photo && user.photo !== '-' ? user.photo : avatar1} />
                           <Stack>
-                            <Typography variant="subtitle1">{user?.name}</Typography>
+                            <Typography variant="subtitle1">{user?.name || 'Guest User'}</Typography>
                             <Typography variant="body2" color="secondary">
-                              UI/UX Designer
+                              {[user?.username ? `@${user.username}` : '', user?.lecturerCode ? `Kode: ${user.lecturerCode}` : ''].filter(Boolean).join(' • ')}
                             </Typography>
                           </Stack>
                         </Stack>

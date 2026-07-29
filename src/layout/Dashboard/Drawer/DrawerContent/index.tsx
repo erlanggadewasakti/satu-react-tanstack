@@ -4,7 +4,7 @@ import { Activity } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
-import NavUser from './NavUser';
+import UserProfileCard from './UserProfileCard';
 import NavCard from './NavCard';
 import Navigation from './Navigation';
 import { useGetMenuMaster } from 'api/menu';
@@ -20,13 +20,13 @@ export default function DrawerContent() {
 
   return (
     <>
+      <UserProfileCard />
       <SimpleBar sx={{ '& .simplebar-content': { display: 'flex', flexDirection: 'column' } }}>
         <Navigation />
         <Activity mode={drawerOpen && !downLG ? 'visible' : 'hidden'}>
           <NavCard />
         </Activity>
       </SimpleBar>
-      <NavUser />
     </>
   );
 }
