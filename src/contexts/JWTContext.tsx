@@ -29,11 +29,12 @@ const verifyToken: (st: string) => boolean = (serviceToken) => {
   if (!serviceToken) {
     return false;
   }
-  const decoded: KeyedObject = jwtDecode(serviceToken);
-  /**
-   * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
-   */
-  return decoded.exp > Date.now() / 1000;
+  try {
+    const decoded: KeyedObject = jwtDecode(serviceToken);
+    return decoded.exp > Date.now() / 1000;
+  } catch {
+    return false;
+  }
 };
 
 const setSession = (serviceToken?: string | null) => {
@@ -59,8 +60,8 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
         const serviceToken = window.localStorage.getItem('serviceToken');
         if (serviceToken && verifyToken(serviceToken)) {
           setSession(serviceToken);
-          const response = await axios.get('/api/account/me');
-          const { user } = response.data;
+          const response = await axios.get('auth/me');
+          const user = response.data?.data || response.data?.user || response.data;
           dispatch({
             type: LOGIN,
             payload: {
@@ -69,12 +70,14 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
             }
           });
         } else {
+          setSession(null);
           dispatch({
             type: LOGOUT
           });
         }
       } catch (err) {
         console.error(err);
+        setSession(null);
         dispatch({
           type: LOGOUT
         });
@@ -84,10 +87,15 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
     init();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const response = await axios.post('/api/account/login', { email, password });
-    const { serviceToken, user } = response.data;
+  const login = async (username: string, password: string) => {
+    const response = await axios.post('auth/login', { username, password });
+    const responseData = response.data?.data;
+    const serviceToken = responseData?.access_token || response.data?.access_token;
     setSession(serviceToken);
+
+    const meResponse = await axios.get('auth/me');
+    const user = meResponse.data?.data || meResponse.data?.user || meResponse.data;
+
     dispatch({
       type: LOGIN,
       payload: {

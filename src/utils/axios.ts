@@ -20,8 +20,10 @@ axiosServices.interceptors.request.use(
 axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && !window.location.href.includes('/login')) {
-      redirectWithBasePath('/maintenance/500');
+    if (error.response?.status === 401) {
+      localStorage.removeItem('serviceToken');
+      delete axiosServices.defaults.headers.common.Authorization;
+      delete axios.defaults.headers.common.Authorization;
     }
     return Promise.reject((error.response && error.response.data) || 'Wrong Services');
   }

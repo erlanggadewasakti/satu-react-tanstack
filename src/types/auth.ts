@@ -11,7 +11,7 @@ export type GuardProps = {
 };
 
 type CanRemove = {
-  login?: (email: string, password: string) => Promise<void>;
+  login?: (username: string, password: string) => Promise<void>;
   register?: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   codeVerification?: (verificationCode: string) => Promise<void>;
   resendConfirmationCode?: () => Promise<void>;
@@ -28,14 +28,31 @@ type CanRemove = {
   awsResetPassword?: (verificationCode: string, newPassword: string) => Promise<any>;
 };
 
-type UserProfile = {
+export type UserProfile = {
   id?: string;
+  sub?: string;
+  username?: string;
+  name?: string;
   email?: string;
   avatar?: string;
   image?: string;
-  name?: string;
-  role?: string;
+  photo?: string;
+  role?: string | string[];
   tier?: string;
+  studyProgramId?: string[];
+  lecturerCode?: string;
+  identifyNumber?: string;
+  activeStatus?: boolean;
+  employeeId?: string | null;
+  employeeType?: string;
+  homeBaseStudyProgramId?: string[];
+  isSuperAdmin?: boolean;
+  isCoordinatorTUNC?: boolean;
+  isKaprodiCabang?: boolean;
+  createdAt?: string;
+  createdBy?: string;
+  updatedAt?: string;
+  updatedBy?: string;
 };
 
 export interface AuthProps {
@@ -69,7 +86,7 @@ export type AWSCognitoContextType = CanRemove & {
   isInitialized?: boolean;
   user?: UserProfile | null | undefined;
   logout: () => void;
-  login: (email: string, password: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
   register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   awsResetPassword: (verificationCode: string, newPassword: string) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
@@ -93,7 +110,7 @@ export type JWTContextType = CanRemove & {
   isInitialized?: boolean;
   user?: UserProfile | null | undefined;
   logout: () => void;
-  login: (email: string, password: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
   register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateProfile: VoidFunction;

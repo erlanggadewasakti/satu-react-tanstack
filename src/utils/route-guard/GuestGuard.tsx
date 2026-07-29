@@ -18,8 +18,9 @@ export default function GuestGuard({ children }: GuardProps) {
   useEffect(() => {
     if (isLoggedIn) {
       const fromPath = (location?.state as unknown as Record<string, string> | undefined)?.from;
+      const isLoginPath = fromPath && (fromPath.includes('/login') || fromPath.includes('/auth'));
       navigate({
-        to: fromPath || APP_DEFAULT_PATH,
+        to: fromPath && !isLoginPath ? fromPath : APP_DEFAULT_PATH,
         replace: true
       });
     }

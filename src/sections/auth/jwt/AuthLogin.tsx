@@ -53,28 +53,27 @@ export default function AuthLogin({ isDemo = false }: { isDemo?: boolean }) {
     <>
       <Formik
         initialValues={{
-          email: 'info@phoenixcoded.co',
-          password: '123456',
+          username: 'erlanggadewasakti',
+          password: 'erlanggadewasakti@82200109',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          username: Yup.string().max(255).required('Username is required'),
           password: Yup.string()
             .required('Password is required')
             .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
-            .max(10, 'Password must be less than 10 characters')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            const trimmedEmail = values.email.trim();
-            await login(trimmedEmail, values.password);
+            const trimmedUsername = values.username.trim();
+            await login(trimmedUsername, values.password);
             setStatus({ success: true });
             setSubmitting(false);
             preload('api/menu/dashboard', fetcher); // load menu on login success
           } catch (err: any) {
             console.error(err);
             setStatus({ success: false });
-            setErrors({ submit: err.message });
+            setErrors({ submit: err.message || 'Login failed' });
             setSubmitting(false);
           }
         }}
@@ -84,22 +83,22 @@ export default function AuthLogin({ isDemo = false }: { isDemo?: boolean }) {
             <Grid container spacing={3}>
               <Grid size={12}>
                 <Stack sx={{ gap: 1 }}>
-                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
+                  <InputLabel htmlFor="username-login">Username</InputLabel>
                   <OutlinedInput
-                    id="email-login"
-                    type="email"
-                    value={values.email}
-                    name="email"
+                    id="username-login"
+                    type="text"
+                    value={values.username}
+                    name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Enter email address"
+                    placeholder="Enter username"
                     fullWidth
-                    error={Boolean(touched.email && errors.email)}
+                    error={Boolean(touched.username && errors.username)}
                   />
                 </Stack>
-                {touched.email && errors.email && (
-                  <FormHelperText error id="standard-weight-helper-text-email-login">
-                    {errors.email}
+                {touched.username && errors.username && (
+                  <FormHelperText error id="standard-weight-helper-text-username-login">
+                    {errors.username}
                   </FormHelperText>
                 )}
               </Grid>
