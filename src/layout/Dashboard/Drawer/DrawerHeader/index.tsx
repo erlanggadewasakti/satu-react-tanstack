@@ -27,10 +27,12 @@ export default function DrawerHeader({ open }: Props) {
       open={open}
       sx={{
         minHeight: isHorizontal ? 'unset' : HEADER_HEIGHT,
-        width: isHorizontal ? { xs: '100%', lg: DRAWER_WIDTH + 50 } : 'initial',
+        width: isHorizontal ? { xs: '100%', lg: DRAWER_WIDTH + 50 } : '100%',
         paddingTop: isHorizontal ? { xs: '10px', lg: '0' } : '8px',
         paddingBottom: isHorizontal ? { xs: '18px', lg: '0' } : '8px',
-        paddingLeft: isHorizontal ? { xs: '24px', lg: '0' } : open ? '24px' : 0
+        paddingLeft: 0,
+        justifyContent: 'center',
+        display: 'flex'
       }}
     >
       <Logo isIcon={!open} sx={{ width: open ? 'auto' : 52, height: 'auto' }} />
