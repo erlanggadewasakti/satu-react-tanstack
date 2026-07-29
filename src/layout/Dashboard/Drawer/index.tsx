@@ -6,7 +6,6 @@ import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 
 // project-imports
-import DrawerHeader from './DrawerHeader';
 import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled';
 
@@ -30,13 +29,11 @@ export default function MainDrawer({ window }: Props) {
 
   // header content
   const drawerContent = useMemo(() => <DrawerContent />, []);
-  const drawerHeader = useMemo(() => <DrawerHeader open={drawerOpen} />, [drawerOpen]);
 
   return (
     <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex: 1200 }} aria-label="mailbox folders">
       {!downLG ? (
         <MiniDrawerStyled variant="permanent" open={drawerOpen}>
-          {drawerHeader}
           {drawerContent}
         </MiniDrawerStyled>
       ) : (
@@ -60,7 +57,6 @@ export default function MainDrawer({ window }: Props) {
             }
           }}
         >
-          {drawerHeader}
           {drawerContent}
         </Drawer>
       )}

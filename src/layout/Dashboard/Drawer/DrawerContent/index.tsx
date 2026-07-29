@@ -4,6 +4,7 @@ import { Activity } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
+import DrawerHeader from '../DrawerHeader';
 import UserProfileCard from './UserProfileCard';
 import NavCard from './NavCard';
 import Navigation from './Navigation';
@@ -19,14 +20,13 @@ export default function DrawerContent() {
   const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
   return (
-    <>
+    <SimpleBar sx={{ '& .simplebar-content': { display: 'flex', flexDirection: 'column' }, height: '100%' }}>
+      <DrawerHeader open={drawerOpen} />
       <UserProfileCard />
-      <SimpleBar sx={{ '& .simplebar-content': { display: 'flex', flexDirection: 'column' } }}>
-        <Navigation />
-        <Activity mode={drawerOpen && !downLG ? 'visible' : 'hidden'}>
-          <NavCard />
-        </Activity>
-      </SimpleBar>
-    </>
+      <Navigation />
+      <Activity mode={drawerOpen && !downLG ? 'visible' : 'hidden'}>
+        <NavCard />
+      </Activity>
+    </SimpleBar>
   );
 }
