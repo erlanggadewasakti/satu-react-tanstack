@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router';
-import useSearchParams from 'hooks/useSearchParams';
 
 // material-ui
 import Grid from '@mui/material/Grid';
@@ -11,13 +10,10 @@ import useAuth from 'hooks/useAuth';
 import AuthWrapper from 'sections/auth/AuthWrapper';
 import AuthRegister from 'sections/auth/jwt/AuthRegister';
 
-// ================================|| JWT - REGISTER ||================================ //
+// ================================|| REGISTER ||================================ //
 
 export default function Register() {
   const { isLoggedIn } = useAuth();
-
-  const [searchParams] = useSearchParams();
-  const auth = searchParams.get('auth'); // get auth and set route based on that
 
   return (
     <AuthWrapper>
@@ -27,7 +23,7 @@ export default function Register() {
             <Typography variant="h3">Sign up</Typography>
             <Typography
               component={Link}
-              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=jwt` : '/login'}
+              to="/login"
               variant="body1"
               sx={{ textDecoration: 'none' }}
               color="primary"

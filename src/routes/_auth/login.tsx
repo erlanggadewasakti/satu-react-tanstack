@@ -1,6 +1,9 @@
-import { createFileRoute, Navigate } from '@tanstack/react-router';
-import { APP_AUTH } from 'config';
+import { createFileRoute } from '@tanstack/react-router';
+import { lazy } from 'react';
+import Loadable from 'components/Loadable';
+
+const AuthLogin = Loadable(lazy(() => import('pages/auth/jwt/login')));
 
 export const Route = createFileRoute('/_auth/login')({
-  component: () => <Navigate to={`/${APP_AUTH}/login`} replace />
+  component: AuthLogin
 });

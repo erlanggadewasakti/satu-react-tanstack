@@ -1,5 +1,4 @@
 import { useNavigate } from '@tanstack/react-router';
-import useSearchParams from 'hooks/useSearchParams';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -29,8 +28,7 @@ export default function AuthForgotPassword() {
 
   const { isLoggedIn, resetPassword } = useAuth();
 
-  const [searchParams] = useSearchParams();
-  const auth = searchParams.get('auth'); // get auth and set route based on that
+
 
   return (
     <>
@@ -57,7 +55,7 @@ export default function AuthForgotPassword() {
                   }
                 } as SnackbarProps);
                 setTimeout(() => {
-                  navigate({ to: isLoggedIn ? '/jwt/check-mail' : auth ? `/${auth}/check-mail` : '/jwt/check-mail', replace: true });
+                  navigate({ to: isLoggedIn ? '/check-mail' : '/check-mail', replace: true });
                 }, 1500);
               },
               (err: any) => {

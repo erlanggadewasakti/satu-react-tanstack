@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router';
-import useSearchParams from 'hooks/useSearchParams';
 
 // material-ui
 import Grid from '@mui/material/Grid';
@@ -11,13 +10,10 @@ import useAuth from 'hooks/useAuth';
 import AuthWrapper from 'sections/auth/AuthWrapper';
 import AuthForgotPassword from 'sections/auth/jwt/AuthForgotPassword';
 
-// ================================|| JWT - FORGOT PASSWORD ||================================ //
+// ================================|| FORGOT PASSWORD ||================================ //
 
 export default function ForgotPassword() {
   const { isLoggedIn } = useAuth();
-
-  const [searchParams] = useSearchParams();
-  const auth = searchParams.get('auth'); // get auth and set route based on that
 
   return (
     <AuthWrapper>
@@ -27,7 +23,7 @@ export default function ForgotPassword() {
             <Typography variant="h3">Forgot Password</Typography>
             <Typography
               component={Link}
-              to={isLoggedIn ? '/auth/login' : auth ? `/${auth}/login?auth=jwt` : '/login'}
+              to="/login"
               variant="body1"
               sx={{ textDecoration: 'none' }}
               color="primary"

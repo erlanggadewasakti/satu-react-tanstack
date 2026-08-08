@@ -39,11 +39,7 @@ export enum NavActionType {
 }
 
 export enum AuthProvider {
-  JWT = 'jwt',
-  FIREBASE = 'firebase',
-  AUTH0 = 'auth0',
-  AWS = 'aws',
-  SUPABASE = 'supabase'
+  JWT = 'jwt'
 }
 
 export const APP_AUTH: AuthProvider = AuthProvider.JWT;

@@ -1,6 +1,5 @@
 import { useEffect, useState, SyntheticEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import useSearchParams from 'hooks/useSearchParams';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -55,8 +54,7 @@ export default function AuthResetPassword() {
     setLevel(strengthColor(temp));
   };
 
-  const [searchParams] = useSearchParams();
-  const auth = searchParams.get('auth'); // get auth and set route based on that
+
 
   useEffect(() => {
     changePassword('');
@@ -90,7 +88,7 @@ export default function AuthResetPassword() {
           } as SnackbarProps);
 
           setTimeout(() => {
-            navigate({ to: isLoggedIn ? '/jwt/login' : auth ? `/${auth}/login` : '/login', replace: true });
+            navigate({ to: '/login', replace: true });
           }, 1500);
         } catch (err: any) {
           console.error(err);

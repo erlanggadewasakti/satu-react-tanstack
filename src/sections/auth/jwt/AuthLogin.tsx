@@ -1,6 +1,5 @@
 import { SyntheticEvent, useState } from 'react';
 import { Link as RouterLink } from '@tanstack/react-router';
-import useSearchParams from 'hooks/useSearchParams';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -46,8 +45,7 @@ export default function AuthLogin({ isDemo = false }: { isDemo?: boolean }) {
     event.preventDefault();
   };
 
-  const [searchParams] = useSearchParams();
-  const auth = searchParams.get('auth'); // get auth and set route based on that
+
 
   return (
     <>
@@ -153,7 +151,7 @@ export default function AuthLogin({ isDemo = false }: { isDemo?: boolean }) {
                   <Link
                     variant="h6"
                     component={RouterLink}
-                    to={isDemo ? '/auth/forgot-password' : auth ? `/${auth}/forgot-password?auth=jwt` : '/forgot-password'}
+                    to={isDemo ? '/auth/forgot-password' : '/forgot-password'}
                     color="text.primary"
                   >
                     Forgot Password?
