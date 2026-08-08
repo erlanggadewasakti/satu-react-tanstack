@@ -4,6 +4,6 @@ import Loadable from 'components/Loadable';
 
 const SilabusHomePage = Loadable(lazy(() => import('pages/silabus/home')));
 
-export const Route = createFileRoute('/_dashboard/silabus/home')({
+export const Route = createFileRoute('/_lens/silabus/home')({
   component: SilabusHomePage
 });

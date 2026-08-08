@@ -4,6 +4,6 @@ import Loadable from 'components/Loadable';
 
 const PerkuliahanHomePage = Loadable(lazy(() => import('pages/perkuliahan/home')));
 
-export const Route = createFileRoute('/_dashboard/perkuliahan/home')({
+export const Route = createFileRoute('/_lens/perkuliahan/home')({
   component: PerkuliahanHomePage
 });

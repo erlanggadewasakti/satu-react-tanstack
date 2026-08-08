@@ -4,6 +4,6 @@ import Loadable from 'components/Loadable';
 
 const SuperAdminHomePage = Loadable(lazy(() => import('pages/super-admin/home')));
 
-export const Route = createFileRoute('/_dashboard/super-admin/home')({
+export const Route = createFileRoute('/_lens/super-admin/home')({
   component: SuperAdminHomePage
 });
