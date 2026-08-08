@@ -1,7 +1,6 @@
 import { createContext, ReactElement, useEffect, useReducer } from 'react';
 
 // third-party
-import { Chance } from 'chance';
 import { jwtDecode } from 'jwt-decode';
 
 // reducer - state management
@@ -15,8 +14,6 @@ import axios from 'utils/axios';
 // types
 import { AuthProps, JWTContextType } from 'types/auth';
 import { KeyedObject } from 'types/root';
-
-const chance = new Chance();
 
 // constant
 const initialState: AuthProps = {
@@ -105,50 +102,16 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
     });
   };
 
-  const register = async (email: string, password: string, firstName: string, lastName: string) => {
-    // todo: this flow need to be recode as it not verified
-    const id = chance.bb_pin();
-    const response = await axios.post('/api/account/register', {
-      id,
-      email,
-      password,
-      firstName,
-      lastName
-    });
-    let users = response.data;
-
-    if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
-      const localUsers = window.localStorage.getItem('users');
-      users = [
-        ...JSON.parse(localUsers!),
-        {
-          id,
-          email,
-          password,
-          name: `${firstName} ${lastName}`
-        }
-      ];
-    }
-
-    window.localStorage.setItem('users', JSON.stringify(users));
-  };
-
   const logout = () => {
     setSession(null);
     dispatch({ type: LOGOUT });
   };
 
-  const resetPassword = async (email: string) => {
-    console.log('email - ', email);
-  };
-
-  const updateProfile = () => {};
-
   if (state.isInitialized !== undefined && !state.isInitialized) {
     return <Loader />;
   }
 
-  return <JWTContext value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext>;
+  return <JWTContext value={{ ...state, login, logout }}>{children}</JWTContext>;
 };
 
 export default JWTContext;

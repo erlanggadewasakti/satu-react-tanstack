@@ -1,5 +1,4 @@
 import { SyntheticEvent, useState } from 'react';
-import { Link as RouterLink } from '@tanstack/react-router';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -7,7 +6,6 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -29,9 +27,9 @@ import { fetcher } from 'utils/axios';
 // assets
 import { Eye, EyeSlash } from 'iconsax-reactjs';
 
-// ============================|| JWT - LOGIN ||============================ //
+// ============================|| LOGIN FORM ||============================ //
 
-export default function AuthLogin({ isDemo = false }: { isDemo?: boolean }) {
+export default function AuthLogin() {
   const [checked, setChecked] = useState(false);
 
   const { login } = useAuth();
@@ -44,8 +42,6 @@ export default function AuthLogin({ isDemo = false }: { isDemo?: boolean }) {
   const handleMouseDownPassword = (event: SyntheticEvent) => {
     event.preventDefault();
   };
-
-
 
   return (
     <>
@@ -135,28 +131,18 @@ export default function AuthLogin({ isDemo = false }: { isDemo?: boolean }) {
                 )}
               </Grid>
               <Grid sx={{ mt: -1 }} size={12}>
-                <Stack direction="row" sx={{ gap: 2, alignItems: 'baseline', justifyContent: 'space-between' }}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={(event) => setChecked(event.target.checked)}
-                        name="checked"
-                        color="primary"
-                        size="small"
-                      />
-                    }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
-                  />
-                  <Link
-                    variant="h6"
-                    component={RouterLink}
-                    to={isDemo ? '/auth/forgot-password' : '/forgot-password'}
-                    color="text.primary"
-                  >
-                    Forgot Password?
-                  </Link>
-                </Stack>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked}
+                      onChange={(event) => setChecked(event.target.checked)}
+                      name="checked"
+                      color="primary"
+                      size="small"
+                    />
+                  }
+                  label={<Typography variant="h6">Keep me sign in</Typography>}
+                />
               </Grid>
               {errors.submit && (
                 <Grid size={12}>
