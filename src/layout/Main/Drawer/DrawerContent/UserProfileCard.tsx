@@ -35,17 +35,21 @@ export default function UserProfileCard() {
   return (
     <Box sx={{ p: 1, px: 2 }}>
       <Box
-        sx={{
-          bgcolor: '#f3f5f7',
+        sx={(theme) => ({
+          bgcolor: 'secondary.200',
           border: '1px solid',
-          borderColor: '#dbe0e5',
+          borderColor: 'secondary.200',
           borderRadius: 1.5,
           p: 1.5,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 1
-        }}
+          gap: 1,
+          ...theme.applyStyles('dark', {
+            bgcolor: 'secondary.100',
+            borderColor: 'divider'
+          })
+        })}
       >
         <Avatar alt={user?.name || 'User Profile'} src={userPhoto} sx={{ width: 60, height: 60, borderRadius: '50%' }} />
         <Stack sx={{ alignItems: 'center', width: '100%', overflow: 'hidden' }}>
@@ -54,7 +58,7 @@ export default function UserProfileCard() {
             sx={{
               fontWeight: 600,
               fontSize: '0.75rem',
-              color: '#1d2630',
+              color: 'text.primary',
               textAlign: 'center',
               width: '100%',
               whiteSpace: 'nowrap',
@@ -70,7 +74,7 @@ export default function UserProfileCard() {
                 variant="caption"
                 sx={{
                   fontSize: '0.75rem',
-                  color: '#5b6b79',
+                  color: 'text.secondary',
                   whiteSpace: 'nowrap'
                 }}
               >
