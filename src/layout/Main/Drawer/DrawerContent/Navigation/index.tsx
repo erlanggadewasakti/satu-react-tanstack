@@ -12,7 +12,7 @@ import NavItem from './NavItem';
 import { useGetMenuMaster } from 'api/menu';
 import { MenuOrientation, HORIZONTAL_MAX_ITEM } from 'config';
 import useConfig from 'hooks/useConfig';
-import menuItems from 'menu-items';
+import useSubApp from 'hooks/useSubApp';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -25,6 +25,7 @@ export default function Navigation() {
   const {
     state: { menuOrientation }
   } = useConfig();
+  const { menuItems: activeMenuItems } = useSubApp();
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
@@ -33,16 +34,17 @@ export default function Navigation() {
   const [selectedLevel, setSelectedLevel] = useState<number>(0);
 
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
+  const currentItems = activeMenuItems || [];
 
   const lastItem = isHorizontal ? HORIZONTAL_MAX_ITEM : null;
-  let lastItemIndex = menuItems.items.length - 1;
+  let lastItemIndex = currentItems.length - 1;
   let remItems: NavItemType[] = [];
   let lastItemId: string;
 
-  if (lastItem && lastItem < menuItems.items.length) {
-    lastItemId = menuItems.items[lastItem - 1].id!;
+  if (lastItem && lastItem < currentItems.length) {
+    lastItemId = currentItems[lastItem - 1].id!;
     lastItemIndex = lastItem - 1;
-    remItems = menuItems.items.slice(lastItem - 1, menuItems.items.length).map((item) => ({
+    remItems = currentItems.slice(lastItem - 1, currentItems.length).map((item) => ({
       title: item.title,
       elements: item.children,
       icon: item.icon,
@@ -52,8 +54,14 @@ export default function Navigation() {
     }));
   }
 
-  const navGroups = menuItems.items.slice(0, lastItemIndex + 1).map((item) => {
+  const navGroups = currentItems.slice(0, lastItemIndex + 1).map((item) => {
     switch (item.type) {
+      case 'item':
+        return (
+          <Fragment key={item.id}>
+            <NavItem item={item} level={1} isParents setSelectedID={setSelectedID} />
+          </Fragment>
+        );
       case 'group':
         if (item.url && item.id !== lastItemId) {
           return (

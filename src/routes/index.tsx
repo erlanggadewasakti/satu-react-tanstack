@@ -1,8 +1,6 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import { APP_DEFAULT_PATH } from 'config';
+import { createFileRoute, Navigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
-  beforeLoad: () => {
-    throw redirect({ to: APP_DEFAULT_PATH, replace: true });
-  }
+  component: () => <Navigate to="/home" replace />
 });
+

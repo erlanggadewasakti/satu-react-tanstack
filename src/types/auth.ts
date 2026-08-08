@@ -1,4 +1,7 @@
 import { ReactElement } from 'react';
+import { Role } from './role';
+
+export { Role };
 
 // ==============================|| TYPES - AUTH  ||============================== //
 
@@ -15,7 +18,7 @@ export type UserProfile = {
   avatar?: string;
   image?: string;
   photo?: string;
-  role?: string | string[];
+  role?: Role | Role[] | string | string[];
   tier?: string;
   studyProgramId?: string[];
   lecturerCode?: string;

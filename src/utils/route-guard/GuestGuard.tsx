@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 
 // project-imports
-import { APP_DEFAULT_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
+import { getDefaultSubAppPath } from 'utils/auth';
 
 // types
 import { GuardProps } from 'types/auth';
@@ -11,7 +11,7 @@ import { GuardProps } from 'types/auth';
 // ==============================|| GUEST GUARD ||============================== //
 
 export default function GuestGuard({ children }: GuardProps) {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,12 +19,13 @@ export default function GuestGuard({ children }: GuardProps) {
     if (isLoggedIn) {
       const fromPath = (location?.state as unknown as Record<string, string> | undefined)?.from;
       const isLoginPath = fromPath && (fromPath.includes('/login') || fromPath.includes('/auth'));
+      const defaultPath = getDefaultSubAppPath(user);
       navigate({
-        to: fromPath && !isLoginPath ? fromPath : APP_DEFAULT_PATH,
+        to: fromPath && !isLoginPath ? fromPath : defaultPath,
         replace: true
       });
     }
-  }, [isLoggedIn, navigate, location?.state]);
+  }, [isLoggedIn, user, navigate, location?.state]);
 
   return children;
 }
