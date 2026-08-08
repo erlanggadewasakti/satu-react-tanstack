@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
 // material-ui
+import Box from '@mui/material/Box';
 import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Box from '@mui/material/Box';
 
 // project-imports
 import FullScreen from './FullScreen';
@@ -17,7 +17,7 @@ import Search from './Search';
 
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
-import DrawerHeader from 'layout/Dashboard/Drawer/DrawerHeader';
+import DrawerHeader from 'layout/Main/Drawer/DrawerHeader';
 
 // ==============================|| HEADER - CONTENT ||============================== //
 

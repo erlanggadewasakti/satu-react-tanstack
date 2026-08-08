@@ -1,15 +1,12 @@
-import { Activity } from 'react';
-
 // material-ui
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
-import DrawerHeader from '../DrawerHeader';
-import UserProfileCard from './UserProfileCard';
-import NavCard from './NavCard';
-import Navigation from './Navigation';
 import { useGetMenuMaster } from 'api/menu';
 import SimpleBar from 'components/third-party/SimpleBar';
+import DrawerHeader from '../DrawerHeader';
+import Navigation from './Navigation';
+import UserProfileCard from './UserProfileCard';
 
 // ==============================|| DRAWER CONTENT ||============================== //
 
@@ -24,9 +21,6 @@ export default function DrawerContent() {
       <DrawerHeader open={drawerOpen} />
       <UserProfileCard />
       <Navigation />
-      <Activity mode={drawerOpen && !downLG ? 'visible' : 'hidden'}>
-        <NavCard />
-      </Activity>
     </SimpleBar>
   );
 }
