@@ -17,7 +17,7 @@ import coming1 from 'assets/images/maintenance/img-soon-1-1.png';
 import coming2 from 'assets/images/maintenance/img-soon-1-2.png';
 import AuthBackground from 'assets/images/auth/AuthBackground';
 
-// ==============================|| COMING SOON ||============================== //
+// ==============================|| COMING SOON COMPONENT ||============================== //
 
 export default function ComingSoon() {
   return (
@@ -26,7 +26,6 @@ export default function ComingSoon() {
       <Container fixed>
         <Grid container spacing={4} sx={{ alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
           <Grid size={{ md: 6 }}>
-            {/* <Box sx={{ margin: '0 auto' }}> */}
             <Box sx={{ width: { xs: 300, md: 'auto' }, margin: '0 auto' }}>
               <Stack sx={{ gap: 3 }}>
                 <Stack sx={{ gap: 3 }}>

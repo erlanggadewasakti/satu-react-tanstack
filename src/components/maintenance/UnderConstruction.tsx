@@ -17,7 +17,7 @@ import construction from 'assets/images/maintenance/img-cunstruct-1.svg';
 import constructionBg from 'assets/images/maintenance/img-cunstruct-1-bg.png';
 import constructionbottom from 'assets/images/maintenance/img-cunstruct-1-bottom.svg';
 
-// ==============================|| UNDER CONSTRUCTION ||============================== //
+// ==============================|| UNDER CONSTRUCTION COMPONENT ||============================== //
 
 export default function UnderConstruction() {
   return (

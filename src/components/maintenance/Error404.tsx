@@ -13,7 +13,7 @@ import { APP_DEFAULT_PATH } from 'config';
 // assets
 import error404 from 'assets/images/maintenance/img-error-404.svg';
 
-// ==============================|| ERROR 404 ||============================== //
+// ==============================|| ERROR 404 COMPONENT ||============================== //
 
 export default function Error404() {
   return (

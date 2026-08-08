@@ -14,7 +14,7 @@ import { APP_DEFAULT_PATH } from 'config';
 // assets
 import error500 from 'assets/images/maintenance/img-error-500.svg';
 
-// ==============================|| ERROR 500 ||============================== //
+// ==============================|| ERROR 500 COMPONENT ||============================== //
 
 export default function Error500() {
   const downSM = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -31,7 +31,7 @@ export default function Error500() {
           Internal Server Error
         </Typography>
         <Typography variant="body2" align="center" sx={{ color: 'text.secondary', width: { xs: '73%', sm: '70%' }, mt: 1 }}>
-          Server error 500. we fixing the problem. please try again at a later stage.
+          Server error 500. We are fixing the problem. Please try again at a later stage.
         </Typography>
         <Button component={Link} to={APP_DEFAULT_PATH} variant="contained" sx={{ textTransform: 'none', mt: 4 }}>
           Back To Home

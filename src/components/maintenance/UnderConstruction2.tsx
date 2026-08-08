@@ -13,14 +13,14 @@ import { APP_DEFAULT_PATH } from 'config';
 // assets
 import construction from 'assets/images/maintenance/img-construction-2.svg';
 
-// ==============================|| UNDER CONSTRUCTION ||============================== //
+// ==============================|| UNDER CONSTRUCTION 2 COMPONENT ||============================== //
 
-export default function UnderConstruction() {
+export default function UnderConstruction2() {
   return (
     <Stack sx={{ alignItems: 'center', justifyContent: 'center', minHeight: '100vh', py: 2, gap: 3 }}>
       <Stack sx={{ alignItems: 'center', justifyContent: 'center' }}>
         <Box sx={{ width: { xs: 300, sm: 374 } }}>
-          <CardMedia component="img" src={construction} alt="under construction" sx={{ height: 1 }} />
+          <CardMedia component="img" src={construction} alt="under construction 2" sx={{ height: 1 }} />
         </Box>
       </Stack>
       <Stack sx={{ width: 1, gap: 2, justifyContent: 'center', alignItems: 'center' }}>

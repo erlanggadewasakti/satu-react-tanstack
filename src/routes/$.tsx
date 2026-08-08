@@ -1,9 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { lazy } from 'react';
-import Loadable from 'components/Loadable';
-
-const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/error/404')));
+import { Error404 } from 'components/maintenance';
 
 export const Route = createFileRoute('/$')({
-  component: MaintenanceError
+  component: Error404
 });
