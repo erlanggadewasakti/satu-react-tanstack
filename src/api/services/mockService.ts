@@ -1,5 +1,5 @@
 import { ENDPOINTS } from 'api/endpoints';
-import { MockItem } from 'types/api/mock';
+import { MockItem, MockPaginatedData, MockPaginationParams } from 'types/api/mock';
 import axiosServices from 'utils/axios';
 
 /**
@@ -9,7 +9,17 @@ import axiosServices from 'utils/axios';
 export const mockService = {
   getMockData: async (): Promise<MockItem[]> => {
     const response = await axiosServices.get(ENDPOINTS.MOCK.GET_ALL);
-    console.log('🚀🚀 response: ', response);
     return response.data?.data || response.data || [];
+  },
+
+  getPaginatedMockData: async (params: MockPaginationParams = {}): Promise<MockPaginatedData> => {
+    const response = await axiosServices.get(ENDPOINTS.MOCK.PAGINATION, {
+      params: {
+        page: params.page || 1,
+        per_page: params.per_page || 10,
+        ...(params.search ? { search: params.search } : {})
+      }
+    });
+    return response.data?.data || response.data;
   }
 };

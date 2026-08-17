@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 import useLocalStorage from 'hooks/useLocalStorage';
 import useAuth from 'hooks/useAuth';
 import { SUB_APPS } from 'config/subApps';
-import menuItems, { menuItemsBySubApp, globalHomeMenuItem, globalMockMenuItem } from 'menu-items';
+import menuItems, { menuItemsBySubApp, globalHomeMenuItem, globalMockMenuItem, globalMockServerMenuItem } from 'menu-items';
 import { hasRoleAccess, filterMenuItemsByRole } from 'utils/auth';
 
 // types
@@ -67,7 +67,7 @@ export function SubAppProvider({ children }: ChildrenProps) {
     const appMenu = menuItemsBySubApp[activeSubApp.id];
     const rawItems = appMenu?.items || menuItems.items || [];
     const filteredSubAppMenu = filterMenuItemsByRole(rawItems, user);
-    return [globalHomeMenuItem, globalMockMenuItem, ...filteredSubAppMenu];
+    return [globalHomeMenuItem, globalMockMenuItem, globalMockServerMenuItem, ...filteredSubAppMenu];
   }, [activeSubApp.id, user]);
 
   const memoizedValue = useMemo(

@@ -8,6 +8,7 @@ export const ENDPOINTS = {
     ME: 'auth/me'
   },
   MOCK: {
-    GET_ALL: 'https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/all'
+    GET_ALL: 'https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/all',
+    PAGINATION: 'https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/pagination'
   }
 } as const;
