@@ -28,12 +28,10 @@ import { useMemo, useState } from 'react';
 import {
   ColumnDef,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   SortingState,
-  useReactTable
+  StockFeatures,
+  stockFeatures,
+  useTable
 } from '@tanstack/react-table';
 
 // project-imports
@@ -66,19 +64,19 @@ export default function MockDataViewPage() {
   const [globalFilter, setGlobalFilter] = useState('');
 
   // Column definitions
-  const columns = useMemo<ColumnDef<MockItem>[]>(
+  const columns = useMemo<ColumnDef<StockFeatures, MockItem, any>[]>(
     () => [
       {
         header: 'ID',
         accessorKey: 'id',
         meta: { align: 'center' },
-        cell: (cell) => <Chip label={`#${cell.getValue()}`} size="small" variant="outlined" color="secondary" sx={{ fontWeight: 600 }} />
+        cell: (cell: any) => <Chip label={`#${cell.getValue()}`} size="small" variant="outlined" color="secondary" sx={{ fontWeight: 600 }} />
       },
       {
         header: 'Nama',
         accessorKey: 'name',
         meta: { align: 'left' },
-        cell: (cell) => (
+        cell: (cell: any) => (
           <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'text.primary' }}>
             {cell.getValue() as string}
           </Typography>
@@ -88,7 +86,7 @@ export default function MockDataViewPage() {
         header: 'Pekerjaan',
         accessorKey: 'job',
         meta: { align: 'left' },
-        cell: (cell) => (
+        cell: (cell: any) => (
           <Chip
             icon={<Briefcase size={14} />}
             label={cell.getValue() as string}
@@ -103,7 +101,7 @@ export default function MockDataViewPage() {
         header: 'Alamat',
         accessorKey: 'address',
         meta: { align: 'left' },
-        cell: (cell) => (
+        cell: (cell: any) => (
           <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
             <Location size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
             <Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: 220 }}>
@@ -117,7 +115,7 @@ export default function MockDataViewPage() {
         accessorKey: 'phone_number',
         enableSorting: false,
         meta: { align: 'left' },
-        cell: (cell) => (
+        cell: (cell: any) => (
           <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
             <Call size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
             <Typography variant="body2" color="text.secondary">
@@ -130,7 +128,7 @@ export default function MockDataViewPage() {
         header: 'Tgl Lahir',
         accessorKey: 'birth_date',
         meta: { align: 'center' },
-        cell: (cell) => (
+        cell: (cell: any) => (
           <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center', justifyContent: 'center' }}>
             <Calendar size={14} style={{ opacity: 0.6 }} />
             <Typography variant="body2" color="text.secondary">
@@ -143,7 +141,7 @@ export default function MockDataViewPage() {
         header: 'Dibuat Pada',
         accessorKey: 'created_at',
         meta: { align: 'center' },
-        cell: (cell) => (
+        cell: (cell: any) => (
           <Typography variant="caption" color="text.secondary">
             {formatDate(cell.getValue() as string)}
           </Typography>
@@ -155,8 +153,9 @@ export default function MockDataViewPage() {
 
   const data = useMemo(() => rawMockData || [], [rawMockData]);
 
-  // TanStack Table Instance
-  const table = useReactTable({
+  // TanStack Table v9 Instance
+  const table = useTable({
+    features: stockFeatures,
     data,
     columns,
     state: {
@@ -164,11 +163,7 @@ export default function MockDataViewPage() {
       globalFilter
     },
     onSortingChange: setSorting,
-    onGlobalFilterChange: setGlobalFilter,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel()
+    onGlobalFilterChange: setGlobalFilter
   });
 
   // Job role counts for stats
@@ -242,7 +237,7 @@ export default function MockDataViewPage() {
         content={false}
         secondary={
           <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-            <SelectColumnSorting getState={table.getState} getAllColumns={table.getAllColumns} setSorting={setSorting} size="small" />
+            <SelectColumnSorting state={table.state} getAllColumns={table.getAllColumns} setSorting={setSorting} size="small" />
             <Tooltip title="Refresh Data">
               <IconButton
                 color="primary"
@@ -349,7 +344,7 @@ export default function MockDataViewPage() {
 
               <TableBody>
                 {isLoading ? (
-                  Array.from({ length: table.getState().pagination.pageSize }).map((_, index) => (
+                  Array.from({ length: table.state.pagination.pageSize }).map((_, index) => (
                     <TableRow key={index}>
                       <TableCell align="center">
                         <Skeleton width={30} />
@@ -405,7 +400,7 @@ export default function MockDataViewPage() {
               {...{
                 setPageSize: table.setPageSize,
                 setPageIndex: table.setPageIndex,
-                getState: table.getState,
+                state: table.state,
                 getPageCount: table.getPageCount
               }}
             />

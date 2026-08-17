@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import { ArrowDown2, ArrowUp2 } from 'iconsax-reactjs';
 
 // types
-import { Column } from '@tanstack/react-table';
+import { CellData, Column, RowData, StockFeatures } from '@tanstack/react-table';
 
 enum SortType {
   ASC = 'asc',
@@ -29,14 +29,14 @@ function SortToggler({ type }: { type?: SortType }) {
   );
 }
 
-interface HeaderSortProps {
-  column: Column<any, unknown>;
+interface HeaderSortProps<TData extends RowData = any, TValue extends CellData = any> {
+  column: Column<StockFeatures, TData, TValue>;
   sort?: boolean;
 }
 
 // ==============================|| SORT HEADER ||============================== //
 
-export default function HeaderSort({ column, sort = true }: HeaderSortProps) {
+export default function HeaderSort<TData extends RowData = any, TValue extends CellData = any>({ column, sort = true }: HeaderSortProps<TData, TValue>) {
   return (
     <Box {...(sort && { onClick: column.getToggleSortingHandler(), sx: { cursor: 'pointer' } })}>
       {{

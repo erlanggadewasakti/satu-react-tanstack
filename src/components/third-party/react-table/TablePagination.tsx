@@ -11,12 +11,13 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 // third-party
-import { TableState, Updater } from '@tanstack/react-table';
+import { StockFeatures, TableState, Updater } from '@tanstack/react-table';
 
 interface TablePaginationProps {
   setPageSize: (updater: Updater<number>) => void;
   setPageIndex: (updater: Updater<number>) => void;
-  getState: () => TableState;
+  getState?: () => TableState<StockFeatures>;
+  state?: TableState<StockFeatures>;
   getPageCount: () => number;
   initialPageSize?: number;
   color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
@@ -29,6 +30,7 @@ export default function TablePagination({
   setPageIndex,
   setPageSize,
   getState,
+  state,
   initialPageSize,
   color = 'primary'
 }: TablePaginationProps) {
@@ -60,6 +62,9 @@ export default function TablePagination({
     setPageSize(Number(event.target.value));
   };
 
+  const currentState = state || (getState ? getState() : undefined);
+  const paginationState = currentState?.pagination || { pageIndex: 0, pageSize: initialPageSize || 10 };
+
   return (
     <Grid spacing={1} container sx={{ alignItems: 'center', justifyContent: 'space-between', width: 'auto' }}>
       <Grid>
@@ -74,7 +79,7 @@ export default function TablePagination({
                 open={open}
                 onClose={handleClose}
                 onOpen={handleOpen}
-                value={getState().pagination.pageSize}
+                value={paginationState.pageSize}
                 onChange={handleChange}
                 size="small"
                 slotProps={{ input: { sx: { py: 0.75, px: 1.25, fontWeight: 600 } } }}
@@ -100,7 +105,7 @@ export default function TablePagination({
           <TextField
             size="small"
             type="number"
-            value={getState().pagination.pageIndex + 1}
+            value={paginationState.pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               setPageIndex(page);
@@ -142,7 +147,7 @@ export default function TablePagination({
             }
           }}
           count={getPageCount()}
-          page={getState().pagination.pageIndex + 1}
+          page={paginationState.pageIndex + 1}
           onChange={handleChangePagination}
           color={color}
           variant="combined"
