@@ -59,7 +59,7 @@ export default function NavItem({ item, level, isParents = false, setSelectedID 
 
   const { pathname } = useLocation();
   const targetPath = item?.link ? item.link : item.url;
-  const isSelected = targetPath ? pathname === targetPath || (targetPath !== '/' && pathname.startsWith(targetPath)) : false;
+  const isSelected = targetPath ? pathname === targetPath || (targetPath !== '/' && pathname.startsWith(targetPath + '/')) : false;
 
   const iconSelectedColor = 'primary.main';
 
