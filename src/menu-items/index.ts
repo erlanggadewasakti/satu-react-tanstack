@@ -1,4 +1,4 @@
-import { Home3 } from 'iconsax-reactjs';
+import { Home3, DocumentText } from 'iconsax-reactjs';
 
 // project-imports
 import superAdminMenuItems from './super-admin';
@@ -22,6 +22,14 @@ export const globalHomeMenuItem: NavItemType = {
   type: 'item',
   url: '/home',
   icon: Home3
+};
+
+export const globalMockMenuItem: NavItemType = {
+  id: 'global-mock',
+  title: 'Data Mock',
+  type: 'item',
+  url: '/mock',
+  icon: DocumentText
 };
 
 // ==============================|| MENU ITEMS PER SUB-APP ||============================== //

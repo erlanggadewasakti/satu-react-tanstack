@@ -1,6 +1,8 @@
 import { RouterProvider } from '@tanstack/react-router';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 // project-imports
+import { queryClient } from 'api/client';
 import { router } from './router';
 import ThemeCustomization from 'themes';
 
@@ -16,7 +18,7 @@ import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
 
 export default function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <ThemeCustomization>
         <RTLLayout>
           <Locales>
@@ -30,6 +32,6 @@ export default function App() {
           </Locales>
         </RTLLayout>
       </ThemeCustomization>
-    </>
+    </QueryClientProvider>
   );
 }
