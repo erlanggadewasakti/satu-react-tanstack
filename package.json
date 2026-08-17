@@ -21,6 +21,7 @@
     "chance": "1.1.13",
     "formik": "2.4.9",
     "framer-motion": "13.1.0",
+    "fuse.js": "^7.5.0",
     "history": "5.3.0",
     "iconsax-reactjs": "0.0.8",
     "jwt-decode": "4.0.0",

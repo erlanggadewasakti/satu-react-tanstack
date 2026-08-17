@@ -91,12 +91,18 @@ export default function UserList() {
           }}
         >
           <ListItemAvatar>
-            <Avatar alt={user?.name || 'Avatar'} src={user?.photo && user.photo !== '-' ? user.photo : avatar1} sx={{ ...(drawerOpen && { width: 46, height: 46 }) }} />
+            <Avatar
+              alt={user?.name || 'Avatar'}
+              src={user?.photo && user.photo !== '-' ? user.photo : avatar1}
+              sx={{ ...(drawerOpen && { width: 46, height: 46 }) }}
+            />
           </ListItemAvatar>
           <ListItemText
             primary={user?.name || 'Guest User'}
             sx={{ ...(!drawerOpen && { display: 'none' }) }}
-            secondary={[user?.username ? `@${user.username}` : '', user?.lecturerCode ? `Kode: ${user.lecturerCode}` : ''].filter(Boolean).join(' • ')}
+            secondary={[user?.username ? `@${user.username}` : '', user?.lecturerCode ? `Kode: ${user.lecturerCode}` : '']
+              .filter(Boolean)
+              .join(' • ')}
           />
         </ListItem>
       </List>

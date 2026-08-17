@@ -37,8 +37,8 @@ export default function UserProfileCard() {
       <Box
         sx={(theme) => ({
           bgcolor: 'secondary.200',
-          border: '1px solid',
-          borderColor: 'secondary.200',
+          border: '1px dashed',
+          borderColor: 'secondary.400',
           borderRadius: 1.5,
           p: 1.5,
           display: 'flex',
