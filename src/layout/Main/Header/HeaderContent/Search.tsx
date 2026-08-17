@@ -1,8 +1,7 @@
 // material-ui
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Box from '@mui/material/Box';
+import ButtonBase from '@mui/material/ButtonBase';
+import Typography from '@mui/material/Typography';
 
 // assets
 import { SearchNormal1 } from 'iconsax-reactjs';
@@ -10,7 +9,7 @@ import { SearchNormal1 } from 'iconsax-reactjs';
 // project-imports
 import useMenuSearch from 'hooks/useMenuSearch';
 
-// ==============================|| HEADER CONTENT - SEARCH ||============================== //
+// ==============================|| HEADER CONTENT - SEARCH (FUSE.JS) ||============================== //
 
 export default function Search() {
   const { openSearch } = useMenuSearch();
@@ -20,31 +19,61 @@ export default function Search() {
 
   return (
     <Box sx={{ width: '100%', ml: { xs: 0, md: 2 } }}>
-      <FormControl sx={{ width: { xs: '100%', md: 224 } }}>
-        <OutlinedInput
-          id="header-search"
-          readOnly
-          onClick={openSearch}
-          onFocus={openSearch}
-          startAdornment={
-            <InputAdornment position="start" sx={{ mr: -0.5 }}>
-              <SearchNormal1 size={16} />
-            </InputAdornment>
+      <ButtonBase
+        onClick={openSearch}
+        sx={(theme) => ({
+          width: { xs: '100%', md: 240 },
+          height: 40,
+          px: 1.5,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderRadius: 2,
+          border: '1px solid',
+          borderColor: 'divider',
+          bgcolor: 'background.paper',
+          transition: 'all 0.2s ease-in-out',
+          textAlign: 'left',
+          '&:hover': {
+            borderColor: 'primary.main',
+            bgcolor: 'secondary.lighter',
+            ...theme.applyStyles('dark', {
+              bgcolor: 'secondary.100',
+              borderColor: 'primary.main'
+            })
           }
-          aria-describedby="header-search-text"
-          slotProps={{
-            input: {
-              sx: { p: 1.5, cursor: 'pointer' },
-              'aria-label': 'search'
-            }
-          }}
-          placeholder={shortcutText}
-          sx={{
-            cursor: 'pointer',
-            '& .MuiOutlinedInput-input': { cursor: 'pointer' }
-          }}
-        />
-      </FormControl>
+        })}
+      >
+        {/* Left search icon & placeholder */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, color: 'text.secondary' }}>
+          <SearchNormal1 size={16} />
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+            Search
+          </Typography>
+        </Box>
+
+        {/* Right shortcut badge */}
+        <Box
+          sx={(theme) => ({
+            px: 0.75,
+            py: 0.25,
+            borderRadius: 1,
+            bgcolor: 'secondary.100',
+            border: '1px solid',
+            borderColor: 'secondary.200',
+            fontSize: '0.675rem',
+            fontWeight: 600,
+            color: 'text.secondary',
+            letterSpacing: '0.5px',
+            ...theme.applyStyles('dark', {
+              bgcolor: 'secondary.200',
+              borderColor: 'divider'
+            })
+          })}
+        >
+          {shortcutText}
+        </Box>
+      </ButtonBase>
     </Box>
   );
 }

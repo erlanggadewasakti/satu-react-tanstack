@@ -2,7 +2,6 @@
 import { useGetMenuMaster } from 'api/menu';
 import SimpleBar from 'components/third-party/SimpleBar';
 import SubAppSelector from 'components/SubAppSelector';
-import SearchMenu from 'components/SearchMenu';
 import DrawerHeader from '../DrawerHeader';
 import Navigation from './Navigation';
 import UserProfileCard from './UserProfileCard';
@@ -18,7 +17,6 @@ export default function DrawerContent() {
       <DrawerHeader open={drawerOpen} />
       <UserProfileCard />
       <SubAppSelector collapsed={!drawerOpen} />
-      <SearchMenu collapsed={!drawerOpen} />
       <Navigation />
     </SimpleBar>
   );
