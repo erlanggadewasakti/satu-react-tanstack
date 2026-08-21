@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import { devtools } from '@tanstack/devtools-vite';
 import react from '@vitejs/plugin-react';
 import { nitro } from 'nitro/vite';
 import { defineConfig, loadEnv, Plugin } from 'vite';
@@ -84,6 +85,7 @@ export default defineConfig(({ mode }) => {
         target: 'react',
         autoCodeSplitting: true
       }),
+      devtools(),
       react(),
       tsconfigPaths(),
       i18nParityPlugin(),

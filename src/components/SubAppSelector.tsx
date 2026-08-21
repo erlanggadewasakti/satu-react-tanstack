@@ -1,35 +1,25 @@
-import { useState, MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 
 // material-ui
-import {
-  Box,
-  Typography,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  ButtonBase,
-  Tooltip,
-  IconButton
-} from '@mui/material';
+import { Box, ButtonBase, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 
 // assets
 import {
-  Profile,
   ArrowDown2,
-  SecurityUser,
-  UserSquare,
-  Book,
-  DocumentText,
-  Calendar,
   Award,
+  Book,
   Briefcase,
+  Calendar,
+  DocumentText,
+  Element3,
+  Profile,
+  SecurityUser,
   TickCircle,
-  Element3
+  UserSquare
 } from 'iconsax-reactjs';
 
 // third-party
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports
 import useSubApp from 'hooks/useSubApp';
@@ -286,7 +276,7 @@ export default function SubAppSelector({ collapsed }: Props) {
             variant="subtitle2"
             sx={{
               fontWeight: 600,
-              fontSize: '0.875rem',
+              fontSize: '0.775rem',
               color: 'text.primary',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
