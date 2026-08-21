@@ -4,12 +4,8 @@ import { Dispatch, SetStateAction } from 'react';
 import { MenuOrientation, ThemeDirection } from 'config';
 
 export type FontFamily =
-  | `Inter var`
-  | `'Inter', sans-serif`
-  | `'Poppins', sans-serif`
-  | `'Roboto', sans-serif`
-  | `'Public Sans', sans-serif`;
-export type PresetColor = 'default' | 'theme1' | 'theme2' | 'theme3' | 'theme4' | 'theme5' | 'theme6' | 'theme7' | 'theme8';
+  `Inter var` | `'Inter', sans-serif` | `'Poppins', sans-serif` | `'Roboto', sans-serif` | `'Public Sans', sans-serif`;
+export type PresetColor = 'default' | 'theme1' | 'theme2' | 'theme3' | 'theme4' | 'theme5' | 'theme6' | 'theme7' | 'theme8' | 'satu';
 export type I18n = 'en' | 'id'; // 'en' - English, 'id' - Indonesian
 
 // ==============================|| TYPES - CONFIG ||============================== //
@@ -67,6 +63,7 @@ export interface ConfigStates {
    * 'theme6'
    * 'theme7'
    * 'theme8'
+   * 'satu'
    */
   presetColor: PresetColor;
 

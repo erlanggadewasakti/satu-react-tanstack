@@ -1,16 +1,16 @@
 import { ChangeEvent } from 'react';
 
 // material-ui
-import { useColorScheme } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Stack from '@mui/material/Stack';
+import { useColorScheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 // project-imports
-import { ThemeMode } from 'config';
 import MainCard from 'components/MainCard';
+import { ThemeMode } from 'config';
 import useConfig from 'hooks/useConfig';
 
 // types
@@ -79,6 +79,11 @@ export default function ColorScheme() {
       id: 'theme8',
       primary: colorScheme === ThemeMode.DARK ? '#058478' : '#009688',
       darker: colorScheme === ThemeMode.DARK ? '#59b8a5' : '#002424'
+    },
+    {
+      id: 'satu',
+      primary: colorScheme === ThemeMode.DARK ? '#f05545' : '#B53D3D',
+      darker: colorScheme === ThemeMode.DARK ? '#ffcdcf' : '#8A2E2E'
     }
   ];
 
