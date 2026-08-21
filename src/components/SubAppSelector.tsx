@@ -56,7 +56,7 @@ const getSubAppIcon = (id: string) => {
   }
 };
 
-// ==============================|| SUB-APP SELECTOR ("TAMPIL SEBAGAI") ||============================== //
+// ==============================|| SUB-APP SELECTOR ("MODUL APP") ||============================== //
 
 export default function SubAppSelector({ collapsed }: Props) {
   const { activeSubApp, subApps, changeSubApp } = useSubApp();
@@ -83,7 +83,7 @@ export default function SubAppSelector({ collapsed }: Props) {
   if (collapsed) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
-        <Tooltip title={`Tampil Sebagai: ${appName}`} placement="right">
+        <Tooltip title={`Modul App: ${appName}`} placement="right">
           <IconButton
             onClick={handleClick}
             color="primary"
@@ -136,7 +136,7 @@ export default function SubAppSelector({ collapsed }: Props) {
                 fontSize: '0.65rem'
               }}
             >
-              TAMPIL SEBAGAI
+              MODUL APP
             </Typography>
           </Box>
           {subApps.map((app) => {
@@ -203,7 +203,7 @@ export default function SubAppSelector({ collapsed }: Props) {
   // Expanded Mode (Sidebar Drawer Open)
   return (
     <Box sx={{ px: 2, py: 1 }}>
-      {/* Label: TAMPIL SEBAGAI */}
+      {/* Label: MODUL APP */}
       <Typography
         variant="caption"
         sx={{
@@ -217,7 +217,7 @@ export default function SubAppSelector({ collapsed }: Props) {
           px: 0.25
         }}
       >
-        TAMPIL SEBAGAI
+        MODUL APP
       </Typography>
 
       {/* Styled Selector Button */}
@@ -370,23 +370,6 @@ export default function SubAppSelector({ collapsed }: Props) {
                     <Typography variant="subtitle2" sx={{ fontWeight: isSelected ? 600 : 500, fontSize: '0.8125rem' }}>
                       {app.name}
                     </Typography>
-                  }
-                  secondary={
-                    app.description ? (
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          color: 'text.secondary',
-                          fontSize: '0.675rem',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 1,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden'
-                        }}
-                      >
-                        {app.description}
-                      </Typography>
-                    ) : null
                   }
                 />
                 {isSelected && <TickCircle size={16} color="currentColor" style={{ marginLeft: 8 }} />}
