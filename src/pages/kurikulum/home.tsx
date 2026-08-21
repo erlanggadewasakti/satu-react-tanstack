@@ -6,17 +6,9 @@ export default function KurikulumHomePage() {
   const intl = useIntl();
 
   return (
-    <MainCard
-      title={intl.formatMessage({
-        id: 'kurikulum.home-title',
-        defaultMessage: 'Beranda Manajemen Kurikulum'
-      })}
-    >
+    <MainCard title={intl.formatMessage({ id: 'kurikulum.home-title' })}>
       <Typography variant="body1">
-        <FormattedMessage
-          id="kurikulum.home-desc"
-          defaultMessage="Selamat datang di Sub-Aplikasi Manajemen Kurikulum. Modul ini digunakan untuk mengelola kurikulum berjalan, pemetaan CPLO/CPL, dan struktur mata kuliah."
-        />
+        <FormattedMessage id="kurikulum.home-desc" />
       </Typography>
     </MainCard>
   );

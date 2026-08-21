@@ -6,17 +6,9 @@ export default function PerkuliahanHomePage() {
   const intl = useIntl();
 
   return (
-    <MainCard
-      title={intl.formatMessage({
-        id: 'perkuliahan.home-title',
-        defaultMessage: 'Beranda Perkuliahan & Presensi'
-      })}
-    >
+    <MainCard title={intl.formatMessage({ id: 'perkuliahan.home-title' })}>
       <Typography variant="body1">
-        <FormattedMessage
-          id="perkuliahan.home-desc"
-          defaultMessage="Selamat datang di Sub-Aplikasi Perkuliahan & Presensi. Modul ini digunakan untuk mengelola jadwal kelas, presensi mahasiswa, dan aktivitas perkuliahan harian."
-        />
+        <FormattedMessage id="perkuliahan.home-desc" />
       </Typography>
     </MainCard>
   );

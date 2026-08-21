@@ -6,17 +6,9 @@ export default function SuperAdminHomePage() {
   const intl = useIntl();
 
   return (
-    <MainCard
-      title={intl.formatMessage({
-        id: 'super-admin.home-title',
-        defaultMessage: 'Beranda Super Admin'
-      })}
-    >
+    <MainCard title={intl.formatMessage({ id: 'super-admin.home-title' })}>
       <Typography variant="body1">
-        <FormattedMessage
-          id="super-admin.home-desc"
-          defaultMessage="Selamat datang di Sub-Aplikasi Super Admin. Modul ini menyediakan kontrol penuh manajemen sistem, user, dan hak akses."
-        />
+        <FormattedMessage id="super-admin.home-desc" />
       </Typography>
     </MainCard>
   );

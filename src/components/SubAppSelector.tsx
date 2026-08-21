@@ -84,13 +84,13 @@ export default function SubAppSelector({ collapsed }: Props) {
   };
 
   const getLocalizedAppName = (app?: { id: string; name: string }) => {
-    if (!app) return 'Mahasiswa';
-    return intl.formatMessage({ id: `subapp.${app.id}.name`, defaultMessage: app.name });
+    if (!app) return '';
+    return intl.formatMessage({ id: `subapp.${app.id}.name` as any });
   };
 
   const getLocalizedAppDesc = (app?: { id: string; description?: string }) => {
     if (!app?.description) return '';
-    return intl.formatMessage({ id: `subapp.${app.id}.desc`, defaultMessage: app.description });
+    return intl.formatMessage({ id: `subapp.${app.id}.desc` as any });
   };
 
   const appName = getLocalizedAppName(activeSubApp);
@@ -100,7 +100,7 @@ export default function SubAppSelector({ collapsed }: Props) {
   if (collapsed) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
-        <Tooltip title={`${intl.formatMessage({ id: 'menu.modul-app', defaultMessage: 'MODUL APP' })}: ${appName}`} placement="right">
+        <Tooltip title={`${intl.formatMessage({ id: 'menu.modul-app' })}: ${appName}`} placement="right">
           <IconButton
             onClick={handleClick}
             color="primary"
@@ -153,7 +153,7 @@ export default function SubAppSelector({ collapsed }: Props) {
                 fontSize: '0.65rem'
               }}
             >
-              <FormattedMessage id="menu.modul-app" defaultMessage="MODUL APP" />
+              <FormattedMessage id="menu.modul-app" />
             </Typography>
           </Box>
           {subApps.map((app) => {
@@ -236,7 +236,7 @@ export default function SubAppSelector({ collapsed }: Props) {
           px: 0.25
         }}
       >
-        <FormattedMessage id="menu.modul-app" defaultMessage="MODUL APP" />
+        <FormattedMessage id="menu.modul-app" />
       </Typography>
 
       {/* Styled Selector Button */}

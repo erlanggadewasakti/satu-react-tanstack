@@ -45,8 +45,9 @@
   "scripts": {
     "start": "node .output/server/index.mjs",
     "dev": "vite",
-    "build": "tsc && env-cmd -f .env vite build",
-    "build-stage": "env-cmd -f .env.qa vite build",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "build": "node scripts/check-i18n.mjs && tsc && env-cmd -f .env vite build",
+    "build-stage": "node scripts/check-i18n.mjs && env-cmd -f .env.qa vite build",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",

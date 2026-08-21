@@ -35,13 +35,12 @@ export default function UniversalHomePage() {
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={2}>
               <Typography variant="h2" sx={{ fontWeight: 700, color: 'error.main' }}>
-                <FormattedMessage id="home.welcome-title" defaultMessage="Selamat Datang di Sistem Informasi LENS" />
+                <FormattedMessage id="home.welcome-title" />
               </Typography>
 
               <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7, textAlign: 'justify' }}>
                 <FormattedMessage
                   id="home.lens-desc-1"
-                  defaultMessage="<strong>Learning Outcome Based Information System (LENS)</strong> adalah metodologi pendidikan yang mengutamakan pencapaian hasil pembelajaran yang terukur dan bermakna. Platform ini menyediakan tools komprehensif untuk manajemen kurikulum, penilaian CLO (Course Learning Outcomes), dan evaluasi pencapaian PLO (Program Learning Outcomes)."
                   values={{
                     strong: (chunks: React.ReactNode) => <strong>{chunks}</strong>
                   }}
@@ -49,10 +48,7 @@ export default function UniversalHomePage() {
               </Typography>
 
               <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7, textAlign: 'justify' }}>
-                <FormattedMessage
-                  id="home.lens-desc-2"
-                  defaultMessage="Sistem LENS memungkinkan dosen dan koordinator program studi untuk melakukan pemetaan kurikulum, monitoring pencapaian target pembelajaran, dan analisis continuous improvement. Semua stakeholder dapat memantau progress akademik secara real-time melalui dashboard yang terintegrasi dengan standar akreditasi nasional dan internasional."
-                />
+                <FormattedMessage id="home.lens-desc-2" />
               </Typography>
             </Stack>
           </Grid>
@@ -60,31 +56,15 @@ export default function UniversalHomePage() {
       </MainCard>
 
       {/* QUICK ACTION SUB-APPS LIST */}
-      <MainCard
-        title={intl.formatMessage({
-          id: 'home.available-sub-apps',
-          defaultMessage: 'Sub-Aplikasi Tersedia (Akses Cepat)'
-        })}
-      >
+      <MainCard title={intl.formatMessage({ id: 'home.available-sub-apps' })}>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-          <FormattedMessage
-            id="home.sub-apps-guide"
-            defaultMessage="Klik modul di bawah ini untuk langsung menuju sub-aplikasi yang sesuai dengan peranan (role) Anda."
-          />
+          <FormattedMessage id="home.sub-apps-guide" />
         </Typography>
 
         <Grid container spacing={2.5}>
           {subApps.map((app) => {
-            const localizedAppName = intl.formatMessage({
-              id: `subapp.${app.id}.name`,
-              defaultMessage: app.name
-            });
-            const localizedAppDesc = app.description
-              ? intl.formatMessage({
-                  id: `subapp.${app.id}.desc`,
-                  defaultMessage: app.description
-                })
-              : '';
+            const localizedAppName = intl.formatMessage({ id: `subapp.${app.id}.name` as any });
+            const localizedAppDesc = app.description ? intl.formatMessage({ id: `subapp.${app.id}.desc` as any }) : '';
 
             return (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={app.id}>
@@ -126,7 +106,7 @@ export default function UniversalHomePage() {
                       onClick={() => changeSubApp(app.id)}
                       sx={{ mt: 2, borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}
                     >
-                      <FormattedMessage id="home.open-sub-app" defaultMessage="Buka Sub-App" />
+                      <FormattedMessage id="home.open-sub-app" />
                     </Button>
                   </CardContent>
                 </Card>
@@ -142,7 +122,7 @@ export default function UniversalHomePage() {
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <CallCalling size={22} />
             <Typography variant="h4" sx={{ fontWeight: 600 }}>
-              <FormattedMessage id="home.contact-info" defaultMessage="Kontak Informasi" />
+              <FormattedMessage id="home.contact-info" />
             </Typography>
           </Stack>
         }
@@ -155,10 +135,7 @@ export default function UniversalHomePage() {
               sx={{ bgcolor: 'primary.main', color: 'common.white', fontWeight: 700, borderRadius: 1, minWidth: 24 }}
             />
             <Typography variant="body1" sx={{ fontWeight: 500 }}>
-              <FormattedMessage
-                id="home.service-desk"
-                defaultMessage="Service Desk Direktorat Pusat Teknologi Informasi (PUTI):"
-              />{' '}
+              <FormattedMessage id="home.service-desk" />{' '}
               <Typography
                 component="a"
                 href="https://wa.me/6282319949941"
@@ -192,7 +169,7 @@ export default function UniversalHomePage() {
                 '&:hover': { textDecoration: 'underline' }
               }}
             >
-              <FormattedMessage id="home.user-manual-link" defaultMessage="Link User Manual" /> <ExportSquare size={16} />
+              <FormattedMessage id="home.user-manual-link" /> <ExportSquare size={16} />
             </Typography>
           </Stack>
         </Stack>

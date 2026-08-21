@@ -15,7 +15,7 @@ export default function Login() {
       <Grid container spacing={3}>
         <Grid size={12}>
           <Typography variant="h3" sx={{ mb: { xs: -0.5, sm: 0.5 } }}>
-            <FormattedMessage id="login.title" defaultMessage="Login" />
+            <FormattedMessage id="login.title" />
           </Typography>
         </Grid>
         <Grid size={12}>

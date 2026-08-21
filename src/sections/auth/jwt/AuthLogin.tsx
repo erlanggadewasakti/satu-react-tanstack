@@ -56,9 +56,9 @@ export default function AuthLogin() {
         validationSchema={Yup.object().shape({
           username: Yup.string()
             .max(255)
-            .required(intl.formatMessage({ id: 'login.username-required', defaultMessage: 'Username is required' })),
+            .required(intl.formatMessage({ id: 'login.username-required' })),
           password: Yup.string()
-            .required(intl.formatMessage({ id: 'login.password-required', defaultMessage: 'Password is required' }))
+            .required(intl.formatMessage({ id: 'login.password-required' }))
             .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
@@ -82,7 +82,7 @@ export default function AuthLogin() {
               <Grid size={12}>
                 <Stack sx={{ gap: 1 }}>
                   <InputLabel htmlFor="username-login">
-                    <FormattedMessage id="login.username" defaultMessage="Username" />
+                    <FormattedMessage id="login.username" />
                   </InputLabel>
                   <OutlinedInput
                     id="username-login"
@@ -91,7 +91,7 @@ export default function AuthLogin() {
                     name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder={intl.formatMessage({ id: 'login.username-placeholder', defaultMessage: 'Enter username' })}
+                    placeholder={intl.formatMessage({ id: 'login.username-placeholder' })}
                     fullWidth
                     error={Boolean(touched.username && errors.username)}
                   />
@@ -105,7 +105,7 @@ export default function AuthLogin() {
               <Grid size={12}>
                 <Stack sx={{ gap: 1 }}>
                   <InputLabel htmlFor="password-login">
-                    <FormattedMessage id="login.password" defaultMessage="Password" />
+                    <FormattedMessage id="login.password" />
                   </InputLabel>
                   <OutlinedInput
                     fullWidth
@@ -129,7 +129,7 @@ export default function AuthLogin() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    placeholder={intl.formatMessage({ id: 'login.password-placeholder', defaultMessage: 'Enter password' })}
+                    placeholder={intl.formatMessage({ id: 'login.password-placeholder' })}
                   />
                 </Stack>
                 {touched.password && errors.password && (
@@ -151,7 +151,7 @@ export default function AuthLogin() {
                   }
                   label={
                     <Typography variant="h6">
-                      <FormattedMessage id="login.keep-signed-in" defaultMessage="Keep me sign in" />
+                      <FormattedMessage id="login.keep-signed-in" />
                     </Typography>
                   }
                 />
@@ -164,7 +164,7 @@ export default function AuthLogin() {
               <Grid size={12}>
                 <AnimateButton>
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
-                    <FormattedMessage id="login.submit-btn" defaultMessage="Login" />
+                    <FormattedMessage id="login.submit-btn" />
                   </Button>
                 </AnimateButton>
               </Grid>

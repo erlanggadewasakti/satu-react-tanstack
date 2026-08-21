@@ -6,17 +6,9 @@ export default function PortofolioHomePage() {
   const intl = useIntl();
 
   return (
-    <MainCard
-      title={intl.formatMessage({
-        id: 'portofolio.home-title',
-        defaultMessage: 'Beranda Portofolio'
-      })}
-    >
+    <MainCard title={intl.formatMessage({ id: 'portofolio.home-title' })}>
       <Typography variant="body1">
-        <FormattedMessage
-          id="portofolio.home-desc"
-          defaultMessage="Selamat datang di Sub-Aplikasi Portofolio. Modul ini menyajikan laporan portofolio pembelajaran dan analisa evaluasi capaian mata kuliah."
-        />
+        <FormattedMessage id="portofolio.home-desc" />
       </Typography>
     </MainCard>
   );

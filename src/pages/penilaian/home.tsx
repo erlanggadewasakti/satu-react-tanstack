@@ -6,17 +6,9 @@ export default function PenilaianHomePage() {
   const intl = useIntl();
 
   return (
-    <MainCard
-      title={intl.formatMessage({
-        id: 'penilaian.home-title',
-        defaultMessage: 'Beranda Penilaian & Evaluasi'
-      })}
-    >
+    <MainCard title={intl.formatMessage({ id: 'penilaian.home-title' })}>
       <Typography variant="body1">
-        <FormattedMessage
-          id="penilaian.home-desc"
-          defaultMessage="Selamat datang di Sub-Aplikasi Penilaian & Evaluasi. Modul ini digunakan untuk input nilai, pembobotan asesmen, dan pengaturan periode input nilai."
-        />
+        <FormattedMessage id="penilaian.home-desc" />
       </Typography>
     </MainCard>
   );

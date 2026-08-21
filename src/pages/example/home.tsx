@@ -15,19 +15,9 @@ export default function ExampleHomePage() {
   const exampleFeatures = [
     {
       id: 'mock-client',
-      title: intl.formatMessage({
-        id: 'example.mock-client-title',
-        defaultMessage: 'Data Mock (Client-Side Query)'
-      }),
-      subtitle: intl.formatMessage({
-        id: 'example.mock-client-subtitle',
-        defaultMessage: 'TanStack Query + React Table v8'
-      }),
-      description: intl.formatMessage({
-        id: 'example.mock-client-desc',
-        defaultMessage:
-          'Contoh pengujian tabel data lengkap dengan caching TanStack Query, client-side filtering, sorting multi-kolom, dan pagination.'
-      }),
+      title: intl.formatMessage({ id: 'example.mock-client-title' }),
+      subtitle: intl.formatMessage({ id: 'example.mock-client-subtitle' }),
+      description: intl.formatMessage({ id: 'example.mock-client-desc' }),
       icon: DocumentText,
       color: 'primary',
       url: '/example/mock',
@@ -35,19 +25,9 @@ export default function ExampleHomePage() {
     },
     {
       id: 'mock-server',
-      title: intl.formatMessage({
-        id: 'example.mock-server-title',
-        defaultMessage: 'Data Mock (Server-Side API)'
-      }),
-      subtitle: intl.formatMessage({
-        id: 'example.mock-server-subtitle',
-        defaultMessage: 'Nitro Server Endpoint + Server Pagination'
-      }),
-      description: intl.formatMessage({
-        id: 'example.mock-server-desc',
-        defaultMessage:
-          'Contoh integrasi endpoint REST API server Nitro yang mendukung query parameter paginasi, dynamic search, dan sorting di sisi backend.'
-      }),
+      title: intl.formatMessage({ id: 'example.mock-server-title' }),
+      subtitle: intl.formatMessage({ id: 'example.mock-server-subtitle' }),
+      description: intl.formatMessage({ id: 'example.mock-server-desc' }),
       icon: CloudConnection,
       color: 'success',
       url: '/example/mock-server',
@@ -55,19 +35,9 @@ export default function ExampleHomePage() {
     },
     {
       id: 'support-features',
-      title: intl.formatMessage({
-        id: 'example.support-features-title',
-        defaultMessage: 'Fitur Menu & Template Showcase'
-      }),
-      subtitle: intl.formatMessage({
-        id: 'example.support-features-subtitle',
-        defaultMessage: 'Multi-Level Navigation & UI Showcase'
-      }),
-      description: intl.formatMessage({
-        id: 'example.support-features-desc',
-        defaultMessage:
-          'Koleksi navigasi bertingkat (level 1 hingga 3), chip menu, disabled menu, dan tautan dokumentasi eksternal yang tersedia di sidebar menu.'
-      }),
+      title: intl.formatMessage({ id: 'example.support-features-title' }),
+      subtitle: intl.formatMessage({ id: 'example.support-features-subtitle' }),
+      description: intl.formatMessage({ id: 'example.support-features-desc' }),
       icon: OceanProtocol,
       color: 'warning',
       url: '#',
@@ -97,10 +67,10 @@ export default function ExampleHomePage() {
           <Box sx={{ flexGrow: 1 }}>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 0.5 }}>
               <Typography variant="h3" sx={{ fontWeight: 700 }}>
-                <FormattedMessage id="example.home-title" defaultMessage="Modul Example Pages" />
+                <FormattedMessage id="example.home-title" />
               </Typography>
               <Chip
-                label={<FormattedMessage id="example.developer-sandbox" defaultMessage="Developer Sandbox" />}
+                label={<FormattedMessage id="example.developer-sandbox" />}
                 color="primary"
                 size="small"
                 variant="light"
@@ -109,10 +79,7 @@ export default function ExampleHomePage() {
             </Stack>
 
             <Typography variant="body1" color="text.secondary" sx={{ mt: 0.75, maxWidth: 800 }}>
-              <FormattedMessage
-                id="example.home-desc"
-                defaultMessage="Modul ini berisi contoh halaman mock data, integrasi API, implementasi TanStack Query, React Table, serta berbagai contoh komponen navigasi menu untuk mempermudah referensi dan panduan pengembang saat membangun fitur baru di ekosistem SATU / LENS."
-              />
+              <FormattedMessage id="example.home-desc" />
             </Typography>
           </Box>
         </Stack>
@@ -178,11 +145,11 @@ export default function ExampleHomePage() {
                       onClick={() => navigate({ to: item.url as any })}
                       sx={{ mt: 3, borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}
                     >
-                      <FormattedMessage id="example.open-page" defaultMessage="Buka Halaman" />
+                      <FormattedMessage id="example.open-page" />
                     </Button>
                   ) : (
                     <Typography variant="caption" color="text.secondary" sx={{ mt: 3, fontStyle: 'italic', display: 'block' }}>
-                      <FormattedMessage id="example.sidebar-others-note" defaultMessage="*Tersedia pada bagian menu 'Others' di sidebar" />
+                      <FormattedMessage id="example.sidebar-others-note" />
                     </Typography>
                   )}
                 </CardContent>
@@ -198,7 +165,7 @@ export default function ExampleHomePage() {
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <LampCharge size={20} variant="Bold" />
             <Typography variant="h5" sx={{ fontWeight: 600 }}>
-              <FormattedMessage id="example.guidelines-title" defaultMessage="Panduan Pengembangan Fitur Baru" />
+              <FormattedMessage id="example.guidelines-title" />
             </Typography>
           </Stack>
         }
@@ -207,13 +174,10 @@ export default function ExampleHomePage() {
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={1}>
               <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>
-                <FormattedMessage id="example.guidelines-1-title" defaultMessage="1. Menambahkan Halaman Baru ke Sub-App" />
+                <FormattedMessage id="example.guidelines-1-title" />
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <FormattedMessage
-                  id="example.guidelines-1-desc"
-                  defaultMessage="Buat komponen halaman di folder src/pages/[sub-app]/[feature].tsx, kemudian daftarkan file route di src/routes/_lens/[sub-app]/[feature].tsx menggunakan TanStack Router."
-                />
+                <FormattedMessage id="example.guidelines-1-desc" />
               </Typography>
             </Stack>
           </Grid>
@@ -221,13 +185,10 @@ export default function ExampleHomePage() {
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={1}>
               <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>
-                <FormattedMessage id="example.guidelines-2-title" defaultMessage="2. Menambahkan Menu Navigasi" />
+                <FormattedMessage id="example.guidelines-2-title" />
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <FormattedMessage
-                  id="example.guidelines-2-desc"
-                  defaultMessage="Buka file menu di src/menu-items/[sub-app].ts dan tambahkan item baru dengan URL yang sesuai prefix sub-app."
-                />
+                <FormattedMessage id="example.guidelines-2-desc" />
               </Typography>
             </Stack>
           </Grid>
