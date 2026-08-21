@@ -1,9 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { lazy } from 'react';
-import Loadable from 'components/Loadable';
-
-const MockServerPage = Loadable(lazy(() => import('pages/mock-server')));
+import { createFileRoute, Navigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_lens/mock-server')({
-  component: MockServerPage
+  component: () => <Navigate to="/example/mock-server" replace />
 });

@@ -24,7 +24,8 @@ import {
   Calendar,
   Award,
   Briefcase,
-  TickCircle
+  TickCircle,
+  Element3
 } from 'iconsax-reactjs';
 
 // project-imports
@@ -51,6 +52,8 @@ const getSubAppIcon = (id: string) => {
       return Award;
     case 'portofolio':
       return Briefcase;
+    case 'example':
+      return Element3;
     default:
       return Profile;
   }

@@ -57,5 +57,24 @@ export const SUB_APPS: SubAppConfig[] = [
     defaultRoute: '/portofolio/home',
     description: 'Portofolio Pembelajaran dan Evaluation Outcome',
     allowedRoles: [Role.Kaprodi, Role.Warek, Role.Wadek1, Role.Akademik, Role.Developer]
+  },
+  {
+    id: 'example',
+    name: 'Example Pages',
+    prefix: '/example',
+    defaultRoute: '/example/home',
+    description: 'Halaman Contoh Komponen, Mock Data, dan Fitur Template',
+    allowedRoles: [
+      Role.Developer,
+      Role.Akademik,
+      Role.BAA,
+      Role.Kaprodi,
+      Role.KoordinatorMK,
+      Role.Dosen,
+      Role.Wadek1,
+      Role.Warek,
+      Role.LAA,
+      Role.User
+    ]
   }
 ];

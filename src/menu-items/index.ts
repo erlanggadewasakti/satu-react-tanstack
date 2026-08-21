@@ -1,13 +1,14 @@
-import { Home3, DocumentText, CloudConnection } from 'iconsax-reactjs';
+import { Home3 } from 'iconsax-reactjs';
 
 // project-imports
-import superAdminMenuItems from './super-admin';
 import akademikAdminMenuItems from './akademik-admin';
+import exampleMenuItems from './example';
 import kurikulumMenuItems from './kurikulum';
-import silabusMenuItems from './silabus';
-import perkuliahanMenuItems from './perkuliahan';
 import penilaianMenuItems from './penilaian';
+import perkuliahanMenuItems from './perkuliahan';
 import portofolioMenuItems from './portofolio';
+import silabusMenuItems from './silabus';
+import superAdminMenuItems from './super-admin';
 
 import support from './support';
 
@@ -19,25 +20,16 @@ import { NavItemType } from 'types/menu';
 export const globalHomeMenuItem: NavItemType = {
   id: 'global-home',
   title: 'Beranda LENS',
-  type: 'item',
-  url: '/home',
-  icon: Home3
-};
-
-export const globalMockMenuItem: NavItemType = {
-  id: 'global-mock',
-  title: 'Data Mock (Client)',
-  type: 'item',
-  url: '/mock',
-  icon: DocumentText
-};
-
-export const globalMockServerMenuItem: NavItemType = {
-  id: 'global-mock-server',
-  title: 'Data Mock (Server)',
-  type: 'item',
-  url: '/mock-server',
-  icon: CloudConnection
+  type: 'group',
+  children: [
+    {
+      id: 'home',
+      title: 'Beranda LENS',
+      type: 'item',
+      url: '/home',
+      icon: Home3
+    }
+  ]
 };
 
 // ==============================|| MENU ITEMS PER SUB-APP ||============================== //
@@ -49,7 +41,8 @@ export const menuItemsBySubApp: Record<string, { items: NavItemType[] }> = {
   silabus: { items: [silabusMenuItems] },
   perkuliahan: { items: [perkuliahanMenuItems] },
   penilaian: { items: [penilaianMenuItems] },
-  portofolio: { items: [portofolioMenuItems] }
+  portofolio: { items: [portofolioMenuItems] },
+  example: { items: [exampleMenuItems, support] }
 };
 
 const menuItems: { items: NavItemType[]; menuItemsBySubApp: typeof menuItemsBySubApp } = {

@@ -1,6 +1,6 @@
 import { ElementType } from 'react';
 import { SUB_APPS } from './subApps';
-import { menuItemsBySubApp, globalHomeMenuItem, globalMockMenuItem, globalMockServerMenuItem } from 'menu-items';
+import { menuItemsBySubApp, globalHomeMenuItem } from 'menu-items';
 import support from 'menu-items/support';
 import { hasRoleAccess, filterMenuItemsByRole } from 'utils/auth';
 import { UserProfile } from 'types/auth';
@@ -49,9 +49,11 @@ export const CUSTOM_SEARCH_ITEMS: SearchableItem[] = [
     title: 'Data Mock (Client-side Query)',
     subTitle: 'Mock Data TanStack Query',
     category: 'DEVELOPER & TESTING',
-    url: '/mock',
+    subAppId: 'example',
+    subAppName: 'Example Pages',
+    url: '/example/mock',
     icon: DocumentText,
-    keywords: ['mock', 'client', 'tanstack query', 'dummy data', 'test', 'offline data'],
+    keywords: ['mock', 'client', 'tanstack query', 'dummy data', 'test', 'offline data', 'example'],
     description: 'Halaman pengujian data mock di sisi client dengan TanStack Query'
   },
   {
@@ -59,9 +61,11 @@ export const CUSTOM_SEARCH_ITEMS: SearchableItem[] = [
     title: 'Data Mock (Server-side API)',
     subTitle: 'Mock Server Endpoint',
     category: 'DEVELOPER & TESTING',
-    url: '/mock-server',
+    subAppId: 'example',
+    subAppName: 'Example Pages',
+    url: '/example/mock-server',
     icon: CloudConnection,
-    keywords: ['mock', 'server', 'nitro api', 'endpoint', 'backend mock', 'rest api'],
+    keywords: ['mock', 'server', 'nitro api', 'endpoint', 'backend mock', 'rest api', 'example'],
     description: 'Halaman pengujian API server mock dengan Nitro server route'
   },
   {
@@ -121,7 +125,7 @@ export function getAllSearchableItems(user?: UserProfile | null): SearchableItem
   const addedIds = new Set<string>();
 
   // 1. Add Universal Global Items
-  const globalItems: NavItemType[] = [globalHomeMenuItem, globalMockMenuItem, globalMockServerMenuItem];
+  const globalItems: NavItemType[] = [globalHomeMenuItem];
   const flattenedGlobal = flattenMenu(globalItems, undefined, 'LENS Global', 'GENERAL');
   for (const item of flattenedGlobal) {
     if (!addedIds.has(item.id)) {
