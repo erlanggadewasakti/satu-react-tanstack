@@ -28,6 +28,9 @@ import {
   Element3
 } from 'iconsax-reactjs';
 
+// third-party
+import { useIntl, FormattedMessage } from 'react-intl';
+
 // project-imports
 import useSubApp from 'hooks/useSubApp';
 
@@ -62,6 +65,7 @@ const getSubAppIcon = (id: string) => {
 // ==============================|| SUB-APP SELECTOR ("MODUL APP") ||============================== //
 
 export default function SubAppSelector({ collapsed }: Props) {
+  const intl = useIntl();
   const { activeSubApp, subApps, changeSubApp } = useSubApp();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -79,14 +83,24 @@ export default function SubAppSelector({ collapsed }: Props) {
     handleClose();
   };
 
-  const appName = activeSubApp?.name || 'Mahasiswa';
+  const getLocalizedAppName = (app?: { id: string; name: string }) => {
+    if (!app) return 'Mahasiswa';
+    return intl.formatMessage({ id: `subapp.${app.id}.name`, defaultMessage: app.name });
+  };
+
+  const getLocalizedAppDesc = (app?: { id: string; description?: string }) => {
+    if (!app?.description) return '';
+    return intl.formatMessage({ id: `subapp.${app.id}.desc`, defaultMessage: app.description });
+  };
+
+  const appName = getLocalizedAppName(activeSubApp);
   const ActiveIcon = getSubAppIcon(activeSubApp?.id || '');
 
   // Collapsed Mode (Mini Drawer)
   if (collapsed) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
-        <Tooltip title={`Modul App: ${appName}`} placement="right">
+        <Tooltip title={`${intl.formatMessage({ id: 'menu.modul-app', defaultMessage: 'MODUL APP' })}: ${appName}`} placement="right">
           <IconButton
             onClick={handleClick}
             color="primary"
@@ -139,28 +153,30 @@ export default function SubAppSelector({ collapsed }: Props) {
                 fontSize: '0.65rem'
               }}
             >
-              MODUL APP
+              <FormattedMessage id="menu.modul-app" defaultMessage="MODUL APP" />
             </Typography>
           </Box>
           {subApps.map((app) => {
             const isSelected = app.id === activeSubApp?.id;
             const ItemIcon = getSubAppIcon(app.id);
+            const localizedName = getLocalizedAppName(app);
+            const localizedDesc = getLocalizedAppDesc(app);
 
             return (
               <Tooltip
                 key={app.id}
                 title={
-                  app.description ? (
+                  localizedDesc ? (
                     <Box sx={{ p: 0.5, maxWidth: 240 }}>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'inherit', mb: 0.25 }}>
-                        {app.name}
+                        {localizedName}
                       </Typography>
                       <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.9, lineHeight: 1.4, display: 'block' }}>
-                        {app.description}
+                        {localizedDesc}
                       </Typography>
                     </Box>
                   ) : (
-                    app.name
+                    localizedName
                   )
                 }
                 placement="right"
@@ -189,7 +205,7 @@ export default function SubAppSelector({ collapsed }: Props) {
                   <ListItemText
                     primary={
                       <Typography variant="subtitle2" sx={{ fontWeight: isSelected ? 600 : 500 }}>
-                        {app.name}
+                        {localizedName}
                       </Typography>
                     }
                   />
@@ -220,7 +236,7 @@ export default function SubAppSelector({ collapsed }: Props) {
           px: 0.25
         }}
       >
-        MODUL APP
+        <FormattedMessage id="menu.modul-app" defaultMessage="MODUL APP" />
       </Typography>
 
       {/* Styled Selector Button */}
@@ -321,22 +337,24 @@ export default function SubAppSelector({ collapsed }: Props) {
         {subApps.map((app) => {
           const isSelected = app.id === activeSubApp?.id;
           const ItemIcon = getSubAppIcon(app.id);
+          const localizedName = getLocalizedAppName(app);
+          const localizedDesc = getLocalizedAppDesc(app);
 
           return (
             <Tooltip
               key={app.id}
               title={
-                app.description ? (
+                localizedDesc ? (
                   <Box sx={{ p: 0.5, maxWidth: 240 }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'inherit', mb: 0.25 }}>
-                      {app.name}
+                      {localizedName}
                     </Typography>
                     <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.9, lineHeight: 1.4, display: 'block' }}>
-                      {app.description}
+                      {localizedDesc}
                     </Typography>
                   </Box>
                 ) : (
-                  app.name
+                  localizedName
                 )
               }
               placement="right"
@@ -371,7 +389,7 @@ export default function SubAppSelector({ collapsed }: Props) {
                 <ListItemText
                   primary={
                     <Typography variant="subtitle2" sx={{ fontWeight: isSelected ? 600 : 500, fontSize: '0.8125rem' }}>
-                      {app.name}
+                      {localizedName}
                     </Typography>
                   }
                 />

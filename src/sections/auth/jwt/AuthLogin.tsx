@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { preload } from 'swr';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports
 import IconButton from 'components/@extended/IconButton';
@@ -30,6 +31,7 @@ import { Eye, EyeSlash } from 'iconsax-reactjs';
 // ============================|| LOGIN FORM ||============================ //
 
 export default function AuthLogin() {
+  const intl = useIntl();
   const [checked, setChecked] = useState(false);
 
   const { login } = useAuth();
@@ -52,9 +54,11 @@ export default function AuthLogin() {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          username: Yup.string().max(255).required('Username is required'),
+          username: Yup.string()
+            .max(255)
+            .required(intl.formatMessage({ id: 'login.username-required', defaultMessage: 'Username is required' })),
           password: Yup.string()
-            .required('Password is required')
+            .required(intl.formatMessage({ id: 'login.password-required', defaultMessage: 'Password is required' }))
             .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
@@ -77,7 +81,9 @@ export default function AuthLogin() {
             <Grid container spacing={3}>
               <Grid size={12}>
                 <Stack sx={{ gap: 1 }}>
-                  <InputLabel htmlFor="username-login">Username</InputLabel>
+                  <InputLabel htmlFor="username-login">
+                    <FormattedMessage id="login.username" defaultMessage="Username" />
+                  </InputLabel>
                   <OutlinedInput
                     id="username-login"
                     type="text"
@@ -85,7 +91,7 @@ export default function AuthLogin() {
                     name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Enter username"
+                    placeholder={intl.formatMessage({ id: 'login.username-placeholder', defaultMessage: 'Enter username' })}
                     fullWidth
                     error={Boolean(touched.username && errors.username)}
                   />
@@ -98,7 +104,9 @@ export default function AuthLogin() {
               </Grid>
               <Grid size={12}>
                 <Stack sx={{ gap: 1 }}>
-                  <InputLabel htmlFor="password-login">Password</InputLabel>
+                  <InputLabel htmlFor="password-login">
+                    <FormattedMessage id="login.password" defaultMessage="Password" />
+                  </InputLabel>
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
@@ -121,7 +129,7 @@ export default function AuthLogin() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    placeholder="Enter password"
+                    placeholder={intl.formatMessage({ id: 'login.password-placeholder', defaultMessage: 'Enter password' })}
                   />
                 </Stack>
                 {touched.password && errors.password && (
@@ -141,7 +149,11 @@ export default function AuthLogin() {
                       size="small"
                     />
                   }
-                  label={<Typography variant="h6">Keep me sign in</Typography>}
+                  label={
+                    <Typography variant="h6">
+                      <FormattedMessage id="login.keep-signed-in" defaultMessage="Keep me sign in" />
+                    </Typography>
+                  }
                 />
               </Grid>
               {errors.submit && (
@@ -152,7 +164,7 @@ export default function AuthLogin() {
               <Grid size={12}>
                 <AnimateButton>
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
-                    Login
+                    <FormattedMessage id="login.submit-btn" defaultMessage="Login" />
                   </Button>
                 </AnimateButton>
               </Grid>

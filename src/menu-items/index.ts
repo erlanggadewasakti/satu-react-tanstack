@@ -19,12 +19,12 @@ import { NavItemType } from 'types/menu';
 
 export const globalHomeMenuItem: NavItemType = {
   id: 'global-home',
-  title: 'Beranda LENS',
+  title: 'beranda-lens',
   type: 'group',
   children: [
     {
       id: 'home',
-      title: 'Beranda LENS',
+      title: 'beranda-lens',
       type: 'item',
       url: '/home',
       icon: Home3

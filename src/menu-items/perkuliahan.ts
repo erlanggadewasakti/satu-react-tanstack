@@ -8,12 +8,12 @@ const icons = {
 
 const perkuliahanMenuItems: NavItemType = {
   id: 'group-perkuliahan',
-  title: 'Menu Perkuliahan',
+  title: 'group-perkuliahan',
   type: 'group',
   children: [
     {
       id: 'perkuliahan-home',
-      title: 'Beranda Perkuliahan',
+      title: 'perkuliahan-home',
       type: 'item',
       url: '/perkuliahan/home',
       icon: icons.home

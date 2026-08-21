@@ -8,12 +8,12 @@ const icons = {
 
 const kurikulumMenuItems: NavItemType = {
   id: 'group-kurikulum',
-  title: 'Menu Kurikulum',
+  title: 'group-kurikulum',
   type: 'group',
   children: [
     {
       id: 'kurikulum-home',
-      title: 'Beranda Kurikulum',
+      title: 'kurikulum-home',
       type: 'item',
       url: '/kurikulum/home',
       icon: icons.home

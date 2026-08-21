@@ -8,12 +8,12 @@ const icons = {
 
 const akademikAdminMenuItems: NavItemType = {
   id: 'group-akademik-admin',
-  title: 'Menu Akademik Admin',
+  title: 'group-akademik-admin',
   type: 'group',
   children: [
     {
       id: 'akademik-admin-home',
-      title: 'Beranda Akademik Admin',
+      title: 'akademik-admin-home',
       type: 'item',
       url: '/akademik-admin/home',
       icon: icons.home

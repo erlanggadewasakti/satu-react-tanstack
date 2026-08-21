@@ -8,12 +8,12 @@ const icons = {
 
 const penilaianMenuItems: NavItemType = {
   id: 'group-penilaian',
-  title: 'Menu Penilaian',
+  title: 'group-penilaian',
   type: 'group',
   children: [
     {
       id: 'penilaian-home',
-      title: 'Beranda Penilaian',
+      title: 'penilaian-home',
       type: 'item',
       url: '/penilaian/home',
       icon: icons.home

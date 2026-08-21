@@ -8,12 +8,12 @@ const icons = {
 
 const silabusMenuItems: NavItemType = {
   id: 'group-silabus',
-  title: 'Menu Silabus',
+  title: 'group-silabus',
   type: 'group',
   children: [
     {
       id: 'silabus-home',
-      title: 'Beranda Silabus',
+      title: 'silabus-home',
       type: 'item',
       url: '/silabus/home',
       icon: icons.home

@@ -8,12 +8,12 @@ const icons = {
 
 const portofolioMenuItems: NavItemType = {
   id: 'group-portofolio',
-  title: 'Menu Portofolio',
+  title: 'group-portofolio',
   type: 'group',
   children: [
     {
       id: 'portofolio-home',
-      title: 'Beranda Portofolio',
+      title: 'portofolio-home',
       type: 'item',
       url: '/portofolio/home',
       icon: icons.home

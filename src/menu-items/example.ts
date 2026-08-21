@@ -11,26 +11,26 @@ const icons = {
 
 const exampleMenuItems: NavItemType = {
   id: 'group-example',
-  title: 'Example & Mock',
+  title: 'group-example',
   type: 'group',
   children: [
     {
       id: 'example-home',
-      title: 'Beranda Example',
+      title: 'example-home',
       type: 'item',
       url: '/example/home',
       icon: icons.home
     },
     {
       id: 'example-mock',
-      title: 'Data Mock (Client)',
+      title: 'example-mock',
       type: 'item',
       url: '/example/mock',
       icon: icons.mockClient
     },
     {
       id: 'example-mock-server',
-      title: 'Data Mock (Server)',
+      title: 'example-mock-server',
       type: 'item',
       url: '/example/mock-server',
       icon: icons.mockServer

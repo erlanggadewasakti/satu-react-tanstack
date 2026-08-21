@@ -12,12 +12,8 @@ import { I18n } from 'types/config';
 // load locales files
 const loadLocaleData = (locale: I18n) => {
   switch (locale) {
-    case 'fr':
-      return import('utils/locales/fr.json');
-    case 'ro':
-      return import('utils/locales/ro.json');
-    case 'zh':
-      return import('utils/locales/zh.json');
+    case 'id':
+      return import('utils/locales/id.json');
     case 'en':
     default:
       return import('utils/locales/en.json');

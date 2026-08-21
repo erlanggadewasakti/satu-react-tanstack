@@ -10,7 +10,7 @@ export type FontFamily =
   | `'Roboto', sans-serif`
   | `'Public Sans', sans-serif`;
 export type PresetColor = 'default' | 'theme1' | 'theme2' | 'theme3' | 'theme4' | 'theme5' | 'theme6' | 'theme7' | 'theme8';
-export type I18n = 'en' | 'fr' | 'ro' | 'zh'; // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
+export type I18n = 'en' | 'id'; // 'en' - English, 'id' - Indonesian
 
 // ==============================|| TYPES - CONFIG ||============================== //
 
@@ -27,11 +27,8 @@ export interface ConfigStates {
 
   /**
    * The props used for display menu-items with multi-language.
-   * We provide static below languages according to 'react-intl' options - https://www.npmjs.com/package/react-intl
-   * 'en' (default)
-   * 'fr'
-   * 'ro'
-   * 'zh'
+   * 'id' (Indonesian)
+   * 'en' (English - default)
    */
   i18n: I18n;
 

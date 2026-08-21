@@ -8,12 +8,12 @@ const icons = {
 
 const superAdminMenuItems: NavItemType = {
   id: 'group-super-admin',
-  title: 'Menu Super Admin',
+  title: 'group-super-admin',
   type: 'group',
   children: [
     {
       id: 'super-admin-home',
-      title: 'Beranda Super Admin',
+      title: 'super-admin-home',
       type: 'item',
       url: '/super-admin/home',
       icon: icons.home
