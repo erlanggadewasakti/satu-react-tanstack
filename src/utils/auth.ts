@@ -31,4 +31,3 @@ export function filterMenuItemsByRole(items: NavItemType[], user: UserProfile | 
 export function getDefaultSubAppPath(_user?: UserProfile | null): string {
   return '/home';
 }
-

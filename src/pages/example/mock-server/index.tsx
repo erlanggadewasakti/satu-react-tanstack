@@ -7,8 +7,6 @@ import {
   Divider,
   Grid,
   IconButton,
-  InputAdornment,
-  Paper,
   Skeleton,
   Stack,
   Table,
@@ -17,27 +15,26 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Tooltip,
   Typography
 } from '@mui/material';
-import { Briefcase, Calendar, Call, CloseCircle, DocumentText, Location, Refresh, SearchNormal1, Layer, DirectSend } from 'iconsax-reactjs';
-import { useEffect, useMemo, useState } from 'react';
+import { Briefcase, Calendar, Call, DirectSend, DocumentText, Layer, Location, Refresh } from 'iconsax-reactjs';
+import { useMemo, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 // third-party
-import {
-  ColumnDef,
-  flexRender,
-  PaginationState,
-  SortingState,
-  StockFeatures,
-  stockFeatures,
-  useTable
-} from '@tanstack/react-table';
+import { ColumnDef, flexRender, PaginationState, SortingState, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table';
 
 // project-imports
 import MainCard from 'components/MainCard';
-import { EmptyTable, HeaderSort, SelectColumnSorting, TablePagination } from 'components/third-party/react-table';
+import {
+  DebouncedInput,
+  EmptyTable,
+  HeaderSort,
+  SelectColumnSorting,
+  SelectColumnVisibility,
+  TablePagination
+} from 'components/third-party/react-table';
 import { useGetPaginatedMockData } from 'hooks/queries/useMockData';
 import { MockItem } from 'types/api/mock';
 
@@ -57,7 +54,11 @@ function formatDate(dateStr?: string): string {
   }
 }
 
+// ==============================|| EXAMPLE - MOCK DATA TABLE (SERVER-SIDE) ||============================== //
+
 export default function MockServerDataViewPage() {
+  const intl = useIntl();
+
   // Server-side query states
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -65,18 +66,6 @@ export default function MockServerDataViewPage() {
   });
   const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: false }]);
   const [searchInput, setSearchInput] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-
-  // Debounce search input (500ms)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchInput.trim());
-      // Reset to first page on search change
-      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchInput]);
 
   // Fetch paginated data from server
   const {
@@ -89,20 +78,22 @@ export default function MockServerDataViewPage() {
   } = useGetPaginatedMockData({
     page: pagination.pageIndex + 1,
     per_page: pagination.pageSize,
-    search: debouncedSearch
+    search: searchInput
   });
 
   // Column definitions
   const columns = useMemo<ColumnDef<StockFeatures, MockItem, any>[]>(
     () => [
       {
-        header: 'ID',
+        header: intl.formatMessage({ id: 'example.column.id' }),
         accessorKey: 'id',
         meta: { align: 'center' },
-        cell: (cell: any) => <Chip label={`#${cell.getValue()}`} size="small" variant="outlined" color="secondary" sx={{ fontWeight: 600 }} />
+        cell: (cell: any) => (
+          <Chip label={`#${cell.getValue()}`} size="small" variant="outlined" color="secondary" sx={{ fontWeight: 600 }} />
+        )
       },
       {
-        header: 'Nama',
+        header: intl.formatMessage({ id: 'example.column.name' }),
         accessorKey: 'name',
         meta: { align: 'left' },
         cell: (cell: any) => (
@@ -112,7 +103,7 @@ export default function MockServerDataViewPage() {
         )
       },
       {
-        header: 'Pekerjaan',
+        header: intl.formatMessage({ id: 'example.column.job' }),
         accessorKey: 'job',
         meta: { align: 'left' },
         cell: (cell: any) => (
@@ -127,11 +118,11 @@ export default function MockServerDataViewPage() {
         )
       },
       {
-        header: 'Alamat',
+        header: intl.formatMessage({ id: 'example.column.address' }),
         accessorKey: 'address',
         meta: { align: 'left' },
         cell: (cell: any) => (
-          <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
+          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
             <Location size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
             <Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: 220 }}>
               {cell.getValue() as string}
@@ -140,12 +131,12 @@ export default function MockServerDataViewPage() {
         )
       },
       {
-        header: 'No. Telepon',
+        header: intl.formatMessage({ id: 'example.column.phone' }),
         accessorKey: 'phone_number',
         enableSorting: false,
         meta: { align: 'left' },
         cell: (cell: any) => (
-          <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
+          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
             <Call size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
             <Typography variant="body2" color="text.secondary">
               {cell.getValue() as string}
@@ -154,11 +145,11 @@ export default function MockServerDataViewPage() {
         )
       },
       {
-        header: 'Tgl Lahir',
+        header: intl.formatMessage({ id: 'example.column.birth_date' }),
         accessorKey: 'birth_date',
         meta: { align: 'center' },
         cell: (cell: any) => (
-          <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', justifyContent: 'center' }}>
             <Calendar size={14} style={{ opacity: 0.6 }} />
             <Typography variant="body2" color="text.secondary">
               {formatDate(cell.getValue() as string)}
@@ -167,7 +158,7 @@ export default function MockServerDataViewPage() {
         )
       },
       {
-        header: 'Dibuat Pada',
+        header: intl.formatMessage({ id: 'example.column.created_at' }),
         accessorKey: 'created_at',
         meta: { align: 'center' },
         cell: (cell: any) => (
@@ -177,7 +168,7 @@ export default function MockServerDataViewPage() {
         )
       }
     ],
-    []
+    [intl]
   );
 
   const data = useMemo(() => paginatedData?.data || [], [paginatedData?.data]);
@@ -210,10 +201,10 @@ export default function MockServerDataViewPage() {
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
-                  Total Data Server
+                  <FormattedMessage id="example.stat-total-server" />
                 </Typography>
                 <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                  {isLoading ? <Skeleton width={60} /> : paginatedData?.total ?? 0}
+                  {isLoading ? <Skeleton width={60} /> : (paginatedData?.total ?? 0)}
                 </Typography>
               </Box>
             </Stack>
@@ -228,7 +219,7 @@ export default function MockServerDataViewPage() {
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
-                  Halaman Aktif
+                  <FormattedMessage id="example.stat-active-page" />
                 </Typography>
                 <Typography variant="h4" sx={{ fontWeight: 700 }}>
                   {isLoading ? <Skeleton width={60} /> : `${paginatedData?.current_page ?? 1} / ${paginatedData?.last_page ?? 1}`}
@@ -246,16 +237,10 @@ export default function MockServerDataViewPage() {
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
-                  Menampilkan Data
+                  <FormattedMessage id="example.stat-displayed-records" />
                 </Typography>
                 <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                  {isLoading ? (
-                    <Skeleton width={80} />
-                  ) : paginatedData?.total ? (
-                    `${paginatedData?.from ?? 1} - ${paginatedData?.to ?? data.length} dari ${paginatedData?.total}`
-                  ) : (
-                    '0 data'
-                  )}
+                  {isLoading ? <Skeleton width={60} /> : `${paginatedData?.data?.length ?? 0} Data`}
                 </Typography>
               </Box>
             </Stack>
@@ -265,179 +250,167 @@ export default function MockServerDataViewPage() {
 
       {/* MAIN DATA TABLE CARD */}
       <MainCard
-        title="Daftar Data Mock (Server Side Pagination & Search)"
+        title={<FormattedMessage id="example.mock-server-table-title" />}
         content={false}
         secondary={
-          <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-            <SelectColumnSorting state={table.state} getAllColumns={table.getAllColumns} setSorting={setSorting} size="small" />
-            <Tooltip title="Refresh Data">
-              <IconButton
-                color="primary"
-                onClick={() => refetch()}
-                disabled={isFetching}
-                sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}
-              >
-                <Refresh size={18} className={isFetching ? 'spin' : ''} />
-              </IconButton>
-            </Tooltip>
-          </Stack>
+          <Tooltip title={<FormattedMessage id="example.refresh-tooltip" />}>
+            <IconButton
+              color="primary"
+              onClick={() => refetch()}
+              disabled={isFetching}
+              sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}
+            >
+              <Refresh size={18} className={isFetching ? 'spin' : ''} />
+            </IconButton>
+          </Tooltip>
         }
       >
-        <Stack spacing={2.5}>
-          {/* SEARCH TOOLBAR */}
+        {/* TOP SEARCH & ACTIONS TOOLBAR */}
+        <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2, alignItems: 'center', justifyContent: 'space-between', p: 2.5 }}>
+          <DebouncedInput
+            value={searchInput}
+            onFilterChange={(value) => {
+              setSearchInput(String(value).trim());
+              setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+            }}
+            placeholder={intl.formatMessage({ id: 'example.mock-search-server-placeholder' })}
+            sx={{ width: { xs: '100%', sm: 340 } }}
+          />
+
           <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={2}
-            sx={{ justifyContent: 'space-between', alignItems: 'center', p: 2.5, pb: 0 }}
+            direction="row"
+            sx={{
+              gap: 1.5,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'space-between', sm: 'flex-end' }
+            }}
           >
-            <TextField
+            <SelectColumnSorting state={table.state} getAllColumns={table.getAllColumns} setSorting={setSorting} size="small" />
+            <SelectColumnVisibility
+              getVisibleLeafColumns={table.getVisibleLeafColumns}
+              getIsAllColumnsVisible={table.getIsAllColumnsVisible}
+              getToggleAllColumnsVisibilityHandler={table.getToggleAllColumnsVisibilityHandler}
+              getAllColumns={table.getAllColumns}
               size="small"
-              placeholder="Cari server-side (misal: 'soft', 'nero')..."
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              sx={{ width: { xs: '100%', sm: 360 } }}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchNormal1 size={18} />
-                    </InputAdornment>
-                  ),
-                  endAdornment: searchInput ? (
-                    <InputAdornment position="end">
-                      <IconButton size="small" onClick={() => setSearchInput('')} edge="end">
-                        <CloseCircle size={16} />
-                      </IconButton>
-                    </InputAdornment>
-                  ) : null
-                }
-              }}
             />
-
-            {debouncedSearch && (
-              <Typography variant="caption" color="text.secondary">
-                Hasil pencarian untuk &quot;<strong>{debouncedSearch}</strong>&quot; ({paginatedData?.total ?? 0} data ditemukan)
-              </Typography>
-            )}
           </Stack>
+        </Stack>
 
-          {/* ERROR ALERT */}
-          {isError && (
-            <Box sx={{ px: 2.5 }}>
-              <Alert
-                severity="error"
-                action={
-                  <Button color="inherit" size="small" onClick={() => refetch()}>
-                    Coba Lagi
-                  </Button>
-                }
-              >
-                Gagal memuat data dari API server: {error instanceof Error ? error.message : 'Terjadi kesalahan sistem'}
-              </Alert>
-            </Box>
-          )}
+        {/* ERROR ALERT */}
+        {isError && (
+          <Box sx={{ px: 2.5, pb: 2 }}>
+            <Alert
+              severity="error"
+              action={
+                <Button color="inherit" size="small" onClick={() => refetch()}>
+                  <FormattedMessage id="example.retry-btn" />
+                </Button>
+              }
+            >
+              <FormattedMessage
+                id="example.error-loading-server"
+                values={{
+                  error: error instanceof Error ? error.message : intl.formatMessage({ id: 'example.system-error' })
+                }}
+              />
+            </Alert>
+          </Box>
+        )}
 
-          {/* DATA TABLE CONTAINER */}
-          <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 2, overflow: 'hidden', mx: 2.5, width: 'auto' }}>
-            <Table sx={{ minWidth: 700 }} aria-label="server-side mock data table">
-              <TableHead sx={{ bgcolor: 'grey.100' }}>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <TableCell
-                        key={header.id}
-                        align={(header.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}
-                        sortDirection={header.column.getIsSorted()}
-                        sx={{ fontWeight: 600, py: 1.5 }}
-                      >
-                        {header.isPlaceholder ? null : (
-                          <Stack
-                            direction="row"
-                            spacing={1}
-                            sx={{
-                              alignItems: 'center',
-                              justifyContent:
-                                (header.column.columnDef.meta as { align?: string })?.align === 'center'
-                                  ? 'center'
-                                  : (header.column.columnDef.meta as { align?: string })?.align === 'right'
-                                    ? 'flex-end'
-                                    : 'flex-start'
-                            }}
-                          >
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                            {header.column.getCanSort() && <HeaderSort column={header.column} />}
-                          </Stack>
-                        )}
+        {/* FULL-WIDTH TABLE CONTAINER */}
+        <TableContainer>
+          <Table sx={{ minWidth: 700 }} aria-label="mock server table">
+            <TableHead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableCell
+                      key={header.id}
+                      align={(header.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}
+                      sortDirection={header.column.getIsSorted()}
+                    >
+                      {header.isPlaceholder ? null : (
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          sx={{
+                            alignItems: 'center',
+                            justifyContent:
+                              (header.column.columnDef.meta as { align?: string })?.align === 'center'
+                                ? 'center'
+                                : (header.column.columnDef.meta as { align?: string })?.align === 'right'
+                                  ? 'flex-end'
+                                  : 'flex-start'
+                          }}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {header.column.getCanSort() && <HeaderSort column={header.column} />}
+                        </Stack>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHead>
+
+            <TableBody>
+              {isLoading || isFetching ? (
+                Array.from({ length: table.state.pagination.pageSize }).map((_, index) => (
+                  <TableRow key={index}>
+                    {table.getVisibleLeafColumns().map((col) => (
+                      <TableCell key={col.id} align={(col.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}>
+                        <Skeleton
+                          sx={{
+                            mx: (col.columnDef.meta as { align?: string })?.align === 'center' ? 'auto' : undefined
+                          }}
+                          width="75%"
+                        />
                       </TableCell>
                     ))}
                   </TableRow>
-                ))}
-              </TableHead>
-
-              <TableBody>
-                {isLoading || isFetching ? (
-                  Array.from({ length: pagination.pageSize }).map((_, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">
-                        <Skeleton width={30} />
+                ))
+              ) : table.getRowModel().rows.length > 0 ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        align={(cell.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
-                      <TableCell>
-                        <Skeleton width={120} />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton width={100} />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton width={180} />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton width={110} />
-                      </TableCell>
-                      <TableCell align="center">
-                        <Skeleton width={80} />
-                      </TableCell>
-                      <TableCell align="center">
-                        <Skeleton width={90} />
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : data.length > 0 ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell
-                          key={cell.id}
-                          align={(cell.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={7} sx={{ p: 0 }}>
-                      <EmptyTable msg={debouncedSearch ? `Tidak ada data ditemukan untuk "${debouncedSearch}"` : 'Tidak ada data tersedia di server'} />
-                    </TableCell>
+                    ))}
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                ))
+              ) : (
+                <TableRow sx={{ '&.MuiTableRow-root:hover': { bgcolor: 'transparent' } }}>
+                  <TableCell colSpan={table.getVisibleLeafColumns().length} sx={{ p: 0 }}>
+                    <EmptyTable
+                      msg={
+                        searchInput
+                          ? intl.formatMessage({ id: 'example.no-data-search' }, { search: searchInput })
+                          : intl.formatMessage({ id: 'example.no-data' })
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-          {/* BOTTOM PAGINATION CONTROLS */}
-          <Divider />
-          <Box sx={{ p: 2 }}>
-            <TablePagination
-              {...{
-                setPageSize: table.setPageSize,
-                setPageIndex: table.setPageIndex,
-                state: table.state,
-                getPageCount: table.getPageCount
-              }}
-            />
-          </Box>
-        </Stack>
+        {/* BOTTOM PAGINATION CONTROLS */}
+        <Divider />
+        <Box sx={{ p: 2 }}>
+          <TablePagination
+            setPageSize={table.setPageSize}
+            setPageIndex={table.setPageIndex}
+            state={table.state}
+            getPageCount={table.getPageCount}
+          />
+        </Box>
       </MainCard>
     </Stack>
   );

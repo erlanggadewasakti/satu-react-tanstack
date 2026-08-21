@@ -36,7 +36,10 @@ interface HeaderSortProps<TData extends RowData = any, TValue extends CellData =
 
 // ==============================|| SORT HEADER ||============================== //
 
-export default function HeaderSort<TData extends RowData = any, TValue extends CellData = any>({ column, sort = true }: HeaderSortProps<TData, TValue>) {
+export default function HeaderSort<TData extends RowData = any, TValue extends CellData = any>({
+  column,
+  sort = true
+}: HeaderSortProps<TData, TValue>) {
   return (
     <Box {...(sort && { onClick: column.getToggleSortingHandler(), sx: { cursor: 'pointer' } })}>
       {{

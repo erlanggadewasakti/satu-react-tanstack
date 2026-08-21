@@ -150,7 +150,11 @@ export default function ProfilePage() {
                 <MainCard border={false} content={false}>
                   <CardContent sx={{ px: 2.5, pt: 3 }}>
                     <Stack direction="row" spacing={1.25} sx={{ alignItems: 'flex-start', overflow: 'hidden' }}>
-                      <Avatar alt={user?.name || 'profile user'} src={user?.photo && user.photo !== '-' ? user.photo : avatar1} sx={{ width: 40, height: 40, mt: 0.5 }} />
+                      <Avatar
+                        alt={user?.name || 'profile user'}
+                        src={user?.photo && user.photo !== '-' ? user.photo : avatar1}
+                        sx={{ width: 40, height: 40, mt: 0.5 }}
+                      />
                       <Stack sx={{ overflow: 'hidden' }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
                           {user?.name || 'Guest User'}

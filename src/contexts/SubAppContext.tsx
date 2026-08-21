@@ -27,10 +27,7 @@ export function SubAppProvider({ children }: ChildrenProps) {
   const navigate = useNavigate();
 
   // Sub-app yang diizinkan untuk role user saat ini
-  const availableSubApps = useMemo(
-    () => SUB_APPS.filter((app) => hasRoleAccess(user, app.allowedRoles)),
-    [user]
-  );
+  const availableSubApps = useMemo(() => SUB_APPS.filter((app) => hasRoleAccess(user, app.allowedRoles)), [user]);
 
   const defaultAppId = availableSubApps[0]?.id || SUB_APPS[0].id;
   const { state: activeAppId, setState: setActiveAppId } = useLocalStorage<string>('active-sub-app-id', defaultAppId);
@@ -82,4 +79,3 @@ export function SubAppProvider({ children }: ChildrenProps) {
 
   return <SubAppContext.Provider value={memoizedValue}>{children}</SubAppContext.Provider>;
 }
-

@@ -68,7 +68,11 @@ export default function UserProfileCard() {
           >
             {user?.name || 'Guest User'}
           </Typography>
-          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', justifyContent: 'center', mt: 0.5, flexWrap: 'wrap', gap: 0.5 }}>
+          <Stack
+            direction="row"
+            spacing={0.75}
+            sx={{ alignItems: 'center', justifyContent: 'center', mt: 0.5, flexWrap: 'wrap', gap: 0.5 }}
+          >
             {usernameText && (
               <Typography
                 variant="caption"

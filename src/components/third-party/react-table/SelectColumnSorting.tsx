@@ -10,7 +10,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 
 // third-party
-import { CellData, Column, RowData, SortingState, StockFeatures, TableState } from '@tanstack/react-table';
+import { Column, RowData, SortingState, StockFeatures, TableState } from '@tanstack/react-table';
 
 interface Props<T extends RowData = any> {
   getState?: () => TableState<StockFeatures>;
@@ -22,7 +22,13 @@ interface Props<T extends RowData = any> {
 
 // ==============================|| COLUMN SORTING - SELECT ||============================== //
 
-export default function SelectColumnSorting<T extends RowData = any>({ getState, state, getAllColumns, setSorting, size = 'medium' }: Props<T>) {
+export default function SelectColumnSorting<T extends RowData = any>({
+  getState,
+  state,
+  getAllColumns,
+  setSorting,
+  size = 'medium'
+}: Props<T>) {
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSorting([{ id: event.target.value, desc: false }]);
   };
