@@ -25,7 +25,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 // third-party
 import {
   ColumnDef,
+  createFilteredRowModel,
   createPaginatedRowModel,
+  createSortedRowModel,
   flexRender,
   PaginationState,
   SortingState,
@@ -64,9 +66,11 @@ function formatDate(dateStr?: string): string {
   }
 }
 
-// Features pipeline with client-side paginatedRowModel
+// Features pipeline with client-side sorting, filtering, and paginatedRowModel
 const features = tableFeatures({
   ...stockFeatures,
+  sortedRowModel: createSortedRowModel(),
+  filteredRowModel: createFilteredRowModel(),
   paginatedRowModel: createPaginatedRowModel()
 });
 
@@ -176,7 +180,7 @@ export default function MockDataViewPage() {
 
   const data = useMemo(() => rawMockData || [], [rawMockData]);
 
-  // TanStack Table Instance with Client-Side Slicing Pipeline
+  // TanStack Table Instance with Client-Side Slicing & Sorting Pipeline
   const table = useTable({
     features,
     data,

@@ -23,7 +23,17 @@ import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 // third-party
-import { ColumnDef, flexRender, PaginationState, SortingState, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  createSortedRowModel,
+  flexRender,
+  PaginationState,
+  SortingState,
+  StockFeatures,
+  stockFeatures,
+  tableFeatures,
+  useTable
+} from '@tanstack/react-table';
 
 // project-imports
 import MainCard from 'components/MainCard';
@@ -54,6 +64,12 @@ function formatDate(dateStr?: string): string {
   }
 }
 
+// Features pipeline with sortedRowModel
+const features = tableFeatures({
+  ...stockFeatures,
+  sortedRowModel: createSortedRowModel()
+});
+
 // ==============================|| EXAMPLE - MOCK DATA TABLE (SERVER-SIDE) ||============================== //
 
 export default function MockServerDataViewPage() {
@@ -67,6 +83,8 @@ export default function MockServerDataViewPage() {
   const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: false }]);
   const [searchInput, setSearchInput] = useState('');
 
+  const sortParam = sorting.length > 0 ? sorting[0] : undefined;
+
   // Fetch paginated data from server
   const {
     data: paginatedData,
@@ -78,7 +96,9 @@ export default function MockServerDataViewPage() {
   } = useGetPaginatedMockData({
     page: pagination.pageIndex + 1,
     per_page: pagination.pageSize,
-    search: searchInput
+    search: searchInput,
+    sortBy: sortParam?.id,
+    sortDir: sortParam?.desc ? 'desc' : 'asc'
   });
 
   // Column definitions
@@ -173,9 +193,9 @@ export default function MockServerDataViewPage() {
 
   const data = useMemo(() => paginatedData?.data || [], [paginatedData?.data]);
 
-  // TanStack Table Instance with Server-Side Settings
+  // TanStack Table Instance with Server-Side Settings & Sorting Pipeline
   const table = useTable({
-    features: stockFeatures,
+    features,
     data,
     columns,
     manualPagination: true,

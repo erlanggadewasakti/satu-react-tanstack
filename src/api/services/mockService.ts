@@ -17,7 +17,9 @@ export const mockService = {
       params: {
         page: params.page || 1,
         per_page: params.per_page || 10,
-        ...(params.search ? { search: params.search } : {})
+        ...(params.search ? { search: params.search } : {}),
+        ...(params.sortBy ? { sort_by: params.sortBy, sortBy: params.sortBy } : {}),
+        ...(params.sortDir ? { sort_dir: params.sortDir, sortDir: params.sortDir } : {})
       }
     });
     return response.data?.data || response.data;

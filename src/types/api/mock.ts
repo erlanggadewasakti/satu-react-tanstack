@@ -49,4 +49,6 @@ export interface MockPaginationParams {
   page?: number;
   per_page?: number;
   search?: string;
+  sortBy?: string;
+  sortDir?: 'asc' | 'desc';
 }
