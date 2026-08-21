@@ -116,6 +116,32 @@ export const menuItemsBySubApp: Record<string, { items: NavItemType[] }> = {
 
 ---
 
+### Langkah 6: Tambahkan Terjemahan di KEDUA File Kamus (`id.json` & `en.json`)
+
+Setiap teks, judul sub-app, deskripsi, dan judul menu **WAJIB** didaftarkan di kedua file terjemahan agar sistem tidak melempar error:
+
+1. **`src/utils/locales/id.json`**:
+```json
+{
+  "subapp.keuangan.name": "Keuangan & Beasiswa",
+  "subapp.keuangan.desc": "Manajemen Pembayaran UKT dan Beasiswa Mahasiswa",
+  "keuangan.home-title": "Beranda Keuangan & Beasiswa",
+  "keuangan.home-desc": "Selamat datang di Sub-Aplikasi Keuangan & Beasiswa."
+}
+```
+
+2. **`src/utils/locales/en.json`**:
+```json
+{
+  "subapp.keuangan.name": "Finance & Scholarships",
+  "subapp.keuangan.desc": "Tuition Fee Payments and Student Scholarship Management",
+  "keuangan.home-title": "Finance & Scholarships Home",
+  "keuangan.home-desc": "Welcome to the Finance & Scholarships Sub-Application."
+}
+```
+
+---
+
 ## 🔐 2. Mengatur Proteksi Role per Menu Item
 
 Selain proteksi di tingkat sub-aplikasi, Anda juga dapat memproteksi individual menu item di dalam sub-aplikasi dengan menambahkan properti `allowedRoles`:
@@ -144,9 +170,15 @@ Fungsi `filterMenuItemsByRole` di `src/utils/auth.ts` akan menyaring menu item s
 
 ## 🛠️ 3. Perintah Verifikasi & Build
 
-Setiap kali melakukan penambahan rute atau komponen baru, jalankan perintah kompilasi untuk memastikan tidak ada kesalahan tipe TypeScript:
+Setiap kali melakukan penambahan rute, komponen, atau teks baru, jalankan perintah verifikasi berikut:
 
 ```bash
-# Uji coba build produksi
-npm run build
+# 1. Periksa keselarasan kamus terjemahan (ID & EN)
+bun run check:i18n
+
+# 2. Periksa tipe TypeScript
+bun x tsc --noEmit
+
+# 3. Uji coba build produksi
+bun run build
 ```
