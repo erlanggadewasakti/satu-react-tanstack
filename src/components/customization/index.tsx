@@ -17,7 +17,6 @@ import ThemeFont from './ThemeFont';
 import ThemeLayout from './ThemeLayout';
 import ThemeMenuDirection from './ThemeMenuDirection';
 import ThemeModeComponent from './ThemeMode';
-import ThemeWidth from './ThemeWidth';
 
 import IconButton from 'components/@extended/IconButton';
 import MainCard from 'components/MainCard';
@@ -41,8 +40,6 @@ export default function Customization() {
   const menuCaptionView = useMemo(() => <MenuCaption />, []);
 
   const themeColor = useMemo(() => <ColorScheme />, []);
-
-  const themeWidth = useMemo(() => <ThemeWidth />, []);
 
   const themeFont = useMemo(() => <ThemeFont />, []);
 
@@ -204,21 +201,6 @@ export default function Customization() {
                       <Divider />
                     </Grid>
 
-                    {/* theme-container */}
-                    <Grid size={12}>
-                      <Stack>
-                        <Typography variant="subtitle1" sx={{ color: 'text.primary' }}>
-                          Layout Width
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                          Choose fluid or container layout
-                        </Typography>
-                      </Stack>
-                    </Grid>
-                    <Grid size={12}>{themeWidth}</Grid>
-                    <Grid size={12}>
-                      <Divider />
-                    </Grid>
 
                     {/* theme-font-family */}
                     <Grid size={12}>

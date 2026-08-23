@@ -53,7 +53,7 @@ const config: ConfigStates = {
   menuOrientation: MenuOrientation.VERTICAL,
   menuCaption: true,
   container: false,
-  presetColor: 'default',
+  presetColor: 'satu',
   themeDirection: ThemeDirection.LTR,
   themeContrast: false
 };
