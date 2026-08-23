@@ -1,7 +1,10 @@
 import { useMemo } from 'react';
 
 // third-party
-import useSWR, { mutate } from 'swr';
+import { useQuery } from '@tanstack/react-query';
+
+// project-imports
+import { queryClient } from 'api/client';
 
 // types
 import { SnackbarProps } from 'types/snackbar';
@@ -11,6 +14,8 @@ import { SnackbarProps } from 'types/snackbar';
 const endpoints = {
   key: 'snackbar'
 };
+
+export const snackbarQueryKey = [endpoints.key];
 
 const initialState: SnackbarProps = {
   action: false,
@@ -34,13 +39,18 @@ const initialState: SnackbarProps = {
 };
 
 export function useGetSnackbar() {
-  const { data } = useSWR(endpoints.key, () => initialState, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false
+  const { data } = useQuery({
+    queryKey: snackbarQueryKey,
+    queryFn: () => initialState,
+    initialData: initialState,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false
   });
 
-  const memoizedValue = useMemo(() => ({ snackbar: data! }), [data]);
+  const memoizedValue = useMemo(() => ({ snackbar: (data || initialState) as SnackbarProps }), [data]);
 
   return memoizedValue;
 }
@@ -50,67 +60,52 @@ export function openSnackbar(snackbar: SnackbarProps) {
 
   const { action, open, message, anchorOrigin, variant, alert, transition, close, actionButton, severity } = snackbar;
 
-  mutate(
-    endpoints.key,
-    (currentSnackbar: any) => {
-      return {
-        ...currentSnackbar,
-        action: action || initialState.action,
-        open: open || initialState.open,
-        message: message || initialState.message,
-        anchorOrigin: anchorOrigin || initialState.anchorOrigin,
-        variant: variant || initialState.variant,
-        severity: severity || initialState.severity,
-        alert: { variant: alert?.variant || initialState.alert.variant },
-        transition: transition || initialState.transition,
-        close: close || initialState.close,
-        actionButton: actionButton || initialState.actionButton
-      };
-    },
-    false
-  );
+  queryClient.setQueryData<SnackbarProps>(snackbarQueryKey, (currentSnackbar) => {
+    const prev = currentSnackbar || initialState;
+    return {
+      ...prev,
+      action: action !== undefined ? action : initialState.action,
+      open: open !== undefined ? open : initialState.open,
+      message: message || initialState.message,
+      anchorOrigin: anchorOrigin || initialState.anchorOrigin,
+      variant: variant || initialState.variant,
+      severity: severity || initialState.severity,
+      alert: { variant: alert?.variant || initialState.alert.variant },
+      transition: transition || initialState.transition,
+      close: close !== undefined ? close : initialState.close,
+      actionButton: actionButton !== undefined ? actionButton : initialState.actionButton
+    };
+  });
 }
 
 export function closeSnackbar() {
   // to update local state based on key
-  mutate(
-    endpoints.key,
-    (currentSnackbar: any) => {
-      return { ...currentSnackbar, open: false };
-    },
-    false
-  );
+  queryClient.setQueryData<SnackbarProps>(snackbarQueryKey, (currentSnackbar) => {
+    const prev = currentSnackbar || initialState;
+    return { ...prev, open: false };
+  });
 }
 
 export function handlerIncrease(maxStack: number) {
   // to update local state based on key
-  mutate(
-    endpoints.key,
-    (currentSnackbar: any) => {
-      return { ...currentSnackbar, maxStack };
-    },
-    false
-  );
+  queryClient.setQueryData<SnackbarProps>(snackbarQueryKey, (currentSnackbar) => {
+    const prev = currentSnackbar || initialState;
+    return { ...prev, maxStack };
+  });
 }
 
 export function handlerDense(dense: boolean) {
   // to update local state based on key
-  mutate(
-    endpoints.key,
-    (currentSnackbar: any) => {
-      return { ...currentSnackbar, dense };
-    },
-    false
-  );
+  queryClient.setQueryData<SnackbarProps>(snackbarQueryKey, (currentSnackbar) => {
+    const prev = currentSnackbar || initialState;
+    return { ...prev, dense };
+  });
 }
 
 export function handlerIconVariants(iconVariant: string) {
   // to update local state based on key
-  mutate(
-    endpoints.key,
-    (currentSnackbar: any) => {
-      return { ...currentSnackbar, iconVariant, hideIconVariant: iconVariant === 'hide' };
-    },
-    false
-  );
+  queryClient.setQueryData<SnackbarProps>(snackbarQueryKey, (currentSnackbar) => {
+    const prev = currentSnackbar || initialState;
+    return { ...prev, iconVariant, hideIconVariant: iconVariant === 'hide' };
+  });
 }

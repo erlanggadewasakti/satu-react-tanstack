@@ -15,13 +15,13 @@ import Typography from '@mui/material/Typography';
 // third-party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { preload } from 'swr';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports
 import IconButton from 'components/@extended/IconButton';
 import AnimateButton from 'components/@extended/AnimateButton';
 
+import { queryClient } from 'api/client';
 import useAuth from 'hooks/useAuth';
 import { fetcher } from 'utils/axios';
 
@@ -67,7 +67,10 @@ export default function AuthLogin() {
             await login(trimmedUsername, values.password);
             setStatus({ success: true });
             setSubmitting(false);
-            preload('api/menu/dashboard', fetcher); // load menu on login success
+            queryClient.prefetchQuery({
+              queryKey: ['api/menu/dashboard'],
+              queryFn: () => fetcher('api/menu/dashboard')
+            }); // load menu on login success
           } catch (err: any) {
             console.error(err);
             setStatus({ success: false });

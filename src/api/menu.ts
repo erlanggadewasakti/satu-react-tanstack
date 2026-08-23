@@ -1,7 +1,10 @@
 import { useMemo } from 'react';
 
 // third-party
-import useSWR, { mutate } from 'swr';
+import { useQuery } from '@tanstack/react-query';
+
+// project-imports
+import { queryClient } from 'api/client';
 
 // types
 import { MenuProps } from 'types/menu';
@@ -18,16 +21,23 @@ const endpoints = {
   master: 'master'
 };
 
+export const menuQueryKey = [endpoints.key, endpoints.master];
+
 export function useGetMenuMaster() {
-  const { data, isLoading } = useSWR(endpoints.key + endpoints.master, () => initialState, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false
+  const { data, isLoading } = useQuery({
+    queryKey: menuQueryKey,
+    queryFn: () => initialState,
+    initialData: initialState,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false
   });
 
   const memoizedValue = useMemo(
     () => ({
-      menuMaster: data as MenuProps,
+      menuMaster: (data || initialState) as MenuProps,
       menuMasterLoading: isLoading
     }),
     [data, isLoading]
@@ -39,23 +49,21 @@ export function useGetMenuMaster() {
 export function handlerComponentDrawer(isComponentDrawerOpened: boolean) {
   // to update local state based on key
 
-  mutate(
-    endpoints.key + endpoints.master,
-    (currentMenuMaster: any) => {
-      return { ...currentMenuMaster, isComponentDrawerOpened };
-    },
-    false
-  );
+  queryClient.setQueryData<MenuProps>(menuQueryKey, (currentMenuMaster) => {
+    return {
+      ...(currentMenuMaster || initialState),
+      isComponentDrawerOpened
+    };
+  });
 }
 
 export function handlerDrawerOpen(isDashboardDrawerOpened: boolean) {
   // to update local state based on key
 
-  mutate(
-    endpoints.key + endpoints.master,
-    (currentMenuMaster: any) => {
-      return { ...currentMenuMaster, isDashboardDrawerOpened };
-    },
-    false
-  );
+  queryClient.setQueryData<MenuProps>(menuQueryKey, (currentMenuMaster) => {
+    return {
+      ...(currentMenuMaster || initialState),
+      isDashboardDrawerOpened
+    };
+  });
 }
