@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 
 // material-ui
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -66,25 +67,27 @@ export default function ThemeWidth() {
             }
           }}
         >
-          <FormControlLabel
-            control={<Radio value="container" sx={{ display: 'none' }} />}
-            disabled={downXL}
-            sx={(theme) => ({
-              width: '100%',
-              m: 0,
-              display: 'flex',
-              ...theme.applyStyles('dark', { '& .MuiFormControlLabel-label.Mui-disabled': { color: 'text.secondary' } })
-            })}
-            slotProps={{ typography: { sx: { flex: 1 } } }}
-            label={
-              <Stack sx={{ gap: 0.5, alignItems: 'center' }}>
-                <MainCard content={false} sx={{ borderWidth: 2, p: 1, ...(container && !downXL && { borderColor: 'primary.main' }) }}>
-                  <CardMedia component="img" src={containerLayout} alt="defaultLayout" sx={{ ...(downXL && { filter: 'blur(4px)' }) }} />
-                </MainCard>
-                <Typography variant="caption">Container</Typography>
-              </Stack>
-            }
-          />
+          <Box component="span" sx={{ width: '100%', display: 'flex' }}>
+            <FormControlLabel
+              control={<Radio value="container" sx={{ display: 'none' }} />}
+              disabled={downXL}
+              sx={(theme) => ({
+                width: '100%',
+                m: 0,
+                display: 'flex',
+                ...theme.applyStyles('dark', { '& .MuiFormControlLabel-label.Mui-disabled': { color: 'text.secondary' } })
+              })}
+              slotProps={{ typography: { sx: { flex: 1 } } }}
+              label={
+                <Stack sx={{ gap: 0.5, alignItems: 'center' }}>
+                  <MainCard content={false} sx={{ borderWidth: 2, p: 1, ...(container && !downXL && { borderColor: 'primary.main' }) }}>
+                    <CardMedia component="img" src={containerLayout} alt="defaultLayout" sx={{ ...(downXL && { filter: 'blur(4px)' }) }} />
+                  </MainCard>
+                  <Typography variant="caption">Container</Typography>
+                </Stack>
+              }
+            />
+          </Box>
         </Tooltip>
       </Stack>
     </RadioGroup>

@@ -274,14 +274,16 @@ export default function MockServerDataViewPage() {
         content={false}
         secondary={
           <Tooltip title={<FormattedMessage id="example.refresh-tooltip" />}>
-            <IconButton
-              color="primary"
-              onClick={() => refetch()}
-              disabled={isFetching}
-              sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}
-            >
-              <Refresh size={18} className={isFetching ? 'spin' : ''} />
-            </IconButton>
+            <span>
+              <IconButton
+                color="primary"
+                onClick={() => refetch()}
+                disabled={isFetching}
+                sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}
+              >
+                <Refresh size={18} className={isFetching ? 'spin' : ''} />
+              </IconButton>
+            </span>
           </Tooltip>
         }
       >
