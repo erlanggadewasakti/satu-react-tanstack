@@ -113,6 +113,7 @@
   "login.invalid-credentials-hint": "Username atau password salah, atau server sedang mengalami kendala.",
   "login.error.username-not-found": "Username tidak ditemukan",
   "login.error.incorrect-password": "Password salah",
+  "login.success": "Berhasil masuk ke sistem",
   "login.version": "Versi {version}",
   "header.search": "Cari",
 

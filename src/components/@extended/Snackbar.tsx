@@ -9,8 +9,8 @@ import Slide, { SlideProps } from '@mui/material/Slide';
 import MuiSnackbar from '@mui/material/Snackbar';
 
 // project-imports
-import IconButton from './IconButton';
 import { closeSnackbar, useGetSnackbar } from 'api/snackbar';
+import IconButton from './IconButton';
 
 // types
 import { KeyedObject } from 'types/root';
@@ -68,10 +68,10 @@ export default function Snackbar() {
         <MuiSnackbar
           anchorOrigin={snackbar.anchorOrigin}
           open={snackbar.open}
-          autoHideDuration={1500}
+          autoHideDuration={snackbar.autoHideDuration ?? 4000}
           onClose={handleClose}
           message={snackbar.message}
-          slots={{ transition: animation[snackbar.transition] }}
+          slots={{ transition: animation[snackbar.transition || 'Fade'] }}
           slotProps={{ content: { sx: { bgcolor: 'secondary.main', typography: 'h6' } } }}
           action={
             <>
@@ -109,14 +109,14 @@ export default function Snackbar() {
       {/* alert snackbar */}
       {snackbar?.variant === 'alert' && (
         <MuiSnackbar
-          slots={{ transition: animation[snackbar.transition] }}
+          slots={{ transition: animation[snackbar.transition || 'Fade'] }}
           anchorOrigin={snackbar.anchorOrigin}
           open={snackbar.open}
-          autoHideDuration={1500}
+          autoHideDuration={snackbar.autoHideDuration ?? 4000}
           onClose={handleClose}
         >
           <Alert
-            variant={snackbar.alert.variant}
+            variant={snackbar.alert?.variant || 'filled'}
             severity={snackbar.severity}
             action={
               <>
@@ -143,7 +143,7 @@ export default function Snackbar() {
                     size="small"
                     aria-label="close"
                     variant="contained"
-                    color={snackbar.alert.color}
+                    color={snackbar.alert?.color || (snackbar.severity as any)}
                     onClick={handleClose}
                   >
                     <Add style={{ transform: 'rotate(45deg)' }} />
@@ -151,7 +151,7 @@ export default function Snackbar() {
                 )}
               </>
             }
-            sx={{ ...snackbar.alert.sx, ...(snackbar.alert.variant === 'outlined' && { bgcolor: 'background.default' }) }}
+            sx={{ ...snackbar.alert?.sx, ...(snackbar.alert?.variant === 'outlined' && { bgcolor: 'background.default' }) }}
           >
             {snackbar.message}
           </Alert>

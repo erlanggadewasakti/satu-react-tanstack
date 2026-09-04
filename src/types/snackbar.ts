@@ -5,17 +5,18 @@ import { SnackbarOrigin } from '@mui/material/Snackbar';
 // ==============================|| TYPES - SNACKBAR  ||============================== //
 
 export interface SnackbarProps {
-  action: boolean;
-  open: boolean;
-  message: string;
-  anchorOrigin: SnackbarOrigin;
-  variant: string;
-  alert: AlertProps;
-  transition: string;
-  close: boolean;
-  actionButton: boolean;
-  dense: boolean;
-  maxStack: number;
-  iconVariant: string;
-  severity: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+  action?: boolean;
+  open?: boolean;
+  message?: string;
+  anchorOrigin?: SnackbarOrigin;
+  variant?: string;
+  alert?: AlertProps;
+  transition?: string;
+  close?: boolean;
+  actionButton?: boolean;
+  dense?: boolean;
+  maxStack?: number;
+  iconVariant?: string;
+  severity?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+  autoHideDuration?: number | null;
 }

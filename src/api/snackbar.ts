@@ -35,7 +35,8 @@ const initialState: SnackbarProps = {
   actionButton: false,
   maxStack: 3,
   dense: false,
-  iconVariant: 'usedefault'
+  iconVariant: 'usedefault',
+  autoHideDuration: 4000
 };
 
 export function useGetSnackbar() {
@@ -58,7 +59,7 @@ export function useGetSnackbar() {
 export function openSnackbar(snackbar: SnackbarProps) {
   // to update local state based on key
 
-  const { action, open, message, anchorOrigin, variant, alert, transition, close, actionButton, severity } = snackbar;
+  const { action, open, message, anchorOrigin, variant, alert, transition, close, actionButton, severity, autoHideDuration } = snackbar;
 
   queryClient.setQueryData<SnackbarProps>(snackbarQueryKey, (currentSnackbar) => {
     const prev = currentSnackbar || initialState;
@@ -70,10 +71,11 @@ export function openSnackbar(snackbar: SnackbarProps) {
       anchorOrigin: anchorOrigin || initialState.anchorOrigin,
       variant: variant || initialState.variant,
       severity: severity || initialState.severity,
-      alert: { variant: alert?.variant || initialState.alert.variant },
+      alert: { variant: alert?.variant || initialState.alert?.variant || 'filled' },
       transition: transition || initialState.transition,
       close: close !== undefined ? close : initialState.close,
-      actionButton: actionButton !== undefined ? actionButton : initialState.actionButton
+      actionButton: actionButton !== undefined ? actionButton : initialState.actionButton,
+      autoHideDuration: autoHideDuration !== undefined ? autoHideDuration : initialState.autoHideDuration
     };
   });
 }

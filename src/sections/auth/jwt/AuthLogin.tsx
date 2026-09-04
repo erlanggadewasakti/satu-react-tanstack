@@ -22,6 +22,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import IconButton from 'components/@extended/IconButton';
 import AnimateButton from 'components/@extended/AnimateButton';
 import useAuth from 'hooks/useAuth';
+import { openSnackbar } from 'api/snackbar';
 
 // assets
 import { Eye, EyeSlash } from 'iconsax-reactjs';
@@ -67,6 +68,16 @@ export default function AuthLogin() {
             await login(trimmedUsername, values.password);
             setStatus({ success: true });
             setSubmitting(false);
+            openSnackbar({
+              open: true,
+              message: intl.formatMessage({ id: 'login.success' }),
+              variant: 'alert',
+              alert: {
+                variant: 'filled'
+              },
+              severity: 'success',
+              close: true
+            });
           } catch (err: any) {
             console.error(err);
             setStatus({ success: false });
@@ -105,6 +116,16 @@ export default function AuthLogin() {
 
             setErrors({ submit: submitError });
             setSubmitting(false);
+            openSnackbar({
+              open: true,
+              message: submitError,
+              variant: 'alert',
+              alert: {
+                variant: 'filled'
+              },
+              severity: 'error',
+              close: true
+            });
           }
         }}
       >

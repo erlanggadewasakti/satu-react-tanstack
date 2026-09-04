@@ -113,6 +113,7 @@
   "login.invalid-credentials-hint": "Invalid username or password, or server is currently unavailable.",
   "login.error.username-not-found": "Username not found",
   "login.error.incorrect-password": "Incorrect password",
+  "login.success": "Successfully logged in",
   "login.version": "Version {version}",
   "header.search": "Search",
 
