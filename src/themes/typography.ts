@@ -54,7 +54,7 @@ export default function Typography(fontFamily: FontFamily): TypographyVariantsOp
       lineHeight: 1.57
     },
     body2: {
-      fontSize: '0.75rem',
+      fontSize: '0.8rem',
       lineHeight: 1.66
     },
     subtitle1: {
