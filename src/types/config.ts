@@ -90,4 +90,6 @@ export type ConfigContextValue = {
   setState: Dispatch<SetStateAction<ConfigStates>>;
   setField: (name: keyof ConfigStates, updateValue: ConfigStates[keyof ConfigStates]) => void;
   resetState: () => void;
+  drawerOpen: boolean;
+  handlerDrawerOpen: (open: boolean) => void;
 };

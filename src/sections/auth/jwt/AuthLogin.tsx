@@ -20,10 +20,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 // project-imports
 import IconButton from 'components/@extended/IconButton';
 import AnimateButton from 'components/@extended/AnimateButton';
-
-import { queryClient } from 'api/client';
 import useAuth from 'hooks/useAuth';
-import { fetcher } from 'utils/axios';
 
 // assets
 import { Eye, EyeSlash } from 'iconsax-reactjs';
@@ -67,10 +64,6 @@ export default function AuthLogin() {
             await login(trimmedUsername, values.password);
             setStatus({ success: true });
             setSubmitting(false);
-            queryClient.prefetchQuery({
-              queryKey: ['api/menu/dashboard'],
-              queryFn: () => fetcher('api/menu/dashboard')
-            }); // load menu on login success
           } catch (err: any) {
             console.error(err);
             setStatus({ success: false });

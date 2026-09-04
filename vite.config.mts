@@ -80,6 +80,23 @@ export default defineConfig(({ mode }) => {
       alias: []
     },
     base: API_URL,
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/@mui') || id.includes('node_modules/@emotion')) {
+              return 'vendor-mui';
+            }
+            if (id.includes('node_modules/iconsax-reactjs')) {
+              return 'vendor-icons';
+            }
+            if (id.includes('node_modules/@tanstack')) {
+              return 'vendor-tanstack';
+            }
+          }
+        }
+      }
+    },
     plugins: [
       tanstackRouter({
         target: 'react',

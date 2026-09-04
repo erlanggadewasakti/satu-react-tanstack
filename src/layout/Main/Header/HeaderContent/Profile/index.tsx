@@ -1,80 +1,36 @@
-import { useRef, useState, ReactNode, SyntheticEvent } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { FormattedMessage } from 'react-intl';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
 import CardContent from '@mui/material/CardContent';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 // project-imports
-import ProfileTab from './ProfileTab';
-import SettingTab from './SettingTab';
 import Avatar from 'components/@extended/Avatar';
 import Transitions from 'components/@extended/Transitions';
 import MainCard from 'components/MainCard';
-
 import useAuth from 'hooks/useAuth';
 
 // assets
-import avatar1 from 'assets/images/users/avatar-6.png';
-import { Setting2, Profile } from 'iconsax-reactjs';
-
-// types
-interface TabPanelProps {
-  children?: ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
-
-// tab panel wrapper
-function TabPanel({ children, value, index, ...other }: TabPanelProps) {
-  return (
-    <Box
-      role="tabpanel"
-      hidden={value !== index}
-      id={`profile-tabpanel-${index}`}
-      aria-labelledby={`profile-tab-${index}`}
-      {...other}
-      sx={{ p: 1 }}
-    >
-      {value === index && children}
-    </Box>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `profile-tab-${index}`,
-    'aria-controls': `profile-tabpanel-${index}`
-  };
-}
-
-const tabStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  textTransform: 'capitalize',
-  gap: 1.25
-};
+import defaultAvatar from 'assets/images/users/avatar-6.png';
+import { Logout } from 'iconsax-reactjs';
 
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
-export default function ProfilePage() {
-  const theme = useTheme();
+export default function Profile() {
   const navigate = useNavigate();
-
   const { logout, user } = useAuth();
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -97,11 +53,7 @@ export default function ProfilePage() {
     setOpen(false);
   };
 
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const userRoles = Array.isArray(user?.role) ? user.role : user?.role ? [user.role] : [];
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
@@ -121,7 +73,7 @@ export default function ProfilePage() {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <Avatar alt={user?.name || 'profile user'} src={user?.photo && user.photo !== '-' ? user.photo : avatar1} />
+        <Avatar alt={user?.name || 'profile user'} src={user?.photo && user.photo !== '-' ? user.photo : defaultAvatar} />
       </ButtonBase>
       <Popper
         placement="bottom-end"
@@ -140,54 +92,81 @@ export default function ProfilePage() {
                 width: 290,
                 minWidth: 240,
                 maxWidth: 290,
-                [theme.breakpoints.down('md')]: { maxWidth: 250 },
+                [theme.breakpoints.down('md')]: { maxWidth: 260 },
                 borderRadius: 1.5
               })}
             >
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard border={false} content={false}>
-                  <CardContent sx={{ px: 2.5, pt: 3 }}>
-                    <Stack direction="row" spacing={1.25} sx={{ alignItems: 'flex-start', overflow: 'hidden' }}>
-                      <Avatar
-                        alt={user?.name || 'profile user'}
-                        src={user?.photo && user.photo !== '-' ? user.photo : avatar1}
-                        sx={{ width: 40, height: 40, mt: 0.5 }}
-                      />
-                      <Stack sx={{ overflow: 'hidden' }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
-                          {user?.name || 'Guest User'}
-                        </Typography>
-                        <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mt: 0.25, flexWrap: 'wrap' }}>
+                  <CardContent sx={{ px: 2.5, pt: 2.5, pb: 2 }}>
+                    <Stack spacing={1.5}>
+                      <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+                        <Avatar
+                          alt={user?.name || 'profile user'}
+                          src={user?.photo && user.photo !== '-' ? user.photo : defaultAvatar}
+                          sx={{ width: 44, height: 44 }}
+                        />
+                        <Stack sx={{ overflow: 'hidden' }}>
+                          <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.3 }} noWrap>
+                            {user?.name || <FormattedMessage id="profile.guest" />}
+                          </Typography>
                           {user?.username && (
-                            <Typography variant="caption" color="secondary" sx={{ fontSize: '0.75rem' }}>
+                            <Typography variant="caption" color="secondary" sx={{ fontSize: '0.75rem' }} noWrap>
                               {`@${user.username}`}
                             </Typography>
                           )}
-                          {user?.lecturerCode && (
-                            <Chip
-                              label={user.lecturerCode}
-                              color="success"
-                              size="small"
-                              sx={{ height: 20, fontSize: '0.675rem', fontWeight: 600, bgcolor: 'success.main', color: '#fff' }}
-                            />
-                          )}
                         </Stack>
+                      </Stack>
+
+                      {user?.email && (
+                        <Typography variant="caption" color="text.secondary" noWrap>
+                          {user.email}
+                        </Typography>
+                      )}
+
+                      <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
+                        {userRoles.map((role, idx) => (
+                          <Chip
+                            key={idx}
+                            label={String(role)}
+                            color="primary"
+                            variant="outlined"
+                            size="small"
+                            sx={{ height: 22, fontSize: '0.7rem', fontWeight: 600 }}
+                          />
+                        ))}
+                        {user?.lecturerCode && (
+                          <Chip
+                            label={user.lecturerCode}
+                            color="success"
+                            size="small"
+                            sx={{ height: 22, fontSize: '0.7rem', fontWeight: 600 }}
+                          />
+                        )}
                       </Stack>
                     </Stack>
                   </CardContent>
 
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="profile tabs">
-                      <Tab sx={tabStyle} icon={<Profile size={18} style={{ marginBottom: 0 }} />} label="Profile" {...a11yProps(0)} />
-                      <Tab sx={tabStyle} icon={<Setting2 size={18} style={{ marginBottom: 0 }} />} label="Setting" {...a11yProps(1)} />
-                    </Tabs>
+                  <Divider />
+
+                  <Box sx={{ p: 1.5 }}>
+                    <Button
+                      fullWidth
+                      variant="light"
+                      color="error"
+                      onClick={handleLogout}
+                      startIcon={<Logout size={18} />}
+                      sx={{
+                        justifyContent: 'flex-start',
+                        px: 2,
+                        py: 1,
+                        borderRadius: 1,
+                        fontWeight: 600
+                      }}
+                    >
+                      <FormattedMessage id="profile.logout" />
+                    </Button>
                   </Box>
-                  <TabPanel value={value} index={0} dir={theme.direction}>
-                    <ProfileTab handleLogout={handleLogout} />
-                  </TabPanel>
-                  <TabPanel value={value} index={1} dir={theme.direction}>
-                    <SettingTab />
-                  </TabPanel>
                 </MainCard>
               </ClickAwayListener>
             </Paper>

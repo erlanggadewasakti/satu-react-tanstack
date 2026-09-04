@@ -13,10 +13,9 @@ import Header from './Header';
 import Footer from './Footer';
 import HorizontalBar from './Drawer/HorizontalBar';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
-import Loader from 'components/Loader';
 import ScrollTop from 'components/ScrollTop';
 
-import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
+import { handlerDrawerOpen } from 'api/menu';
 import { DRAWER_WIDTH, MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import AuthGuard from 'utils/route-guard/AuthGuard';
@@ -25,7 +24,6 @@ import SubAppGuard from 'utils/route-guard/SubAppGuard';
 // ==============================|| MAIN LAYOUT ||============================== //
 
 export default function MainLayout() {
-  const { menuMasterLoading } = useGetMenuMaster();
   const downXL = useMediaQuery((theme) => theme.breakpoints.down('xl'));
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
@@ -42,8 +40,6 @@ export default function MainLayout() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downXL]);
-
-  if (menuMasterLoading) return <Loader />;
 
   return (
     <AuthGuard>

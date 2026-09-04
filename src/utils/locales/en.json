@@ -158,5 +158,8 @@
   "search.no-results": "No results found for \"{query}\"",
   "search.no-results-hint": "Try using another keyword such as feature name, course, or application.",
   "search.navigate": "Navigate",
-  "search.open": "Open"
+  "search.open": "Open",
+  "profile.logout": "Logout",
+  "profile.user-role": "Role",
+  "profile.guest": "Guest User"
 }

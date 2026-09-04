@@ -1,3 +1,4 @@
+export { default as DataTable } from './DataTable';
 export { default as DebouncedInput } from './DebouncedInput';
 export { default as EmptyTable } from './EmptyTable';
 export { default as HeaderSort } from './HeaderSort';

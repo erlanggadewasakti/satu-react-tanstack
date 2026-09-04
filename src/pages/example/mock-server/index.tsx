@@ -1,23 +1,4 @@
-import {
-  Alert,
-  Box,
-  Button,
-  Card,
-  Chip,
-  Divider,
-  Grid,
-  IconButton,
-  Skeleton,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tooltip,
-  Typography
-} from '@mui/material';
+import { Box, Card, Chip, Grid, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
 import { Briefcase, Calendar, Call, DirectSend, DocumentText, Layer, Location, Refresh } from 'iconsax-reactjs';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -26,7 +7,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import {
   ColumnDef,
   createSortedRowModel,
-  flexRender,
   PaginationState,
   SortingState,
   StockFeatures,
@@ -37,14 +17,7 @@ import {
 
 // project-imports
 import MainCard from 'components/MainCard';
-import {
-  DebouncedInput,
-  EmptyTable,
-  HeaderSort,
-  SelectColumnSorting,
-  SelectColumnVisibility,
-  TablePagination
-} from 'components/third-party/react-table';
+import { DataTable } from 'components/third-party/react-table';
 import { useGetPaginatedMockData } from 'hooks/queries/useMockData';
 import { MockItem } from 'types/api/mock';
 
@@ -287,152 +260,34 @@ export default function MockServerDataViewPage() {
           </Tooltip>
         }
       >
-        {/* TOP SEARCH & ACTIONS TOOLBAR */}
-        <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2, alignItems: 'center', justifyContent: 'space-between', p: 2.5 }}>
-          <DebouncedInput
-            value={searchInput}
-            onFilterChange={(value) => {
-              setSearchInput(String(value).trim());
-              setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-            }}
-            placeholder={intl.formatMessage({ id: 'example.mock-search-server-placeholder' })}
-            sx={{ width: { xs: '100%', sm: 340 } }}
-          />
-
-          <Stack
-            direction="row"
-            sx={{
-              gap: 1.5,
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              width: { xs: '100%', sm: 'auto' },
-              justifyContent: { xs: 'space-between', sm: 'flex-end' }
-            }}
-          >
-            <SelectColumnSorting state={table.state} getAllColumns={table.getAllColumns} setSorting={setSorting} size="small" />
-            <SelectColumnVisibility
-              getVisibleLeafColumns={table.getVisibleLeafColumns}
-              getIsAllColumnsVisible={table.getIsAllColumnsVisible}
-              getToggleAllColumnsVisibilityHandler={table.getToggleAllColumnsVisibilityHandler}
-              getAllColumns={table.getAllColumns}
-              size="small"
-            />
-          </Stack>
-        </Stack>
-
-        {/* ERROR ALERT */}
-        {isError && (
-          <Box sx={{ px: 2.5, pb: 2 }}>
-            <Alert
-              severity="error"
-              action={
-                <Button color="inherit" size="small" onClick={() => refetch()}>
-                  <FormattedMessage id="example.retry-btn" />
-                </Button>
-              }
-            >
+        <DataTable
+          table={table}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          errorMessage={
+            (
               <FormattedMessage
                 id="example.error-loading-server"
                 values={{
                   error: error instanceof Error ? error.message : intl.formatMessage({ id: 'example.system-error' })
                 }}
               />
-            </Alert>
-          </Box>
-        )}
-
-        {/* FULL-WIDTH TABLE CONTAINER */}
-        <TableContainer>
-          <Table sx={{ minWidth: 700 }} aria-label="mock server table">
-            <TableHead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableCell
-                      key={header.id}
-                      align={(header.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}
-                      sortDirection={header.column.getIsSorted()}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <Stack
-                          direction="row"
-                          spacing={1}
-                          sx={{
-                            alignItems: 'center',
-                            justifyContent:
-                              (header.column.columnDef.meta as { align?: string })?.align === 'center'
-                                ? 'center'
-                                : (header.column.columnDef.meta as { align?: string })?.align === 'right'
-                                  ? 'flex-end'
-                                  : 'flex-start'
-                          }}
-                        >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {header.column.getCanSort() && <HeaderSort column={header.column} />}
-                        </Stack>
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHead>
-
-            <TableBody>
-              {isLoading || isFetching ? (
-                Array.from({ length: table.state.pagination.pageSize }).map((_, index) => (
-                  <TableRow key={index}>
-                    {table.getVisibleLeafColumns().map((col) => (
-                      <TableCell key={col.id} align={(col.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}>
-                        <Skeleton
-                          sx={{
-                            mx: (col.columnDef.meta as { align?: string })?.align === 'center' ? 'auto' : undefined
-                          }}
-                          width="75%"
-                        />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : table.getRowModel().rows.length > 0 ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        align={(cell.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow sx={{ '&.MuiTableRow-root:hover': { bgcolor: 'transparent' } }}>
-                  <TableCell colSpan={table.getVisibleLeafColumns().length} sx={{ p: 0 }}>
-                    <EmptyTable
-                      msg={
-                        searchInput
-                          ? intl.formatMessage({ id: 'example.no-data-search' }, { search: searchInput })
-                          : intl.formatMessage({ id: 'example.no-data' })
-                      }
-                    />
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {/* BOTTOM PAGINATION CONTROLS */}
-        <Divider />
-        <Box sx={{ p: 2 }}>
-          <TablePagination
-            setPageSize={table.setPageSize}
-            setPageIndex={table.setPageIndex}
-            state={table.state}
-            getPageCount={table.getPageCount}
-          />
-        </Box>
+            ) as any
+          }
+          onRetry={() => refetch()}
+          searchValue={searchInput}
+          onSearchChange={(value) => {
+            setSearchInput(String(value).trim());
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+          }}
+          searchPlaceholder={intl.formatMessage({ id: 'example.mock-search-server-placeholder' })}
+          emptyMessage={
+            searchInput
+              ? intl.formatMessage({ id: 'example.no-data-search' }, { search: searchInput })
+              : intl.formatMessage({ id: 'example.no-data' })
+          }
+        />
       </MainCard>
     </Stack>
   );

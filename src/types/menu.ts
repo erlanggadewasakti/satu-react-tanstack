@@ -48,5 +48,5 @@ export type MenuProps = {
   /**
    * Indicate if component layout menu open or not
    */
-  isComponentDrawerOpened: boolean;
+  isComponentDrawerOpened?: boolean;
 };

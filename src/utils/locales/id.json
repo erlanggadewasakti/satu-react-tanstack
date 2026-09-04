@@ -158,5 +158,8 @@
   "search.no-results": "Tidak ada menu ditemukan untuk \"{query}\"",
   "search.no-results-hint": "Coba gunakan kata kunci lain seperti nama fitur, mata kuliah, atau aplikasi.",
   "search.navigate": "Navigasi",
-  "search.open": "Buka"
+  "search.open": "Buka",
+  "profile.logout": "Keluar",
+  "profile.user-role": "Peran",
+  "profile.guest": "Pengguna Tamu"
 }

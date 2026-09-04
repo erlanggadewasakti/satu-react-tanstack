@@ -38,8 +38,3 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
   return res.data;
 };
-
-export function redirectWithBasePath(path: string) {
-  const basePath = import.meta.env.VITE_APP_BASE_NAME || '';
-  window.location.pathname = `${basePath.replace(/\/$/, '')}${path}`;
-}

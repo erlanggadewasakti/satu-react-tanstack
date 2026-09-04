@@ -1,8 +1,9 @@
-import { createContext, ReactNode, useMemo } from 'react';
+import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 // project-imports
 import config from 'config';
 import useLocalStorage from 'hooks/useLocalStorage';
+import { registerDrawerSetter } from 'api/menu';
 
 // types
 import { ConfigContextValue, ConfigStates } from 'types/config';
@@ -19,8 +20,23 @@ export const ConfigContext = createContext<ConfigContextValue | undefined>(undef
 
 export function ConfigProvider({ children }: ChildrenProps) {
   const { state, setState, setField, resetState } = useLocalStorage<ConfigStates>('satu-app-config', config);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
-  const memoizedValue = useMemo(() => ({ state, setState, setField, resetState }), [state, setField, setState, resetState]);
+  const handlerDrawerOpen = useCallback((open: boolean) => {
+    setDrawerOpen(open);
+  }, []);
+
+  useEffect(() => {
+    registerDrawerSetter(setDrawerOpen);
+    return () => {
+      registerDrawerSetter(() => {});
+    };
+  }, []);
+
+  const memoizedValue = useMemo(
+    () => ({ state, setState, setField, resetState, drawerOpen, handlerDrawerOpen }),
+    [state, setField, setState, resetState, drawerOpen, handlerDrawerOpen]
+  );
 
   return <ConfigContext.Provider value={memoizedValue}>{children}</ConfigContext.Provider>;
 }
