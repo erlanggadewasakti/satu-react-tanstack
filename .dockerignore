@@ -1,0 +1,32 @@
+# Dependencies & local outputs
+node_modules
+.output
+dist
+build
+coverage
+
+# Git & IDE configs
+.git
+.gitignore
+.agents
+.tanstack
+.vscode
+.idea
+*.code-workspace
+
+# Local env files
+.env.local
+.env.*.local
+
+# Logs and cache
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+.cache
+
+# Non-build files
+docs
+cleanup-empty.ps1
+README.md

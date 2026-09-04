@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_APP_VERSION: v3.0.0
+        VITE_APP_BASE_NAME: /
+        VITE_APP_API_URL: https://stg-service-satu.telkomuniversity.ac.id/system-information-academic-obe/
+    container_name: satu-react-app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
