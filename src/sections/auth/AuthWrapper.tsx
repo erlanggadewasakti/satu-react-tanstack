@@ -6,9 +6,7 @@ import Box from '@mui/material/Box';
 
 // project-imports
 import AuthCard from './AuthCard';
-
-// assets
-import AuthBackground from 'assets/images/auth/AuthBackground';
+import AuthBackground from './AuthBackground';
 
 interface Props {
   children: ReactElement;

@@ -56,7 +56,9 @@ export default function AuthLogin() {
             .required(intl.formatMessage({ id: 'login.username-required' })),
           password: Yup.string()
             .required(intl.formatMessage({ id: 'login.password-required' }))
-            .test('no-leading-trailing-whitespace', 'Password cannot start or end with spaces', (value) => value === value.trim())
+            .test('no-leading-trailing-whitespace', intl.formatMessage({ id: 'login.password-no-spaces' }), (value) =>
+              Boolean(value && value === value.trim())
+            )
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -67,7 +69,7 @@ export default function AuthLogin() {
           } catch (err: any) {
             console.error(err);
             setStatus({ success: false });
-            setErrors({ submit: err.message || 'Login failed' });
+            setErrors({ submit: err.message || intl.formatMessage({ id: 'login.failed' }) });
             setSubmitting(false);
           }
         }}
@@ -106,7 +108,7 @@ export default function AuthLogin() {
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
+                    id="password-login"
                     type={showPassword ? 'text' : 'password'}
                     value={values.password}
                     name="password"

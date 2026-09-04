@@ -104,6 +104,9 @@
   "login.submit-btn": "Login",
   "login.username-required": "Username is required",
   "login.password-required": "Password is required",
+  "login.password-no-spaces": "Password cannot start or end with spaces",
+  "login.failed": "Login failed",
+  "header.search": "Search",
 
   "group-kurikulum": "Curriculum Menu",
   "kurikulum-home": "Curriculum Home",

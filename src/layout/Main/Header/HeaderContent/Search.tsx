@@ -2,6 +2,7 @@
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import { FormattedMessage } from 'react-intl';
 
 // assets
 import { SearchNormal1 } from 'iconsax-reactjs';
@@ -48,7 +49,7 @@ export default function Search() {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, color: 'text.secondary' }}>
           <SearchNormal1 size={16} />
           <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-            Search
+            <FormattedMessage id="header.search" />
           </Typography>
         </Box>
 

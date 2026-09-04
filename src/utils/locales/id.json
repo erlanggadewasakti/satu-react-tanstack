@@ -104,6 +104,9 @@
   "login.submit-btn": "Masuk",
   "login.username-required": "Username wajib diisi",
   "login.password-required": "Password wajib diisi",
+  "login.password-no-spaces": "Password tidak boleh diawali atau diakhiri spasi",
+  "login.failed": "Gagal masuk ke sistem",
+  "header.search": "Cari",
 
   "group-kurikulum": "Menu Kurikulum",
   "kurikulum-home": "Beranda Kurikulum",
