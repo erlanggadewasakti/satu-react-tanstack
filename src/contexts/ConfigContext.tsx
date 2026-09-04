@@ -18,7 +18,7 @@ export const ConfigContext = createContext<ConfigContextValue | undefined>(undef
 // ==============================||  CONFIG PROVIDER  ||============================== //
 
 export function ConfigProvider({ children }: ChildrenProps) {
-  const { state, setState, setField, resetState } = useLocalStorage<ConfigStates>('able-pro-material-react-ts-config', config);
+  const { state, setState, setField, resetState } = useLocalStorage<ConfigStates>('satu-app-config', config);
 
   const memoizedValue = useMemo(() => ({ state, setState, setField, resetState }), [state, setField, setState, resetState]);
 

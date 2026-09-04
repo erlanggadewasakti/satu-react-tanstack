@@ -1,5 +1,5 @@
 // assets
-import { OceanProtocol, Level, ShieldCross, InfoCircle, I24Support, Driving } from 'iconsax-reactjs';
+import { OceanProtocol, Level, ShieldCross, InfoCircle } from 'iconsax-reactjs';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -9,9 +9,7 @@ const icons = {
   menuLevel: OceanProtocol,
   menuLevelSubtitle: Level,
   disabledMenu: ShieldCross,
-  chipMenu: InfoCircle,
-  documentation: I24Support,
-  roadmap: Driving
+  chipMenu: InfoCircle
 };
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
@@ -123,29 +121,6 @@ const support: NavItemType = {
         variant: 'outlined',
         size: 'small'
       }
-    },
-    {
-      id: 'documentation',
-      title: 'documentation',
-      type: 'item',
-      url: 'https://phoenixcoded.gitbook.io/able-pro',
-      icon: icons.documentation,
-      external: true,
-      target: true,
-      chip: {
-        label: 'gitbook',
-        color: 'info',
-        size: 'small'
-      }
-    },
-    {
-      id: 'roadmap',
-      title: 'roadmap',
-      type: 'item',
-      url: 'https://phoenixcoded.gitbook.io/able-pro/v/react/roadmap',
-      icon: icons.roadmap,
-      external: true,
-      target: true
     }
   ]
 };

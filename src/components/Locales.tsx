@@ -50,9 +50,11 @@ export default function Locales({ children }: Props) {
           onError={(err) => {
             if (err.code === 'MISSING_TRANSLATION') {
               console.error(`[i18n Error] Missing translation key: "${err.descriptor?.id}" for locale: "${i18n}"`);
-              throw new Error(
-                `[i18n Error] Missing translation for key: "${err.descriptor?.id}" in locale: "${i18n}". Please add it to ${i18n}.json.`
-              );
+              if (import.meta.env.DEV) {
+                throw new Error(
+                  `[i18n Error] Missing translation for key: "${err.descriptor?.id}" in locale: "${i18n}". Please add it to ${i18n}.json.`
+                );
+              }
             }
             console.error(err);
           }}

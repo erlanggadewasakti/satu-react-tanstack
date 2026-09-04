@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router';
-import { To } from 'history';
 
 // material-ui
 import ButtonBase from '@mui/material/ButtonBase';
@@ -14,7 +13,7 @@ import useAuth from 'hooks/useAuth';
 interface Props {
   isIcon?: boolean;
   sx?: SxProps;
-  to?: To;
+  to?: string;
 }
 
 // ==============================|| MAIN LOGO ||============================== //

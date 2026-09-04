@@ -1,9 +1,35 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
-import { TanStackDevtools } from '@tanstack/react-devtools';
-import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { lazy, Suspense } from 'react';
 import { SubAppProvider } from 'contexts/SubAppContext';
 import { SearchProvider } from 'contexts/SearchContext';
+
+const Devtools = import.meta.env.DEV
+  ? lazy(() =>
+      Promise.all([
+        import('@tanstack/react-devtools'),
+        import('@tanstack/react-query-devtools'),
+        import('@tanstack/react-router-devtools')
+      ]).then(([devtools, queryDevtools, routerDevtools]) => ({
+        default: () => (
+          <devtools.TanStackDevtools
+            config={{
+              position: 'bottom-right'
+            }}
+            plugins={[
+              {
+                name: 'Router',
+                render: <routerDevtools.TanStackRouterDevtoolsPanel />
+              },
+              {
+                name: 'Query',
+                render: <queryDevtools.ReactQueryDevtoolsPanel />
+              }
+            ]}
+          />
+        )
+      }))
+    )
+  : () => null;
 
 export const Route = createRootRoute({
   component: RootComponent
@@ -14,21 +40,11 @@ function RootComponent() {
     <SubAppProvider>
       <SearchProvider>
         <Outlet />
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right'
-          }}
-          plugins={[
-            {
-              name: 'Router',
-              render: <TanStackRouterDevtoolsPanel />
-            },
-            {
-              name: 'Query',
-              render: <ReactQueryDevtoolsPanel />
-            }
-          ]}
-        />
+        {import.meta.env.DEV && (
+          <Suspense fallback={null}>
+            <Devtools />
+          </Suspense>
+        )}
       </SearchProvider>
     </SubAppProvider>
   );

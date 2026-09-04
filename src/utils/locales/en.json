@@ -150,5 +150,13 @@
   "pages": "Pages",
   "others": "Others",
   "fire": "Fire",
-  "gitbook": "GitBook"
+  "gitbook": "GitBook",
+
+  "pagination.rows-per-page": "Rows per page:",
+  "pagination.go-to-page": "Go to page:",
+  "search.placeholder": "Type to search menus, pages, or features...",
+  "search.no-results": "No results found for \"{query}\"",
+  "search.no-results-hint": "Try using another keyword such as feature name, course, or application.",
+  "search.navigate": "Navigate",
+  "search.open": "Open"
 }

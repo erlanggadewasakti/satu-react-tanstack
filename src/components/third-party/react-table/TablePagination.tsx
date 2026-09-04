@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 // third-party
+import { FormattedMessage } from 'react-intl';
 import { StockFeatures, TableState, Updater } from '@tanstack/react-table';
 
 interface TablePaginationProps {
@@ -71,7 +72,7 @@ export default function TablePagination({
         <Stack direction="row" sx={{ gap: 1.5, alignItems: 'center' }}>
           <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
             <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 500 }}>
-              Baris per halaman:
+              <FormattedMessage id="pagination.rows-per-page" />
             </Typography>
             <FormControl sx={{ m: 0.5 }}>
               <Select
@@ -100,7 +101,7 @@ export default function TablePagination({
           </Stack>
 
           <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 500 }}>
-            Ke halaman:
+            <FormattedMessage id="pagination.go-to-page" />
           </Typography>
           <TextField
             size="small"

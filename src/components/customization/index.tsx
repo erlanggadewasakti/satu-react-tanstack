@@ -201,7 +201,6 @@ export default function Customization() {
                       <Divider />
                     </Grid>
 
-
                     {/* theme-font-family */}
                     <Grid size={12}>
                       <Stack>

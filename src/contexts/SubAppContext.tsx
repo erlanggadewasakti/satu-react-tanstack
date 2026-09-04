@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useMemo, useEffect } from 'react';
+import { createContext, ReactNode, useMemo, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 
 // project-imports
@@ -51,13 +51,16 @@ export function SubAppProvider({ children }: ChildrenProps) {
   );
 
   // Handler ganti sub-app -> redirect ke /<prefix>/home
-  const changeSubApp = (subAppId: string) => {
-    const targetApp = availableSubApps.find((app) => app.id === subAppId);
-    if (targetApp) {
-      setActiveAppId(targetApp.id);
-      navigate({ to: `${targetApp.prefix}/home` as any });
-    }
-  };
+  const changeSubApp = useCallback(
+    (subAppId: string) => {
+      const targetApp = availableSubApps.find((app) => app.id === subAppId);
+      if (targetApp) {
+        setActiveAppId(targetApp.id);
+        navigate({ to: `${targetApp.prefix}/home` as any });
+      }
+    },
+    [availableSubApps, navigate, setActiveAppId]
+  );
 
   // Menu items sesuai activeSubApp + Beranda LENS universal di urutan teratas
   const currentMenuItems = useMemo(() => {
@@ -74,7 +77,7 @@ export function SubAppProvider({ children }: ChildrenProps) {
       changeSubApp,
       menuItems: currentMenuItems
     }),
-    [activeSubApp, availableSubApps, currentMenuItems]
+    [activeSubApp, availableSubApps, changeSubApp, currentMenuItems]
   );
 
   return <SubAppContext.Provider value={memoizedValue}>{children}</SubAppContext.Provider>;

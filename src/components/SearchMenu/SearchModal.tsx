@@ -20,6 +20,9 @@ import {
 // assets
 import { SearchNormal1, ArrowRight, DocumentText } from 'iconsax-reactjs';
 
+// third-party
+import { FormattedMessage, useIntl } from 'react-intl';
+
 // project-imports
 import SimpleBar from 'components/third-party/SimpleBar';
 import { SearchableItem } from 'config/searchConfig';
@@ -47,6 +50,8 @@ export default function SearchModal({
   onSelectedIndexChange,
   onSelect
 }: Props) {
+  const intl = useIntl();
+
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -95,7 +100,7 @@ export default function SearchModal({
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ketik untuk mencari menu, halaman, atau fitur..."
+            placeholder={intl.formatMessage({ id: 'search.placeholder' })}
             startAdornment={
               <InputAdornment position="start" sx={{ color: 'primary.main', mr: 1 }}>
                 <SearchNormal1 size={20} />
@@ -208,10 +213,10 @@ export default function SearchModal({
           ) : (
             <Box sx={{ py: 5, textAlign: 'center' }}>
               <Typography variant="subtitle1" color="text.secondary">
-                Tidak ada menu ditemukan untuk "{query}"
+                <FormattedMessage id="search.no-results" values={{ query }} />
               </Typography>
               <Typography variant="caption" color="text.disabled" sx={{ mt: 0.5, display: 'block' }}>
-                Coba gunakan kata kunci lain seperti nama fitur, mata kuliah, atau aplikasi.
+                <FormattedMessage id="search.no-results-hint" />
               </Typography>
             </Box>
           )}
@@ -234,11 +239,15 @@ export default function SearchModal({
           <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
             <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
               <Chip label="↑↓" size="small" sx={{ height: 18, fontSize: '0.625rem', px: 0.25 }} />
-              <Typography variant="caption">Navigasi</Typography>
+              <Typography variant="caption">
+                <FormattedMessage id="search.navigate" />
+              </Typography>
             </Stack>
             <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
               <Chip label="ENTER" size="small" sx={{ height: 18, fontSize: '0.625rem', px: 0.25 }} />
-              <Typography variant="caption">Buka</Typography>
+              <Typography variant="caption">
+                <FormattedMessage id="search.open" />
+              </Typography>
             </Stack>
           </Stack>
           <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>

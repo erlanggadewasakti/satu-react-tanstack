@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
+import axiosServices, { fetcher } from 'utils/axios';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -10,3 +11,6 @@ export const queryClient = new QueryClient({
     }
   }
 });
+
+export { axiosServices, fetcher };
+export default axiosServices;

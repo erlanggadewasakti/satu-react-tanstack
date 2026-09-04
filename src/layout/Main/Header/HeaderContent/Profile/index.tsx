@@ -12,7 +12,6 @@ import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
@@ -20,7 +19,6 @@ import Box from '@mui/material/Box';
 import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
 import Avatar from 'components/@extended/Avatar';
-import IconButton from 'components/@extended/IconButton';
 import Transitions from 'components/@extended/Transitions';
 import MainCard from 'components/MainCard';
 
@@ -28,7 +26,7 @@ import useAuth from 'hooks/useAuth';
 
 // assets
 import avatar1 from 'assets/images/users/avatar-6.png';
-import { Setting2, Profile, Logout } from 'iconsax-reactjs';
+import { Setting2, Profile } from 'iconsax-reactjs';
 
 // types
 interface TabPanelProps {

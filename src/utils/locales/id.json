@@ -150,5 +150,13 @@
   "pages": "Halaman",
   "others": "Lainnya",
   "fire": "Fire",
-  "gitbook": "GitBook"
+  "gitbook": "GitBook",
+
+  "pagination.rows-per-page": "Baris per halaman:",
+  "pagination.go-to-page": "Ke halaman:",
+  "search.placeholder": "Ketik untuk mencari menu, halaman, atau fitur...",
+  "search.no-results": "Tidak ada menu ditemukan untuk \"{query}\"",
+  "search.no-results-hint": "Coba gunakan kata kunci lain seperti nama fitur, mata kuliah, atau aplikasi.",
+  "search.navigate": "Navigasi",
+  "search.open": "Buka"
 }
