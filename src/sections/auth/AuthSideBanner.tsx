@@ -7,20 +7,66 @@ import { FormattedMessage } from 'react-intl';
 import telkomLogo from 'assets/images/auth/telkom-logo.svg';
 import satuLogo from 'assets/images/logo-satu.svg';
 
-// ==============================|| AUTH - SIDE BANNER WITH ANIMATED BOKEH ||============================== //
+// ==============================|| AUTH - BOKEH & SIDE BANNER ||============================== //
 
 const bokehSpans = [
-  { top: '72%', left: '88%', duration: '43s', delay: '-17s', origin: '-16vw -15vh', color: '#b82828' },
-  { top: '35%', left: '54%', duration: '45s', delay: '-21s', origin: '0vw 11vh', color: '#e92020' },
-  { top: '41%', left: '86%', duration: '48s', delay: '-11s', origin: '-10vw 23vh', color: '#9f3f3f' },
-  { top: '31%', left: '82%', duration: '35s', delay: '-4s', origin: '-9vw -21vh', color: '#9f3f3f' },
-  { top: '91%', left: '34%', duration: '25s', delay: '-6s', origin: '20vw 15vh', color: '#9f3f3f' },
-  { top: '7%', left: '24%', duration: '34s', delay: '-43s', origin: '-16vw 11vh', color: '#c43232' },
-  { top: '47%', left: '50%', duration: '17s', delay: '-2s', origin: '-24vw -12vh', color: '#e92020' },
-  { top: '48%', left: '38%', duration: '36s', delay: '-48s', origin: '-21vw 25vh', color: '#9f3f3f' },
-  { top: '50%', left: '56%', duration: '23s', delay: '-26s', origin: '-2vw 14vh', color: '#c43232' },
-  { top: '41%', left: '56%', duration: '35s', delay: '-32s', origin: '-11vw 12vh', color: '#9f3f3f' }
+  { top: '12%', left: '33%', size: '18vmin', duration: '14s', delay: '-1s', origin: '15vw -5vh', color: 'rgb(108, 117, 125)' },
+  { top: '40%', left: '50%', size: '22vmin', duration: '18s', delay: '-3s', origin: '5vw 10vh', color: 'rgb(106, 4, 23)' },
+  { top: '25%', left: '75%', size: '16vmin', duration: '22s', delay: '-4s', origin: '-20vw 15vh', color: 'rgb(38, 50, 56)' },
+  { top: '80%', left: '10%', size: '20vmin', duration: '26s', delay: '0s', origin: '10vw -15vh', color: 'rgb(108, 117, 125)' },
+  { top: '5%', left: '20%', size: '16vmin', duration: '12s', delay: '-2s', origin: '-10vw 5vh', color: 'rgb(106, 4, 23)' },
+  { top: '55%', left: '80%', size: '20vmin', duration: '19s', delay: '-5s', origin: '0vw 20vh', color: 'rgb(38, 50, 56)' },
+  { top: '70%', left: '30%', size: '22vmin', duration: '24s', delay: '-1s', origin: '20vw 10vh', color: 'rgb(108, 117, 125)' },
+  { top: '15%', left: '45%', size: '18vmin', duration: '28s', delay: '-3s', origin: '15vw -10vh', color: 'rgb(106, 4, 23)' },
+  { top: '60%', left: '70%', size: '16vmin', duration: '14s', delay: '-2s', origin: '-5vw 5vh', color: 'rgb(38, 50, 56)' },
+  { top: '35%', left: '55%', size: '20vmin', duration: '20s', delay: '-4s', origin: '10vw 20vh', color: 'rgb(108, 117, 125)' }
 ];
+
+export function AuthBokehBackground() {
+  return (
+    <Box
+      sx={{
+        display: { xs: 'none', md: 'block' },
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        overflow: 'hidden',
+        zIndex: 0,
+        '@keyframes move': {
+          '0%': {
+            transform: 'translateZ(1px) rotate(0deg)'
+          },
+          '100%': {
+            transform: 'translateZ(1px) rotate(360deg)'
+          }
+        },
+        '& span': {
+          borderRadius: '50%',
+          position: 'absolute',
+          backfaceVisibility: 'hidden',
+          filter: 'blur(25px)'
+        }
+      }}
+    >
+      {bokehSpans.map((b, i) => (
+        <Box
+          component="span"
+          key={i}
+          sx={{
+            top: b.top,
+            left: b.left,
+            width: b.size,
+            height: b.size,
+            animation: `${b.duration} linear ${b.delay} infinite move`,
+            transformOrigin: b.origin,
+            bgcolor: b.color,
+            boxShadow: `0 0 40px 10px ${b.color}`
+          }}
+        />
+      ))}
+    </Box>
+  );
+}
 
 export default function AuthSideBanner() {
   return (
@@ -29,56 +75,16 @@ export default function AuthSideBanner() {
         width: '100%',
         height: '100%',
         minHeight: '100vh',
-        bgcolor: '#171717',
         position: 'relative',
-        overflow: 'hidden',
+        zIndex: 2,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        p: { xs: 4, md: 6, lg: 8 },
-        '@keyframes move': {
-          to: {
-            transform: 'translateZ(1px) rotate(1turn)'
-          }
-        }
+        p: { xs: 4, md: 6, lg: 8 }
       }}
     >
-      {/* ANIMATED BOKEH CIRCLES */}
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          overflow: 'hidden',
-          '& span': {
-            width: '20vmin',
-            height: '20vmin',
-            position: 'absolute',
-            backfaceVisibility: 'hidden',
-            boxShadow: '15vmin 0 10vmin currentColor',
-            filter: 'blur(20px)',
-            animation: 'move linear infinite'
-          }
-        }}
-      >
-        {bokehSpans.map((b, i) => (
-          <Box
-            component="span"
-            key={i}
-            sx={{
-              top: b.top,
-              left: b.left,
-              animationDuration: b.duration,
-              animationDelay: b.delay,
-              transformOrigin: b.origin,
-              color: b.color
-            }}
-          />
-        ))}
-      </Box>
-
       {/* TOP: TELKOM UNIVERSITY LOGO */}
-      <Box sx={{ position: 'relative', zIndex: 2 }}>
+      <Box>
         <Box
           component="img"
           src={telkomLogo}
@@ -92,7 +98,7 @@ export default function AuthSideBanner() {
       </Box>
 
       {/* CENTER: LENS OBE HEADLINE */}
-      <Box sx={{ position: 'relative', zIndex: 2, my: 'auto', py: 4 }}>
+      <Box sx={{ my: 'auto', py: 4 }}>
         <Typography
           variant="h4"
           sx={{
@@ -124,7 +130,7 @@ export default function AuthSideBanner() {
           variant="body1"
           sx={{
             color: 'rgba(255, 255, 255, 0.8)',
-            maxWidth: 460,
+            maxWidth: 480,
             fontSize: { xs: '0.95rem', md: '1.05rem' },
             lineHeight: 1.6,
             fontWeight: 300
@@ -134,32 +140,31 @@ export default function AuthSideBanner() {
         </Typography>
       </Box>
 
-      {/* BOTTOM: POWERED BY SATU FRAMEWORK */}
-      <Box sx={{ position: 'relative', zIndex: 2 }}>
-        <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'rgba(255, 255, 255, 0.65)',
-              fontWeight: 500,
-              letterSpacing: 0.5,
-              textTransform: 'uppercase'
-            }}
-          >
-            <FormattedMessage id="login.powered-by" /> :
-          </Typography>
-          <Box
-            component="img"
-            src={satuLogo}
-            alt="SATU Framework"
-            sx={{
-              height: 22,
-              filter: 'brightness(0) invert(1)',
-              opacity: 0.85
-            }}
-          />
-        </Stack>
-      </Box>
+      {/* BOTTOM: FOOTER "POWERED BY: satu framework" */}
+      <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'rgba(255, 255, 255, 0.6)',
+            letterSpacing: 1,
+            textTransform: 'uppercase',
+            fontWeight: 500,
+            fontSize: '0.75rem'
+          }}
+        >
+          <FormattedMessage id="login.powered-by" />
+        </Typography>
+        <Box
+          component="img"
+          src={satuLogo}
+          alt="satu framework"
+          sx={{
+            height: 20,
+            width: 'auto',
+            opacity: 0.85
+          }}
+        />
+      </Stack>
     </Box>
   );
 }

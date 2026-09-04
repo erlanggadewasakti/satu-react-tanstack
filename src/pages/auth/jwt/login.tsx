@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 import { FormattedMessage } from 'react-intl';
 
 // project-imports
-import AuthWrapper from 'sections/auth/AuthWrapper';
 import AuthCard from 'sections/auth/AuthCard';
+import AuthWrapper from 'sections/auth/AuthWrapper';
 import AuthLogin from 'sections/auth/jwt/AuthLogin';
 
 // assets
@@ -37,7 +37,7 @@ export default function Login() {
             >
               LENS
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+            <Typography variant="body1" sx={{ color: 'text.primary', mt: 0.5 }}>
               <FormattedMessage id="login.sso-subtitle" />
             </Typography>
           </Grid>

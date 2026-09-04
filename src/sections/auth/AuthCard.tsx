@@ -12,9 +12,14 @@ export default function AuthCard({ children, ...other }: MainCardProps) {
       sx={{
         width: '100%',
         borderRadius: 2.5,
-        boxShadow: (theme) => theme.vars.customShadows.z1,
-        borderColor: 'divider',
+        boxShadow: {
+          xs: (theme) => theme.vars.customShadows.z1,
+          md: '0 24px 48px -12px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.12)'
+        },
+        borderColor: { xs: 'divider', md: 'rgba(255, 255, 255, 0.12)' },
         bgcolor: 'background.paper',
+        position: 'relative',
+        zIndex: 10,
         '& > *': {
           flexGrow: 1
         }
