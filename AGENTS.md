@@ -28,17 +28,17 @@ This document serves as the primary engineering guide and operational contract f
 
 ## 3. Essential Commands Cheat Sheet
 
-| Task | Command | Description |
-| :--- | :--- | :--- |
-| **Install Dependencies** | `bun install` | Installs project dependencies via Bun lockfile |
-| **Start Development** | `bun run dev` | Runs i18n parity check and starts Vite dev server |
-| **Check i18n Parity** | `bun run check:i18n` | Validates 100% key match between `id.json` and `en.json` |
-| **TypeScript Validation** | `bun x tsc --noEmit` | Runs static type checks across the entire codebase |
-| **Lint Codebase** | `bun run lint` | Runs ESLint on all `src/**/*.{js,jsx,ts,tsx}` files |
-| **Fix Lint Issues** | `bun run lint:fix` | Automatically fixes auto-fixable ESLint errors |
-| **Format Code** | `bun run prettier` | Formats all source files according to `.prettierrc` |
-| **Production Build** | `bun run build` | Validates i18n, runs `tsc`, and creates production bundle |
-| **Preview Build** | `bun run preview` | Serves the production build locally |
+| Task                      | Command              | Description                                               |
+| :------------------------ | :------------------- | :-------------------------------------------------------- |
+| **Install Dependencies**  | `bun install`        | Installs project dependencies via Bun lockfile            |
+| **Start Development**     | `bun run dev`        | Runs i18n parity check and starts Vite dev server         |
+| **Check i18n Parity**     | `bun run check:i18n` | Validates 100% key match between `id.json` and `en.json`  |
+| **TypeScript Validation** | `bun x tsc --noEmit` | Runs static type checks across the entire codebase        |
+| **Lint Codebase**         | `bun run lint`       | Runs ESLint on all `src/**/*.{js,jsx,ts,tsx}` files       |
+| **Fix Lint Issues**       | `bun run lint:fix`   | Automatically fixes auto-fixable ESLint errors            |
+| **Format Code**           | `bun run prettier`   | Formats all source files according to `.prettierrc`       |
+| **Production Build**      | `bun run build`      | Validates i18n, runs `tsc`, and creates production bundle |
+| **Preview Build**         | `bun run preview`    | Serves the production build locally                       |
 
 ---
 
@@ -71,7 +71,9 @@ satu-react-tanstack/
 ```
 
 ### The 8 Sub-Applications
+
 The system is partitioned into 8 distinct OBE sub-apps configured in `src/config/subApps.ts`:
+
 1. `super-admin`: System administration, user roles, and global permissions (`/super-admin`)
 2. `akademik-admin`: Academic master data and institutional configuration (`/akademik-admin`)
 3. `kurikulum`: Curriculum management, CPL / Learning Outcomes, and course structures (`/kurikulum`)
@@ -86,9 +88,11 @@ The system is partitioned into 8 distinct OBE sub-apps configured in `src/config
 ## 5. Standard Development Workflows
 
 ### A. Adding a New Sub-Application (6-Step Checklist)
+
 When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`):
 
 1. **Register the Sub-App in `src/config/subApps.ts`**:
+
    ```typescript
    import { SubAppConfig } from 'types/subApp';
    import { Role } from 'types/role';
@@ -108,6 +112,7 @@ When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`
 
 2. **Create Page Component in `src/pages/<sub-app>/...`**:
    Create `src/pages/keuangan/home.tsx`:
+
    ```tsx
    import Typography from '@mui/material/Typography';
    import { FormattedMessage } from 'react-intl';
@@ -126,6 +131,7 @@ When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`
 
 3. **Create TanStack Router File in `src/routes/_lens/<sub-app>/...`**:
    Create `src/routes/_lens/keuangan/home.tsx`:
+
    ```tsx
    import { createFileRoute } from '@tanstack/react-router';
    import { lazy } from 'react';
@@ -140,6 +146,7 @@ When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`
 
 4. **Create Menu Configuration in `src/menu-items/<sub-app>.ts`**:
    Create `src/menu-items/keuangan.ts`:
+
    ```typescript
    import { MoneyRecive, Home3 } from 'iconsax-reactjs';
    import { NavItemType } from 'types/menu';
@@ -165,6 +172,7 @@ When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`
    ```
 
 5. **Register Menu in `src/menu-items/index.tsx`**:
+
    ```typescript
    import keuanganMenuItems from './keuangan';
 
@@ -197,6 +205,7 @@ When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`
 ---
 
 ### B. Adding a New Page to an Existing Sub-App
+
 1. **Create the UI Page**: Add `src/pages/<sub-app>/<feature-name>.tsx`.
 2. **Create the Route**: Add `src/routes/_lens/<sub-app>/<feature-name>.tsx` using `createFileRoute('/_lens/<sub-app>/<feature-name>')` and `Loadable(lazy(...))`.
 3. **Update Sidebar Navigation**: Add navigation item to `src/menu-items/<sub-app>.ts`.
@@ -205,6 +214,7 @@ When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`
 ---
 
 ### C. Creating API Services & Data Queries
+
 1. **Declare Endpoints**: In `src/api/endpoints.ts`.
 2. **Implement Service**: In `src/api/services/<domain>.ts` using `axiosServices` (`src/api/client.ts`).
 3. **Use React Query**: In your components/sections:
@@ -225,23 +235,41 @@ When introducing a new sub-application (e.g., `keuangan` with prefix `/keuangan`
 ## 6. Mandatory Agent Guardrails & Coding Rules
 
 ### 🌐 Guardrail 1: Strict Dual-Language Internationalization (i18n)
+
 - **100% Key Parity**: Any key added to `src/utils/locales/id.json` **MUST** be added with appropriate English translation to `src/utils/locales/en.json`, and vice versa.
 - **No `defaultMessage` Fallbacks**: Do NOT use `defaultMessage` in `<FormattedMessage />` or `intl.formatMessage()`. The app is explicitly configured to throw errors on missing keys so that missing translations are never hidden.
 - **Zero Raw Strings in JSX**: Never hardcode user-facing text like `<Button>Simpan</Button>` or `<Typography>Title</Typography>`. Always use `<FormattedMessage id="..." />` or `intl.formatMessage({ id: '...' })`.
 
 ### 🛣️ Guardrail 2: Router & Generated File Integrity
+
 - **Never Manually Edit `src/routeTree.gen.ts`**: This file is generated by the TanStack Router plugin. Allow Vite to generate it automatically upon creating route files in `src/routes/`.
 - **Always Code-Split Routes**: Wrap page imports in `src/routes/` with `Loadable(lazy(() => import('pages/...')))`.
 
 ### 📦 Guardrail 3: Dependencies & Import Restrictions
+
 - **No Unapproved Dependencies**: Do NOT run `bun add` or install new third-party packages without explicit user request or confirmation.
 - **Absolute Path Imports**: Always import using the configured path aliases (e.g. `import SubAppSelector from 'sections/sub-app/SubAppSelector'`).
 - **MUI Import Rule**: Avoid 3-level deep imports like `@mui/material/Button/Button`. Use `@mui/material/Button` or `@mui/material`.
 
 ### 🔒 Guardrail 4: Role-Based Permissions (RBAC)
+
 - All user roles are defined in `src/types/role.ts` (`Developer`, `Akademik`, `BAA`, `Kaprodi`, `KoordinatorMK`, `Dosen`, `Wadek1`, `Warek`, `LAA`, `User`).
 - Protect sub-apps via `allowedRoles` in `src/config/subApps.ts`.
 - Protect individual navigation items via `allowedRoles` in `src/menu-items/<sub-app>.ts`.
+
+### 🎨 Guardrail 5: Enterprise Typography & Text Color Standards
+
+- **Explicit Variants**: Every `<Typography>` element **MUST** declare an explicit `variant="..."` (`h1`–`h6`, `subtitle1`, `subtitle2`, `body1`, `body2`, `caption`, `overline`). Do not render unstyled `<Typography>` without a variant.
+- **Theme Color Tokens Only**: Never hardcode hex colors (e.g. `color: '#fff'`). Always use Material UI theme tokens: `text.primary`, `text.secondary`, `text.disabled`, `common.white`.
+  - ⚠️ **Never use `color="secondary"` for muted text**: In MUI, `color="secondary"` resolves to `palette.secondary.main` (purple/accent). For muted/gray secondary text, use `color="text.secondary"`.
+- **Zero Sub-Pixel Font Sizes**: Do not declare manual font sizes in `sx` (e.g. `0.675rem`, `0.7rem`, `0.85rem`). Rely on the theme typography scale defined in `src/themes/typography.ts`.
+- **Table Data Column Standards**:
+  - Primary identifier column (Name, Course Title, Code): use `variant="subtitle1"` (14px SemiBold).
+  - General data cells: use `variant="body1"` (14px).
+  - Numbers, dates, phone, NIM: always include `sx={{ fontVariantNumeric: 'tabular-nums' }}`.
+  - Timestamps / audit metadata: use `variant="caption"` (12px) with `color="text.secondary"`.
+- **Accessibility & DOM Cleanliness**: Never use `variant="h6"` in breadcrumbs or navigation links without `component="span"`, as this generates unwanted `<h6>` DOM tags that pollute screen reader accessibility landmarks.
+- **Reference**: Full specification and examples are documented in [`docs/TYPOGRAPHY_GUIDELINES.md`](./docs/TYPOGRAPHY_GUIDELINES.md).
 
 ---
 
