@@ -1,6 +1,7 @@
 import { SyntheticEvent, useState } from 'react';
 
 // material-ui
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -29,7 +30,7 @@ import { Eye, EyeSlash } from 'iconsax-reactjs';
 
 export default function AuthLogin() {
   const intl = useIntl();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   const { login } = useAuth();
 
@@ -69,17 +70,51 @@ export default function AuthLogin() {
           } catch (err: any) {
             console.error(err);
             setStatus({ success: false });
-            setErrors({ submit: err.message || intl.formatMessage({ id: 'login.failed' }) });
+
+            const status = err.statusCode || err.status || err.response?.status;
+            const rawMessage =
+              typeof err.message === 'string'
+                ? err.message
+                : Array.isArray(err.message) && typeof err.message[0] === 'string'
+                  ? err.message[0]
+                  : typeof err.response?.data?.message === 'string'
+                    ? err.response.data.message
+                    : Array.isArray(err.response?.data?.message) && typeof err.response?.data?.message[0] === 'string'
+                      ? err.response.data.message[0]
+                      : '';
+
+            let submitError = '';
+
+            if (status === 401 && rawMessage) {
+              // Split by koma dan ambil index ke-0
+              const firstPart = rawMessage.split(',')[0].trim();
+              const normalized = firstPart.toLowerCase();
+
+              if (normalized === 'username not found') {
+                submitError = intl.formatMessage({ id: 'login.error.username-not-found' });
+              } else if (normalized === 'incorrect password') {
+                submitError = intl.formatMessage({ id: 'login.error.incorrect-password' });
+              } else {
+                submitError = firstPart.charAt(0).toUpperCase() + firstPart.slice(1);
+              }
+            } else if (status === 500 || rawMessage === 'Internal server error' || rawMessage?.includes('Internal server error')) {
+              submitError = intl.formatMessage({ id: 'login.invalid-credentials-hint' });
+            } else {
+              submitError = rawMessage || intl.formatMessage({ id: 'login.failed' });
+            }
+
+            setErrors({ submit: submitError });
             setSubmitting(false);
           }
         }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
+            <Grid container spacing={2.5}>
+              {/* USERNAME FIELD */}
               <Grid size={12}>
                 <Stack sx={{ gap: 1 }}>
-                  <InputLabel htmlFor="username-login">
+                  <InputLabel htmlFor="username-login" sx={{ fontWeight: 500 }}>
                     <FormattedMessage id="login.username" />
                   </InputLabel>
                   <OutlinedInput
@@ -100,9 +135,11 @@ export default function AuthLogin() {
                   </FormHelperText>
                 )}
               </Grid>
+
+              {/* PASSWORD FIELD */}
               <Grid size={12}>
                 <Stack sx={{ gap: 1 }}>
-                  <InputLabel htmlFor="password-login">
+                  <InputLabel htmlFor="password-login" sx={{ fontWeight: 500 }}>
                     <FormattedMessage id="login.password" />
                   </InputLabel>
                   <OutlinedInput
@@ -123,7 +160,7 @@ export default function AuthLogin() {
                           edge="end"
                           color="secondary"
                         >
-                          {showPassword ? <Eye /> : <EyeSlash />}
+                          {showPassword ? <Eye size={20} /> : <EyeSlash size={20} />}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -136,7 +173,9 @@ export default function AuthLogin() {
                   </FormHelperText>
                 )}
               </Grid>
-              <Grid sx={{ mt: -1 }} size={12}>
+
+              {/* REMEMBER ME CHECKBOX */}
+              <Grid sx={{ mt: -0.5 }} size={12}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -148,23 +187,60 @@ export default function AuthLogin() {
                     />
                   }
                   label={
-                    <Typography variant="h6">
+                    <Typography variant="body2" sx={{ color: 'text.secondary', userSelect: 'none' }}>
                       <FormattedMessage id="login.keep-signed-in" />
                     </Typography>
                   }
                 />
               </Grid>
+
+              {/* ERROR ALERT */}
               {errors.submit && (
                 <Grid size={12}>
-                  <FormHelperText error>{errors.submit}</FormHelperText>
+                  <Alert severity="error" sx={{ py: 0.5, borderRadius: 1.5, fontSize: '0.85rem' }}>
+                    {errors.submit}
+                  </Alert>
                 </Grid>
               )}
+
+              {/* SUBMIT BUTTON */}
               <Grid size={12}>
                 <AnimateButton>
-                  <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
+                  <Button
+                    disableElevation
+                    disabled={isSubmitting}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      py: 1.25,
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      borderRadius: 1.5,
+                      textTransform: 'none'
+                    }}
+                  >
                     <FormattedMessage id="login.submit-btn" />
                   </Button>
                 </AnimateButton>
+              </Grid>
+
+              {/* VERSION TEXT */}
+              <Grid size={12}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: 'block',
+                    textAlign: 'center',
+                    color: 'text.secondary',
+                    fontSize: '0.75rem',
+                    mt: 0.5
+                  }}
+                >
+                  <FormattedMessage id="login.version" values={{ version: import.meta.env.VITE_APP_VERSION || '1.0.0' }} />
+                </Typography>
               </Grid>
             </Grid>
           </form>

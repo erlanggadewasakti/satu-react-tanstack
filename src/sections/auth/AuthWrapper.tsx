@@ -1,40 +1,56 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
 // material-ui
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 // project-imports
-import AuthCard from './AuthCard';
-import AuthBackground from './AuthBackground';
+import AuthSideBanner from './AuthSideBanner';
 
 interface Props {
-  children: ReactElement;
+  children: ReactNode;
 }
 
-// ==============================|| AUTHENTICATION - WRAPPER ||============================== //
+// ==============================|| AUTHENTICATION - SPLIT SCREEN WRAPPER ||============================== //
 
 export default function AuthWrapper({ children }: Props) {
   return (
-    <Box sx={{ minHeight: '100vh' }}>
-      <AuthBackground />
-      <Grid container sx={{ justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <Grid size={12}>
-          <Grid
-            size={12}
-            container
-            sx={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: { xs: 'calc(100vh - 210px)', sm: 'calc(100vh - 134px)', md: 'calc(100vh - 112px)' }
-            }}
-          >
-            <Grid>
-              <AuthCard>{children}</AuthCard>
-            </Grid>
-          </Grid>
-        </Grid>
+    <Grid
+      container
+      sx={{
+        minHeight: '100vh',
+        width: '100vw',
+        m: 0,
+        p: 0,
+        bgcolor: 'background.default'
+      }}
+    >
+      {/* LEFT COLUMN: BRANDING & ANIMATED BOKEH (DESKTOP & TABLET LANDSCAPE) */}
+      <Grid
+        size={{ xs: 12, md: 6 }}
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          height: '100vh',
+          position: 'sticky',
+          top: 0
+        }}
+      >
+        <AuthSideBanner />
       </Grid>
-    </Box>
+
+      {/* RIGHT COLUMN: LOGIN FORM CARD */}
+      <Grid
+        size={{ xs: 12, md: 6 }}
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: { xs: 2.5, sm: 4, md: 6 }
+        }}
+      >
+        <Box sx={{ width: '100%', maxWidth: 460 }}>{children}</Box>
+      </Grid>
+    </Grid>
   );
 }
