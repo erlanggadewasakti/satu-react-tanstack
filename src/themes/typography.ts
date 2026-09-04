@@ -7,9 +7,12 @@ import { FontFamily } from 'types/config';
 // ==============================|| DEFAULT THEME - TYPOGRAPHY  ||============================== //
 
 export default function Typography(fontFamily: FontFamily): TypographyVariantsOptions {
+  // Robust font stack fallback to prevent Cumulative Layout Shift (CLS)
+  const fontStack = `${fontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`;
+
   return {
     htmlFontSize: 16,
-    fontFamily,
+    fontFamily: fontStack,
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
@@ -17,17 +20,29 @@ export default function Typography(fontFamily: FontFamily): TypographyVariantsOp
     h1: {
       fontWeight: 700,
       fontSize: '2.25rem',
-      lineHeight: 1.25
+      lineHeight: 1.25,
+      '@media (max-width:600px)': {
+        fontSize: '1.75rem',
+        lineHeight: 1.3
+      }
     },
     h2: {
       fontWeight: 700,
       fontSize: '1.875rem',
-      lineHeight: 1.3
+      lineHeight: 1.3,
+      '@media (max-width:600px)': {
+        fontSize: '1.5rem',
+        lineHeight: 1.35
+      }
     },
     h3: {
       fontWeight: 600,
       fontSize: '1.5rem',
-      lineHeight: 1.33
+      lineHeight: 1.33,
+      '@media (max-width:600px)': {
+        fontSize: '1.25rem',
+        lineHeight: 1.4
+      }
     },
     h4: {
       fontWeight: 600,
