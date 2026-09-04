@@ -30,14 +30,12 @@ export default function Login() {
               variant="h2"
               sx={{
                 color: 'primary.main',
-                fontWeight: 800,
-                letterSpacing: -0.5,
-                fontSize: { xs: '1.75rem', sm: '2.1rem' }
+                letterSpacing: -0.5
               }}
             >
               LENS
             </Typography>
-            <Typography variant="body1" sx={{ color: 'text.primary', mt: 0.5 }}>
+            <Typography variant="body1" color="text.secondary" sx={{ mt: 0.5 }}>
               <FormattedMessage id="login.sso-subtitle" />
             </Typography>
           </Grid>

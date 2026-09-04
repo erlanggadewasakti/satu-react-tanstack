@@ -34,7 +34,7 @@ export default function UniversalHomePage() {
 
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={2}>
-              <Typography variant="h2" sx={{ fontWeight: 700, color: 'error.main' }}>
+              <Typography variant="h2" sx={{ color: 'error.main' }}>
                 <FormattedMessage id="home.welcome-title" />
               </Typography>
 
@@ -89,9 +89,7 @@ export default function UniversalHomePage() {
                         <Box sx={{ p: 1, borderRadius: 1.5, bgcolor: 'primary.lighter', color: 'primary.main', display: 'flex' }}>
                           <Category size={22} />
                         </Box>
-                        <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                          {localizedAppName}
-                        </Typography>
+                        <Typography variant="h5">{localizedAppName}</Typography>
                       </Stack>
 
                       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -121,7 +119,7 @@ export default function UniversalHomePage() {
         title={
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <CallCalling size={22} />
-            <Typography variant="h4" sx={{ fontWeight: 600 }}>
+            <Typography variant="h4">
               <FormattedMessage id="home.contact-info" />
             </Typography>
           </Stack>
@@ -137,6 +135,7 @@ export default function UniversalHomePage() {
             <Typography variant="body1" sx={{ fontWeight: 500 }}>
               <FormattedMessage id="home.service-desk" />{' '}
               <Typography
+                variant="inherit"
                 component="a"
                 href="https://wa.me/6282319949941"
                 target="_blank"
@@ -155,6 +154,7 @@ export default function UniversalHomePage() {
               sx={{ bgcolor: 'primary.main', color: 'common.white', fontWeight: 700, borderRadius: 1, minWidth: 24 }}
             />
             <Typography
+              variant="body1"
               component="a"
               href={USER_MANUAL_LINK}
               target="_blank"

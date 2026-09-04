@@ -148,6 +148,7 @@ export default function NavItem({ item, level, isParents = false, setSelectedID 
                 primary={
                   <Typography
                     variant="h6"
+                    component="span"
                     sx={(theme) => ({
                       color: isSelected ? iconSelectedColor : 'secondary.main',
                       ...theme.applyStyles('dark', { color: isSelected ? iconSelectedColor : 'secondary.400' }),
@@ -262,6 +263,7 @@ export default function NavItem({ item, level, isParents = false, setSelectedID 
             primary={
               <Typography
                 variant="h6"
+                component="span"
                 sx={(theme) => ({
                   color: isSelected ? iconSelectedColor : 'secondary.main',
                   ...theme.applyStyles('dark', { color: isSelected ? iconSelectedColor : 'secondary.400' }),

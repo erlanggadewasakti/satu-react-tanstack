@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 
 // material-ui
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Link from '@mui/material/Link';
@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
 import Avatar from 'components/@extended/Avatar';
@@ -96,7 +96,7 @@ export default function NotificationPage() {
                   <CardContent>
                     <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
                       <Typography variant="h5">Notifications</Typography>
-                      <Link href="#" variant="h6" color="primary">
+                      <Link href="#" variant="subtitle2" color="primary">
                         Mark all read
                       </Link>
                     </Stack>
@@ -117,7 +117,7 @@ export default function NotificationPage() {
                         <ListItem
                           component={ListItemButton}
                           secondaryAction={
-                            <Typography variant="caption" noWrap>
+                            <Typography variant="caption" color="text.secondary" noWrap>
                               3:00 AM
                             </Typography>
                           }
@@ -129,9 +129,9 @@ export default function NotificationPage() {
                           </ListItemAvatar>
                           <ListItemText
                             primary={
-                              <Typography variant="h6">
+                              <Typography variant="body2">
                                 It&apos;s{' '}
-                                <Typography component="span" variant="subtitle1">
+                                <Typography component="span" variant="subtitle2">
                                   Cristina danny&apos;s
                                 </Typography>{' '}
                                 birthday today.
@@ -144,7 +144,7 @@ export default function NotificationPage() {
                         <ListItem
                           component={ListItemButton}
                           secondaryAction={
-                            <Typography variant="caption" noWrap>
+                            <Typography variant="caption" color="text.secondary" noWrap>
                               6:00 PM
                             </Typography>
                           }
@@ -156,8 +156,8 @@ export default function NotificationPage() {
                           </ListItemAvatar>
                           <ListItemText
                             primary={
-                              <Typography variant="h6">
-                                <Typography component="span" variant="subtitle1">
+                              <Typography variant="body2">
+                                <Typography component="span" variant="subtitle2">
                                   Aida Burg
                                 </Typography>{' '}
                                 commented your post.
@@ -170,7 +170,7 @@ export default function NotificationPage() {
                         <ListItem
                           component={ListItemButton}
                           secondaryAction={
-                            <Typography variant="caption" noWrap>
+                            <Typography variant="caption" color="text.secondary" noWrap>
                               2:45 PM
                             </Typography>
                           }
@@ -182,9 +182,9 @@ export default function NotificationPage() {
                           </ListItemAvatar>
                           <ListItemText
                             primary={
-                              <Typography variant="h6">
+                              <Typography variant="body2">
                                 Your Profile is Complete &nbsp;
-                                <Typography component="span" variant="subtitle1">
+                                <Typography component="span" variant="subtitle2">
                                   60%
                                 </Typography>{' '}
                               </Typography>
@@ -196,7 +196,7 @@ export default function NotificationPage() {
                         <ListItem
                           component={ListItemButton}
                           secondaryAction={
-                            <Typography variant="caption" noWrap>
+                            <Typography variant="caption" color="text.secondary" noWrap>
                               9:10 PM
                             </Typography>
                           }
@@ -206,12 +206,12 @@ export default function NotificationPage() {
                           </ListItemAvatar>
                           <ListItemText
                             primary={
-                              <Typography variant="h6">
-                                <Typography component="span" variant="subtitle1">
+                              <Typography variant="body2">
+                                <Typography component="span" variant="subtitle2">
                                   Cristina Danny
                                 </Typography>{' '}
                                 invited to join{' '}
-                                <Typography component="span" variant="subtitle1">
+                                <Typography component="span" variant="subtitle2">
                                   Meeting.
                                 </Typography>
                               </Typography>
@@ -222,7 +222,7 @@ export default function NotificationPage() {
                       </List>
                     </SimpleBar>
                     <Stack direction="row" sx={{ justifyContent: 'center', mt: 1.5 }}>
-                      <Link href="#" variant="h6" color="primary">
+                      <Link href="#" variant="subtitle2" color="primary">
                         View all
                       </Link>
                     </Stack>

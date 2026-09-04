@@ -218,7 +218,7 @@ export default function AuthLogin() {
               {/* ERROR ALERT */}
               {errors.submit && (
                 <Grid size={12}>
-                  <Alert severity="error" sx={{ py: 0.5, borderRadius: 1.5, fontSize: '0.85rem' }}>
+                  <Alert severity="error" sx={{ py: 0.5, borderRadius: 1.5 }}>
                     {errors.submit}
                   </Alert>
                 </Grid>
@@ -256,7 +256,6 @@ export default function AuthLogin() {
                     display: 'block',
                     textAlign: 'center',
                     color: 'text.secondary',
-                    fontSize: '0.75rem',
                     mt: 0.5
                   }}
                 >

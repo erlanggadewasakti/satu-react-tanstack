@@ -1,16 +1,16 @@
+import { Link, useLocation } from '@tanstack/react-router';
 import { Activity, CSSProperties, ReactElement, useEffect, useState } from 'react';
-import { useLocation, Link } from '@tanstack/react-router';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 // project-imports
-import MainCard from 'components/MainCard';
 import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
+import MainCard from 'components/MainCard';
 import { ThemeDirection } from 'config';
 import navigation from 'menu-items';
 
@@ -192,7 +192,7 @@ export default function Breadcrumbs({
             </Grid>
             <Activity mode={title && titleBottom ? 'visible' : 'hidden'}>
               <Grid sx={{ mt: card === false ? 0 : 1 }}>
-                <Typography variant="h2" sx={{ fontWeight: 700 }}>
+                <Typography variant="h2">
                   <SafeFormattedMessage id={main.title} />
                 </Typography>
               </Grid>
@@ -226,7 +226,7 @@ export default function Breadcrumbs({
           component={Link}
           to="/"
           color="text.secondary"
-          variant="h6"
+          variant="body1"
           sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
         >
           <Activity mode={icons ? 'visible' : 'hidden'}>
@@ -291,7 +291,7 @@ export default function Breadcrumbs({
           >
             <Activity mode={title && !titleBottom ? 'visible' : 'hidden'}>
               <Grid>
-                <Typography variant="h2" sx={{ fontWeight: 700 }}>
+                <Typography variant="h2">
                   <SafeFormattedMessage id={custom ? heading : item?.title} />
                 </Typography>
               </Grid>
@@ -299,7 +299,7 @@ export default function Breadcrumbs({
             <Grid>{tempContent}</Grid>
             <Activity mode={title && titleBottom ? 'visible' : 'hidden'}>
               <Grid sx={{ mt: card === false ? 0 : 1 }}>
-                <Typography variant="h2" sx={{ fontWeight: 700 }}>
+                <Typography variant="h2">
                   <SafeFormattedMessage id={custom ? heading : item?.title} />
                 </Typography>
               </Grid>

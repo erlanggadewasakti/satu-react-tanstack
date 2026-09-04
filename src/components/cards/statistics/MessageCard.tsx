@@ -33,7 +33,7 @@ export default function MessageCard({ status, time, title, message, src, actions
         <Grid size={12}>
           <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
             <Chip label={status.label} color={status.color} size="small" variant="light" />
-            <Typography variant="caption" color="secondary">
+            <Typography variant="caption" color="text.secondary">
               {time}
             </Typography>
             <Dot size={5} color="warning" />
@@ -43,7 +43,9 @@ export default function MessageCard({ status, time, title, message, src, actions
           <Typography variant="subtitle1">{title}</Typography>
         </Grid>
         <Grid size={12}>
-          <Typography>{message}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {message}
+          </Typography>
         </Grid>
         <Grid size={12}>
           <CardMedia component="img" src={src} alt={title} />

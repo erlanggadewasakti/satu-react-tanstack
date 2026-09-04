@@ -90,7 +90,7 @@ export default function MockServerDataViewPage() {
         accessorKey: 'name',
         meta: { align: 'left' },
         cell: (cell: any) => (
-          <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+          <Typography variant="subtitle1" sx={{ color: 'text.primary' }}>
             {cell.getValue() as string}
           </Typography>
         )
@@ -117,7 +117,7 @@ export default function MockServerDataViewPage() {
         cell: (cell: any) => (
           <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
             <Location size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
-            <Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: 220 }}>
+            <Typography variant="body1" color="text.secondary" noWrap sx={{ maxWidth: 220 }}>
               {cell.getValue() as string}
             </Typography>
           </Stack>
@@ -131,7 +131,7 @@ export default function MockServerDataViewPage() {
         cell: (cell: any) => (
           <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
             <Call size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
               {cell.getValue() as string}
             </Typography>
           </Stack>
@@ -144,7 +144,7 @@ export default function MockServerDataViewPage() {
         cell: (cell: any) => (
           <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', justifyContent: 'center' }}>
             <Calendar size={14} style={{ opacity: 0.6 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
               {formatDate(cell.getValue() as string)}
             </Typography>
           </Stack>
@@ -155,7 +155,7 @@ export default function MockServerDataViewPage() {
         accessorKey: 'created_at',
         meta: { align: 'center' },
         cell: (cell: any) => (
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
             {formatDate(cell.getValue() as string)}
           </Typography>
         )
@@ -196,7 +196,7 @@ export default function MockServerDataViewPage() {
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="example.stat-total-server" />
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                   {isLoading ? <Skeleton width={60} /> : (paginatedData?.total ?? 0)}
                 </Typography>
               </Box>
@@ -214,7 +214,7 @@ export default function MockServerDataViewPage() {
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="example.stat-active-page" />
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                   {isLoading ? <Skeleton width={60} /> : `${paginatedData?.current_page ?? 1} / ${paginatedData?.last_page ?? 1}`}
                 </Typography>
               </Box>
@@ -232,7 +232,7 @@ export default function MockServerDataViewPage() {
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="example.stat-displayed-records" />
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                   {isLoading ? <Skeleton width={60} /> : `${paginatedData?.data?.length ?? 0} Data`}
                 </Typography>
               </Box>

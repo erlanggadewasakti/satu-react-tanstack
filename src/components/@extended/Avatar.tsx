@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 
 // material-ui
-import { styled } from '@mui/material/styles';
 import MuiAvatar, { AvatarProps } from '@mui/material/Avatar';
+import { styled } from '@mui/material/styles';
 
 // project-imports
-import getColors from 'utils/getColors';
 import { withAlpha } from 'utils/colorUtils';
+import getColors from 'utils/getColors';
 
 // types
 import { AvatarTypeProps, ColorProps, ExtendedStyleProps, SizeProps } from 'types/extended';
@@ -88,7 +88,7 @@ function getSizeStyle(size?: SizeProps) {
       };
     case 'lg':
       return {
-        fontSize: '1.2rem',
+        fontSize: '1.25rem',
         width: 52,
         height: 52,
         '& svg': {

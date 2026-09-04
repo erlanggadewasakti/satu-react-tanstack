@@ -280,6 +280,7 @@ export default function NavCollapse({ menu, level, parentId, setSelectedItems, s
                 primary={
                   <Typography
                     variant="h6"
+                    component="span"
                     sx={(theme) => ({
                       fontWeight: isSelected || anchorEl ? 500 : 400,
                       color: lightTextColor,
@@ -413,6 +414,7 @@ export default function NavCollapse({ menu, level, parentId, setSelectedItems, s
               primary={
                 <Typography
                   variant="h6"
+                  component="span"
                   sx={(theme) => ({
                     fontWeight: isSelected || anchorEl ? 500 : 400,
                     color: lightTextColor,

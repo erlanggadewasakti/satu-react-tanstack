@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Typography, Tooltip, IconButton } from '@mui/material';
+import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material';
 
 // assets
 import { SearchNormal1 } from 'iconsax-reactjs';
@@ -77,7 +77,7 @@ export default function SearchMenu({ collapsed }: Props) {
         {/* Left search icon & placeholder */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, color: 'text.secondary' }}>
           <SearchNormal1 size={16} />
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+          <Typography variant="body1" color="text.secondary">
             Search
           </Typography>
         </Box>
@@ -91,7 +91,7 @@ export default function SearchMenu({ collapsed }: Props) {
             bgcolor: 'secondary.100',
             border: '1px solid',
             borderColor: 'secondary.200',
-            fontSize: '0.675rem',
+            fontSize: '0.75rem',
             fontWeight: 600,
             color: 'text.secondary',
             letterSpacing: '0.5px',

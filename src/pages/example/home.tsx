@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
-import { ArrowRight, CloudConnection, DocumentText, OceanProtocol, Code, LampCharge } from 'iconsax-reactjs';
 import { useNavigate } from '@tanstack/react-router';
+import { ArrowRight, CloudConnection, Code, DocumentText, LampCharge, OceanProtocol } from 'iconsax-reactjs';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports
@@ -66,7 +66,7 @@ export default function ExampleHomePage() {
 
           <Box sx={{ flexGrow: 1 }}>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 0.5 }}>
-              <Typography variant="h3" sx={{ fontWeight: 700 }}>
+              <Typography variant="h3">
                 <FormattedMessage id="example.home-title" />
               </Typography>
               <Chip
@@ -164,7 +164,7 @@ export default function ExampleHomePage() {
         title={
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <LampCharge size={20} variant="Bold" />
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            <Typography variant="h5">
               <FormattedMessage id="example.guidelines-title" />
             </Typography>
           </Stack>
@@ -173,7 +173,7 @@ export default function ExampleHomePage() {
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={1}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>
+              <Typography variant="subtitle1" sx={{ color: 'primary.main' }}>
                 <FormattedMessage id="example.guidelines-1-title" />
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -184,7 +184,7 @@ export default function ExampleHomePage() {
 
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={1}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>
+              <Typography variant="subtitle1" sx={{ color: 'primary.main' }}>
                 <FormattedMessage id="example.guidelines-2-title" />
               </Typography>
               <Typography variant="body2" color="text.secondary">

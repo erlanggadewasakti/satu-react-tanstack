@@ -1,8 +1,8 @@
 // material-ui
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
 import Avatar from 'components/@extended/Avatar';
 
 // project-imports
@@ -56,8 +56,6 @@ export default function UserProfileCard() {
           <Typography
             variant="subtitle2"
             sx={{
-              fontWeight: 600,
-              fontSize: '0.75rem',
               color: 'text.primary',
               textAlign: 'center',
               width: '100%',
@@ -76,9 +74,8 @@ export default function UserProfileCard() {
             {usernameText && (
               <Typography
                 variant="caption"
+                color="text.secondary"
                 sx={{
-                  fontSize: '0.75rem',
-                  color: 'text.secondary',
                   whiteSpace: 'nowrap'
                 }}
               >
@@ -92,10 +89,9 @@ export default function UserProfileCard() {
                 size="small"
                 sx={{
                   height: 20,
-                  fontSize: '0.675rem',
                   fontWeight: 600,
                   bgcolor: 'success.main',
-                  color: '#fff'
+                  color: 'common.white'
                 }}
               />
             )}

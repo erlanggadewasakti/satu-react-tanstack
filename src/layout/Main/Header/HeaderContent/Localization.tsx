@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 // material-ui
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
 import IconButton from 'components/@extended/IconButton';
@@ -111,8 +111,10 @@ export default function Localization() {
                       <ListItemText
                         primary={
                           <Grid container>
-                            <Typography sx={{ color: 'text.primary' }}>Bahasa Indonesia</Typography>
-                            <Typography variant="caption" sx={{ color: 'text.secondary', ml: '8px' }}>
+                            <Typography variant="body1" color="text.primary">
+                              Bahasa Indonesia
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
                               (ID)
                             </Typography>
                           </Grid>
@@ -123,8 +125,10 @@ export default function Localization() {
                       <ListItemText
                         primary={
                           <Grid container>
-                            <Typography sx={{ color: 'text.primary' }}>English</Typography>
-                            <Typography variant="caption" sx={{ color: 'text.secondary', ml: '8px' }}>
+                            <Typography variant="body1" color="text.primary">
+                              English
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
                               (EN)
                             </Typography>
                           </Grid>

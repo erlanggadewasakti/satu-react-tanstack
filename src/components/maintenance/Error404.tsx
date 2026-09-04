@@ -25,7 +25,7 @@ export default function Error404() {
       </Stack>
       <Stack sx={{ width: 1, gap: 2, justifyContent: 'center', alignItems: 'center' }}>
         <Typography variant="h1">Page Not Found</Typography>
-        <Typography align="center" sx={{ color: 'text.secondary', width: { xs: '73%', sm: '61%' } }}>
+        <Typography variant="body2" align="center" sx={{ color: 'text.secondary', width: { xs: '73%', sm: '61%' } }}>
           The page you are looking was moved, removed, renamed, or might never exist!
         </Typography>
         <Button component={Link} to={APP_DEFAULT_PATH} variant="contained">

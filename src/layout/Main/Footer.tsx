@@ -7,7 +7,9 @@ import Typography from '@mui/material/Typography';
 export default function Footer() {
   return (
     <Stack direction={{ sm: 'row' }} sx={{ gap: 1, justifyContent: 'space-between', alignItems: 'center', pt: 3, mt: 'auto' }}>
-      <Typography variant="caption">&copy; Handcrafted by Erlangga Dewa.</Typography>
+      <Typography variant="caption" color="text.secondary">
+        &copy; Handcrafted by Erlangga Dewa.
+      </Typography>
     </Stack>
   );
 }

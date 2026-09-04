@@ -1,6 +1,6 @@
 // material-ui
-import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 // ==============================|| EMPTY TABLE - NO DATA ||============================== //
@@ -41,7 +41,7 @@ export default function EmptyTable({ msg }: { msg: string }) {
           </g>
         </g>
       </svg>
-      <Typography align="center" color="secondary">
+      <Typography variant="body2" align="center" color="text.secondary">
         {msg}
       </Typography>
     </StyledStackOverlay>

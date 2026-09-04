@@ -1,19 +1,19 @@
-import { useRef, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 // material-ui
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
 import CardContent from '@mui/material/CardContent';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Chip from '@mui/material/Chip';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // project-imports
 import Avatar from 'components/@extended/Avatar';
@@ -107,11 +107,11 @@ export default function Profile() {
                           sx={{ width: 44, height: 44 }}
                         />
                         <Stack sx={{ overflow: 'hidden' }}>
-                          <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.3 }} noWrap>
+                          <Typography variant="subtitle1" sx={{ lineHeight: 1.3 }} noWrap>
                             {user?.name || <FormattedMessage id="profile.guest" />}
                           </Typography>
                           {user?.username && (
-                            <Typography variant="caption" color="secondary" sx={{ fontSize: '0.75rem' }} noWrap>
+                            <Typography variant="caption" color="secondary" noWrap>
                               {`@${user.username}`}
                             </Typography>
                           )}
@@ -132,16 +132,11 @@ export default function Profile() {
                             color="primary"
                             variant="outlined"
                             size="small"
-                            sx={{ height: 22, fontSize: '0.7rem', fontWeight: 600 }}
+                            sx={{ height: 22, fontWeight: 600 }}
                           />
                         ))}
                         {user?.lecturerCode && (
-                          <Chip
-                            label={user.lecturerCode}
-                            color="success"
-                            size="small"
-                            sx={{ height: 22, fontSize: '0.7rem', fontWeight: 600 }}
-                          />
+                          <Chip label={user.lecturerCode} color="success" size="small" sx={{ height: 22, fontWeight: 600 }} />
                         )}
                       </Stack>
                     </Stack>

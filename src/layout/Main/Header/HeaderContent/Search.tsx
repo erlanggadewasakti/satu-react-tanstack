@@ -48,7 +48,7 @@ export default function Search() {
         {/* Left search icon & placeholder */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, color: 'text.secondary' }}>
           <SearchNormal1 size={16} />
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+          <Typography variant="body1" sx={{ color: 'text.secondary' }}>
             <FormattedMessage id="header.search" />
           </Typography>
         </Box>
@@ -62,7 +62,7 @@ export default function Search() {
             bgcolor: 'secondary.100',
             border: '1px solid',
             borderColor: 'secondary.200',
-            fontSize: '0.675rem',
+            fontSize: '0.75rem',
             fontWeight: 600,
             color: 'text.secondary',
             letterSpacing: '0.5px',

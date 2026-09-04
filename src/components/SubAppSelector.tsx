@@ -134,13 +134,10 @@ export default function SubAppSelector({ collapsed }: Props) {
         >
           <Box sx={{ px: 1.5, py: 0.75, mb: 0.5 }}>
             <Typography
-              variant="caption"
+              variant="overline"
               sx={{
-                fontWeight: 700,
                 color: 'text.secondary',
-                textTransform: 'uppercase',
-                letterSpacing: '0.8px',
-                fontSize: '0.65rem'
+                display: 'block'
               }}
             >
               <FormattedMessage id="menu.modul-app" />
@@ -214,13 +211,9 @@ export default function SubAppSelector({ collapsed }: Props) {
     <Box sx={{ px: 2, py: 1 }}>
       {/* Label: MODUL APP */}
       <Typography
-        variant="caption"
+        variant="overline"
         sx={{
-          fontWeight: 700,
           color: 'text.secondary',
-          textTransform: 'uppercase',
-          letterSpacing: '0.8px',
-          fontSize: '0.675rem',
           display: 'block',
           mb: 0.75,
           px: 0.25
@@ -275,8 +268,6 @@ export default function SubAppSelector({ collapsed }: Props) {
           <Typography
             variant="subtitle2"
             sx={{
-              fontWeight: 600,
-              fontSize: '0.775rem',
               color: 'text.primary',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
@@ -378,7 +369,7 @@ export default function SubAppSelector({ collapsed }: Props) {
                 </ListItemIcon>
                 <ListItemText
                   primary={
-                    <Typography variant="subtitle2" sx={{ fontWeight: isSelected ? 600 : 500, fontSize: '0.8125rem' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: isSelected ? 600 : 500 }}>
                       {localizedName}
                     </Typography>
                   }

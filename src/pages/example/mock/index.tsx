@@ -77,7 +77,7 @@ export default function MockDataViewPage() {
         accessorKey: 'name',
         meta: { align: 'left' },
         cell: (cell: any) => (
-          <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+          <Typography variant="subtitle1" sx={{ color: 'text.primary' }}>
             {cell.getValue() as string}
           </Typography>
         )
@@ -104,7 +104,7 @@ export default function MockDataViewPage() {
         cell: (cell: any) => (
           <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
             <Location size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
-            <Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: 220 }}>
+            <Typography variant="body1" color="text.secondary" noWrap sx={{ maxWidth: 220 }}>
               {cell.getValue() as string}
             </Typography>
           </Stack>
@@ -118,7 +118,7 @@ export default function MockDataViewPage() {
         cell: (cell: any) => (
           <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
             <Call size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
               {cell.getValue() as string}
             </Typography>
           </Stack>
@@ -131,7 +131,7 @@ export default function MockDataViewPage() {
         cell: (cell: any) => (
           <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', justifyContent: 'center' }}>
             <Calendar size={14} style={{ opacity: 0.6 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
               {formatDate(cell.getValue() as string)}
             </Typography>
           </Stack>
@@ -142,7 +142,7 @@ export default function MockDataViewPage() {
         accessorKey: 'created_at',
         meta: { align: 'center' },
         cell: (cell: any) => (
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
             {formatDate(cell.getValue() as string)}
           </Typography>
         )
@@ -191,7 +191,7 @@ export default function MockDataViewPage() {
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="example.stat-total-mock" />
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                   {isLoading ? <Skeleton width={60} /> : rawMockData?.length || 0}
                 </Typography>
               </Box>
@@ -209,7 +209,7 @@ export default function MockDataViewPage() {
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="example.stat-filtered-records" />
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                   {isLoading ? <Skeleton width={60} /> : table.getFilteredRowModel().rows.length}
                 </Typography>
               </Box>
@@ -227,7 +227,7 @@ export default function MockDataViewPage() {
                 <Typography variant="caption" color="text.secondary">
                   <FormattedMessage id="example.stat-job-roles" />
                 </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
                   {isLoading ? <Skeleton width={60} /> : uniqueJobsCount}
                 </Typography>
               </Box>

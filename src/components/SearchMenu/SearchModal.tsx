@@ -2,23 +2,23 @@ import { KeyboardEvent } from 'react';
 
 // material-ui
 import {
+  Box,
+  Chip,
   Dialog,
   DialogContent,
-  Box,
-  OutlinedInput,
+  Divider,
   InputAdornment,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography,
-  Chip,
+  OutlinedInput,
   Stack,
-  Divider
+  Typography
 } from '@mui/material';
 
 // assets
-import { SearchNormal1, ArrowRight, DocumentText } from 'iconsax-reactjs';
+import { ArrowRight, DocumentText, SearchNormal1 } from 'iconsax-reactjs';
 
 // third-party
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -114,7 +114,6 @@ export default function SearchModal({
                   onClick={onClose}
                   sx={{
                     height: 22,
-                    fontSize: '0.675rem',
                     fontWeight: 600,
                     cursor: 'pointer',
                     bgcolor: 'secondary.100',
@@ -184,7 +183,7 @@ export default function SearchModal({
                               size="small"
                               variant="outlined"
                               color={isSelected ? 'primary' : 'secondary'}
-                              sx={{ height: 18, fontSize: '0.625rem', px: 0.25 }}
+                              sx={{ height: 18, px: 0.25 }}
                             />
                           )}
                         </Stack>
@@ -232,26 +231,27 @@ export default function SearchModal({
             alignItems: 'center',
             justifyContent: 'space-between',
             bgcolor: 'secondary.lighter',
-            fontSize: '0.75rem',
             color: 'text.secondary'
           }}
         >
           <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
             <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-              <Chip label="↑↓" size="small" sx={{ height: 18, fontSize: '0.625rem', px: 0.25 }} />
+              <Chip label="↑↓" size="small" sx={{ height: 18, px: 0.25 }} />
               <Typography variant="caption">
                 <FormattedMessage id="search.navigate" />
               </Typography>
             </Stack>
             <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-              <Chip label="ENTER" size="small" sx={{ height: 18, fontSize: '0.625rem', px: 0.25 }} />
+              <Chip label="ENTER" size="small" sx={{ height: 18, px: 0.25 }} />
               <Typography variant="caption">
                 <FormattedMessage id="search.open" />
               </Typography>
             </Stack>
           </Stack>
           <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-            <Typography variant="caption">Powered by Fuse.js</Typography>
+            <Typography variant="caption" color="text.disabled">
+              Powered by Fuse.js
+            </Typography>
           </Stack>
         </Box>
       </DialogContent>

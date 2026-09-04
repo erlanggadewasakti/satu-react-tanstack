@@ -100,11 +100,10 @@ export default function AuthSideBanner() {
       {/* CENTER: LENS OBE HEADLINE */}
       <Box sx={{ my: 'auto', py: 4 }}>
         <Typography
-          variant="h4"
+          variant="h3"
           sx={{
             color: 'common.white',
             fontWeight: 400,
-            fontSize: { xs: '1.25rem', md: '1.5rem' },
             letterSpacing: 0.5,
             mb: 0.5
           }}
@@ -116,7 +115,7 @@ export default function AuthSideBanner() {
           variant="h1"
           sx={{
             color: 'common.white',
-            fontWeight: 800,
+            fontWeight: 700,
             fontSize: { xs: '2.75rem', md: '3.75rem', lg: '4.5rem' },
             letterSpacing: -1,
             lineHeight: 1.1,
@@ -131,9 +130,7 @@ export default function AuthSideBanner() {
           sx={{
             color: 'rgba(255, 255, 255, 0.8)',
             maxWidth: 480,
-            fontSize: { xs: '0.95rem', md: '1.05rem' },
-            lineHeight: 1.6,
-            fontWeight: 300
+            lineHeight: 1.6
           }}
         >
           <FormattedMessage id="login.lens-desc" />
@@ -143,13 +140,9 @@ export default function AuthSideBanner() {
       {/* BOTTOM: FOOTER "POWERED BY: satu framework" */}
       <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
         <Typography
-          variant="caption"
+          variant="overline"
           sx={{
-            color: 'rgba(255, 255, 255, 0.6)',
-            letterSpacing: 1,
-            textTransform: 'uppercase',
-            fontWeight: 500,
-            fontSize: '0.75rem'
+            color: 'rgba(255, 255, 255, 0.6)'
           }}
         >
           <FormattedMessage id="login.powered-by" />

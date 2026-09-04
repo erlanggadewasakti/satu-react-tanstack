@@ -270,10 +270,8 @@ export default function NavGroup({
                 menuCaption && (
                   <Box sx={{ pl: 3, mb: 1.5 }}>
                     <Typography
-                      variant="h5"
+                      variant="overline"
                       sx={(theme) => ({
-                        textTransform: 'uppercase',
-                        fontSize: '0.688rem',
                         color: 'secondary.dark',
                         ...theme.applyStyles('dark', { color: 'text.secondary' })
                       })}
