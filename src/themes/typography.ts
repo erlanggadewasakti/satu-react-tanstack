@@ -13,16 +13,16 @@ export default function Typography(fontFamily: FontFamily): TypographyVariantsOp
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
-    fontWeightBold: 600,
+    fontWeightBold: 700,
     h1: {
-      fontWeight: 600,
-      fontSize: '2.375rem',
-      lineHeight: 1.21
+      fontWeight: 700,
+      fontSize: '2.25rem',
+      lineHeight: 1.25
     },
     h2: {
-      fontWeight: 600,
+      fontWeight: 700,
       fontSize: '1.875rem',
-      lineHeight: 1.27
+      lineHeight: 1.3
     },
     h3: {
       fontWeight: 600,
@@ -40,7 +40,7 @@ export default function Typography(fontFamily: FontFamily): TypographyVariantsOp
       lineHeight: 1.5
     },
     h6: {
-      fontWeight: 400,
+      fontWeight: 600,
       fontSize: '0.875rem',
       lineHeight: 1.57
     },
@@ -54,7 +54,7 @@ export default function Typography(fontFamily: FontFamily): TypographyVariantsOp
       lineHeight: 1.57
     },
     body2: {
-      fontSize: '0.8rem',
+      fontSize: '0.75rem',
       lineHeight: 1.66
     },
     subtitle1: {
@@ -68,10 +68,17 @@ export default function Typography(fontFamily: FontFamily): TypographyVariantsOp
       lineHeight: 1.66
     },
     overline: {
-      lineHeight: 1.66
+      fontSize: '0.75rem',
+      fontWeight: 600,
+      lineHeight: 1.66,
+      textTransform: 'uppercase',
+      letterSpacing: '0.8px'
     },
     button: {
-      textTransform: 'capitalize'
+      fontSize: '0.875rem',
+      fontWeight: 500,
+      lineHeight: 1.57,
+      textTransform: 'none'
     }
   };
 }
