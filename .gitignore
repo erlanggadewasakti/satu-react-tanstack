@@ -111,8 +111,6 @@ dist
 
 !package-lock.json
 
-# TanStack Router generated tree
-src/routeTree.gen.ts
 
 .env
 .output
