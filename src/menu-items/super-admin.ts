@@ -1,4 +1,4 @@
-import { SecurityUser, Home3 } from 'iconsax-react';
+import { Home3, SecurityUser } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
 
 const icons = {

@@ -1,4 +1,4 @@
-import { Calendar, Home3 } from 'iconsax-react';
+import { Calendar, Home3 } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
 
 const icons = {

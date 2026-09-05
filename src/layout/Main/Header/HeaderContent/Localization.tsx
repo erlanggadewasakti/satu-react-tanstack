@@ -20,7 +20,7 @@ import MainCard from 'components/MainCard';
 import useConfig from 'hooks/useConfig';
 
 // assets
-import { LanguageSquare } from 'iconsax-react';
+import { LanguageSquare } from 'iconsax-reactjs';
 
 // types
 import { I18n } from 'types/config';

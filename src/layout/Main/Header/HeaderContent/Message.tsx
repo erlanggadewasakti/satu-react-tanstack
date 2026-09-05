@@ -1,31 +1,31 @@
 import { useState } from 'react';
 
 // material-ui
-import { useColorScheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import { useColorScheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // project-imports
-import MessageCard from 'components/cards/statistics/MessageCard';
 import IconButton from 'components/@extended/IconButton';
+import MessageCard from 'components/cards/statistics/MessageCard';
 import MainCard from 'components/MainCard';
 import SimpleBar from 'components/third-party/SimpleBar';
 import { ThemeMode } from 'config';
 
 // assets
-import { Add, NotificationStatus } from 'iconsax-react';
+import { Add, NotificationStatus } from 'iconsax-reactjs';
 
-import message1Light from 'assets/images/widget/message/message1Light.svg';
 import message1Dark from 'assets/images/widget/message/message1Dark.svg';
-import message2Light from 'assets/images/widget/message/message2Light.svg';
+import message1Light from 'assets/images/widget/message/message1Light.svg';
 import message2Dark from 'assets/images/widget/message/message2Dark.svg';
-import message3Light from 'assets/images/widget/message/message3Light.svg';
+import message2Light from 'assets/images/widget/message/message2Light.svg';
 import message3Dark from 'assets/images/widget/message/message3Dark.svg';
-import message4Light from 'assets/images/widget/message/message4Light.svg';
+import message3Light from 'assets/images/widget/message/message3Light.svg';
 import message4Dark from 'assets/images/widget/message/message4Dark.svg';
+import message4Light from 'assets/images/widget/message/message4Light.svg';
 
 // ==============================|| HEADER CONTENT - CUSTOMIZATION ||============================== //
 

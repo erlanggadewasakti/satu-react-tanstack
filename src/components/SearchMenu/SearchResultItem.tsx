@@ -1,7 +1,7 @@
 import { Box, Chip, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
-import { ArrowRight, DocumentText } from 'iconsax-react';
-import { useIntl } from 'react-intl';
 import { SearchableItem, resolveLocalizedText } from 'config/searchConfig';
+import { ArrowRight, DocumentText } from 'iconsax-reactjs';
+import { useIntl } from 'react-intl';
 
 interface SearchResultItemProps {
   item: SearchableItem;
@@ -10,11 +10,7 @@ interface SearchResultItemProps {
   onMouseEnter: () => void;
 }
 
-function getBadgeText(
-  subAppName: { id: string; en?: string },
-  category: { id: string; en?: string },
-  locale: string
-): string {
+function getBadgeText(subAppName: { id: string; en?: string }, category: { id: string; en?: string }, locale: string): string {
   if (subAppName.id) {
     return locale === 'en' ? subAppName.en || subAppName.id : subAppName.id || subAppName.en || '';
   }
@@ -75,13 +71,7 @@ function SearchResultTitle({
   );
 }
 
-function SearchResultSubtitle({
-  subTitle,
-  isSelected
-}: {
-  subTitle: { id: string; en?: string };
-  isSelected: boolean;
-}) {
+function SearchResultSubtitle({ subTitle, isSelected }: { subTitle: { id: string; en?: string }; isSelected: boolean }) {
   if (!subTitle.id && !subTitle.en) return null;
 
   return (
@@ -107,13 +97,7 @@ function SearchResultSubtitle({
   );
 }
 
-function SearchResultDescription({
-  description,
-  isSelected
-}: {
-  description: { id: string; en?: string };
-  isSelected: boolean;
-}) {
+function SearchResultDescription({ description, isSelected }: { description: { id: string; en?: string }; isSelected: boolean }) {
   return (
     <Stack spacing={0.35} sx={{ mt: 0.5 }}>
       {description.id && (
@@ -223,13 +207,7 @@ function SearchResultSecondary({
   );
 }
 
-function SearchResultIcon({
-  IconComponent,
-  isSelected
-}: {
-  IconComponent: any;
-  isSelected: boolean;
-}) {
+function SearchResultIcon({ IconComponent, isSelected }: { IconComponent: any; isSelected: boolean }) {
   return (
     <ListItemIcon
       sx={{

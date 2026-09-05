@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 
 // material-ui
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // project-imports
 import ColorScheme from './ColorScheme';
@@ -24,7 +24,7 @@ import SimpleBar from 'components/third-party/SimpleBar';
 import { GRID_COMMON_SPACING, HEADER_HEIGHT } from 'config';
 
 // assets
-import { Add, Setting2 } from 'iconsax-react';
+import { Add, Setting2 } from 'iconsax-reactjs';
 
 // ==============================|| HEADER CONTENT - CUSTOMIZATION ||============================== //
 

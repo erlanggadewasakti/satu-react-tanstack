@@ -1,4 +1,4 @@
-import { UserSquare, Home3 } from 'iconsax-react';
+import { Home3, UserSquare } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
 
 const icons = {

@@ -1,14 +1,4 @@
-import {
-  Award,
-  Book,
-  Briefcase,
-  Calendar,
-  DocumentText,
-  Element3,
-  Profile,
-  SecurityUser,
-  UserSquare
-} from 'iconsax-react';
+import { Award, Book, Briefcase, Calendar, DocumentText, Element3, Profile, SecurityUser, UserSquare } from 'iconsax-reactjs';
 
 interface SubAppIconProps {
   id?: string;

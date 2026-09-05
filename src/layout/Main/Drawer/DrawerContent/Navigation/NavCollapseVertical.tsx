@@ -1,10 +1,10 @@
-import { useState, Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
+import { Dispatch, MouseEvent, ReactNode, SetStateAction, useState } from 'react';
 
 // material-ui
-import { useTheme, styled } from '@mui/material/styles';
-import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -12,8 +12,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
+import { styled, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // project-imports
 import Dot from 'components/@extended/Dot';
@@ -26,7 +26,7 @@ import { useGetMenuMaster } from 'api/menu';
 import useMenuCollapse from 'hooks/useMenuCollapse';
 
 // assets
-import { ArrowDown2, ArrowUp2, ArrowRight2, Copy } from 'iconsax-react';
+import { ArrowDown2, ArrowRight2, ArrowUp2, Copy } from 'iconsax-reactjs';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -97,13 +97,7 @@ function NavCollapseArrow({
   lightColor: string;
   darkColor: string;
 }) {
-  const icon = isMiniOpened ? (
-    <ArrowRight2 {...arrowStyle} />
-  ) : isOpen ? (
-    <ArrowUp2 {...arrowStyle} />
-  ) : (
-    <ArrowDown2 {...arrowStyle} />
-  );
+  const icon = isMiniOpened ? <ArrowRight2 {...arrowStyle} /> : isOpen ? <ArrowUp2 {...arrowStyle} /> : <ArrowDown2 {...arrowStyle} />;
 
   if (hasUrl) {
     return (
@@ -258,9 +252,7 @@ function NavCollapseMiniPopper({
             })}
           >
             <ClickAwayListener onClickAway={onClose}>
-              <SimpleBar sx={{ overflowX: 'hidden', overflowY: 'auto', maxHeight: 'calc(100vh - 170px)' }}>
-                {children}
-              </SimpleBar>
+              <SimpleBar sx={{ overflowX: 'hidden', overflowY: 'auto', maxHeight: 'calc(100vh - 170px)' }}>{children}</SimpleBar>
             </ClickAwayListener>
           </Paper>
         </Transitions>

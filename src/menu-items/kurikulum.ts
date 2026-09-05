@@ -1,4 +1,4 @@
-import { Teacher, Home3 } from 'iconsax-react';
+import { Home3, Teacher } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
 
 const icons = {

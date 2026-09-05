@@ -1,4 +1,4 @@
-import { ChartCircle, Home3 } from 'iconsax-react';
+import { ChartCircle, Home3 } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
 
 const icons = {

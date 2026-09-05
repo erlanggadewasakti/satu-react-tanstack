@@ -1,4 +1,4 @@
-import { DocumentText, CloudConnection, Home3 } from 'iconsax-react';
+import { CloudConnection, DocumentText, Home3 } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
 
 const icons = {

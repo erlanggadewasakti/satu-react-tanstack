@@ -1,19 +1,19 @@
 import { ChangeEvent } from 'react';
 
 // material-ui
-import { useColorScheme } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Stack from '@mui/material/Stack';
+import { useColorScheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 // project-imports
-import { ThemeMode } from 'config';
 import MainCard from 'components/MainCard';
+import { ThemeMode } from 'config';
 
 // assets
-import { Moon, Setting2, Sun1 } from 'iconsax-react';
+import { Moon, Setting2, Sun1 } from 'iconsax-reactjs';
 
 // ==============================|| CUSTOMIZATION - MODE ||============================== //
 

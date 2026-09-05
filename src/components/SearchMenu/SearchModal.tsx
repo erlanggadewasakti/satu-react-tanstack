@@ -1,27 +1,19 @@
 import { KeyboardEvent } from 'react';
 
 // material-ui
-import {
-  Box,
-  Chip,
-  Dialog,
-  DialogContent,
-  InputAdornment,
-  List,
-  OutlinedInput
-} from '@mui/material';
+import { Box, Chip, Dialog, DialogContent, InputAdornment, List, OutlinedInput } from '@mui/material';
 
 // assets
-import { SearchNormal1 } from 'iconsax-react';
+import { SearchNormal1 } from 'iconsax-reactjs';
 
 // third-party
 import { useIntl } from 'react-intl';
 
 import SimpleBar from 'components/third-party/SimpleBar';
 import { SearchableItem } from 'config/searchConfig';
-import SearchResultItem from './SearchResultItem';
 import SearchEmptyState from './SearchEmptyState';
 import SearchFooter from './SearchFooter';
+import SearchResultItem from './SearchResultItem';
 
 interface Props {
   open: boolean;

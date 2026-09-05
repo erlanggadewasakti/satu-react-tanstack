@@ -17,7 +17,7 @@ import useConfig from 'hooks/useConfig';
 import { PresetColor } from 'types/config';
 
 // assets
-import { TickSquare } from 'iconsax-react';
+import { TickSquare } from 'iconsax-reactjs';
 
 // ==============================|| CUSTOMIZATION - COLOR SCHEME ||============================== //
 

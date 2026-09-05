@@ -1,9 +1,9 @@
 // material-ui
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 // assets
-import { ArrowDown2, ArrowUp2 } from 'iconsax-react';
+import { ArrowDown2, ArrowUp2 } from 'iconsax-reactjs';
 
 // types
 import { CellData, Column, RowData, StockFeatures } from '@tanstack/react-table';

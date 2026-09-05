@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
 // material-ui
-import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
 
 // project-imports
 import IconButton from 'components/@extended/IconButton';
 
 // assets
-import { Maximize1 } from 'iconsax-react';
+import { Maximize1 } from 'iconsax-reactjs';
 
 // ==============================|| HEADER CONTENT - FULLSCREEN ||============================== //
 

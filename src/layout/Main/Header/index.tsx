@@ -1,22 +1,22 @@
 import { ReactNode, useMemo } from 'react';
 
 // material-ui
-import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBar, { AppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
+import IconButton from 'components/@extended/IconButton';
 import AppBarStyled from './AppBarStyled';
 import HeaderContent from './HeaderContent';
-import IconButton from 'components/@extended/IconButton';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 import { DRAWER_WIDTH, MINI_DRAWER_WIDTH, MenuOrientation } from 'config';
-import { withAlpha } from 'utils/colorUtils';
 import useConfig from 'hooks/useConfig';
+import { HamburgerMenu } from 'iconsax-reactjs';
+import { withAlpha } from 'utils/colorUtils';
 
 // assets
-import { HambergerMenu as HamburgerMenu } from 'iconsax-react';
 
 // ==============================|| MAIN LAYOUT - HEADER ||============================== //
 

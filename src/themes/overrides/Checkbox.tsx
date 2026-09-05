@@ -1,13 +1,13 @@
 // material-ui
-import { Theme } from '@mui/material/styles';
 import { CheckboxProps } from '@mui/material/Checkbox';
+import { Theme } from '@mui/material/styles';
 
 // project-imports
-import getColors from 'utils/getColors';
 import { withAlpha } from 'utils/colorUtils';
+import getColors from 'utils/getColors';
 
 // assets
-import { Stop, TickSquare, MinusSquare } from 'iconsax-react';
+import { MinusSquare, Stop, TickSquare } from 'iconsax-reactjs';
 
 // types
 import { ExtendedStyleProps } from 'types/extended';

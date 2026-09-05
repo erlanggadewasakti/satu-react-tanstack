@@ -1,4 +1,4 @@
-import { ClipboardText, Home3 } from 'iconsax-react';
+import { ClipboardText, Home3 } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
 
 const icons = {

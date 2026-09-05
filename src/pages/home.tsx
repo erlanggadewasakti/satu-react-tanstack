@@ -1,11 +1,11 @@
-import { Box, Grid, Typography, Card, CardContent, Button, Stack, Chip } from '@mui/material';
-import { CallCalling, ExportSquare, ArrowRight, Category } from 'iconsax-react';
+import { Box, Button, Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
+import { ArrowRight, CallCalling, Category, ExportSquare } from 'iconsax-reactjs';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports
+import lensHeroImg from 'assets/images/lens-hero.png';
 import MainCard from 'components/MainCard';
 import useSubApp from 'hooks/useSubApp';
-import lensHeroImg from 'assets/images/lens-hero.png';
 
 const USER_MANUAL_LINK =
   'https://telkomuniversityofficial-my.sharepoint.com/:f:/g/personal/devops_telkomuniversity_ac_id/EnBo4K4hxwBKnNO0zNKBb7cBLsk0o9YqOC023KAk9_wGHw?e=rVOGXh';

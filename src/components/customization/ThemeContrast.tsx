@@ -10,7 +10,7 @@ import MainCard from 'components/MainCard';
 import useConfig from 'hooks/useConfig';
 
 // assets
-import { Mask } from 'iconsax-react';
+import { Mask } from 'iconsax-reactjs';
 
 // ==============================|| CUSTOMIZATION - MODE ||============================== //
 

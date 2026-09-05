@@ -13,14 +13,14 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 // project-imports
-import SimpleBar from 'components/third-party/SimpleBar';
-import Transitions from 'components/@extended/Transitions';
 import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
+import Transitions from 'components/@extended/Transitions';
+import SimpleBar from 'components/third-party/SimpleBar';
 import NavCollapse from './NavCollapse';
 import NavItem from './NavItem';
 
 // assets
-import { More2 } from 'iconsax-react';
+import { More2 } from 'iconsax-reactjs';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -105,9 +105,7 @@ export default function NavGroupHorizontal({
         className={anchorEl ? 'Mui-selected' : ''}
       >
         <Activity mode={itemIcon ? 'visible' : 'hidden'}>
-          <ListItemIcon sx={{ minWidth: 32 }}>
-            {currentItem.id === lastItemId ? <More2 size={22} variant="Bulk" /> : itemIcon}
-          </ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 32 }}>{currentItem.id === lastItemId ? <More2 size={22} variant="Bulk" /> : itemIcon}</ListItemIcon>
         </Activity>
         <ListItemText
           sx={{ mr: 1 }}

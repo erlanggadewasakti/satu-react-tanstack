@@ -1,5 +1,5 @@
 import { Box, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
-import { TickCircle } from 'iconsax-react';
+import { TickCircle } from 'iconsax-reactjs';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SubAppConfig } from 'types/subApp';
 import SubAppIcon from './SubAppIcon';
@@ -14,15 +14,7 @@ interface SubAppMenuProps {
   isMini?: boolean;
 }
 
-export default function SubAppMenu({
-  anchorEl,
-  open,
-  onClose,
-  subApps,
-  activeSubApp,
-  onSelect,
-  isMini = false
-}: SubAppMenuProps) {
+export default function SubAppMenu({ anchorEl, open, onClose, subApps, activeSubApp, onSelect, isMini = false }: SubAppMenuProps) {
   const intl = useIntl();
 
   const getLocalizedAppName = (app?: { id: string; name: string }) => {

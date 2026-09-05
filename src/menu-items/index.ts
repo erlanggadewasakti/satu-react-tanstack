@@ -1,4 +1,4 @@
-import { Home3 } from 'iconsax-react';
+import { Home3 } from 'iconsax-reactjs';
 
 // project-imports
 import akademikAdminMenuItems from './akademik-admin';

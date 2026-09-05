@@ -15,7 +15,7 @@ import { ThemeDirection } from 'config';
 import navigation from 'menu-items';
 
 // assets
-import { ArrowRight2, Buildings2, Home3 } from 'iconsax-react';
+import { ArrowRight2, Buildings2, Home3 } from 'iconsax-reactjs';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -74,10 +74,7 @@ function findInCollapse(
   return null;
 }
 
-function findActiveBreadcrumbs(
-  items: NavItemType[] | undefined,
-  targetPath: string
-): { main?: NavItemType; item?: NavItemType } {
+function findActiveBreadcrumbs(items: NavItemType[] | undefined, targetPath: string): { main?: NavItemType; item?: NavItemType } {
   if (!items) return {};
 
   for (const menu of items) {

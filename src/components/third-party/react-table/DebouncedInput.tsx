@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 // material-ui
 import IconButton from '@mui/material/IconButton';
@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
 
 // assets
-import { CloseCircle, SearchNormal1 } from 'iconsax-react';
+import { CloseCircle, SearchNormal1 } from 'iconsax-reactjs';
 
 // types
 interface Props extends Omit<OutlinedInputProps, 'onChange'> {

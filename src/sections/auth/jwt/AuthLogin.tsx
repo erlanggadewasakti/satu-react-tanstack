@@ -14,18 +14,18 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 // third-party
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { FormattedMessage, useIntl } from 'react-intl';
+import * as Yup from 'yup';
 
 // project-imports
-import IconButton from 'components/@extended/IconButton';
-import AnimateButton from 'components/@extended/AnimateButton';
-import useAuth from 'hooks/useAuth';
 import { openSnackbar } from 'api/snackbar';
+import AnimateButton from 'components/@extended/AnimateButton';
+import IconButton from 'components/@extended/IconButton';
+import useAuth from 'hooks/useAuth';
 
 // assets
-import { Eye, EyeSlash } from 'iconsax-react';
+import { Eye, EyeSlash } from 'iconsax-reactjs';
 
 // ============================|| LOGIN FORM ||============================ //
 

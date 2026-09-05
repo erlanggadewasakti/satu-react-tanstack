@@ -1,16 +1,16 @@
-import { useState, MouseEvent, ReactNode } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
+import { MouseEvent, ReactNode, useState } from 'react';
 
 // material-ui
-import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // project-imports
 import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
@@ -18,7 +18,7 @@ import Transitions from 'components/@extended/Transitions';
 import SimpleBar from 'components/third-party/SimpleBar';
 
 // assets
-import { ArrowDown2, ArrowRight2, Copy } from 'iconsax-react';
+import { ArrowDown2, ArrowRight2, Copy } from 'iconsax-reactjs';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -165,9 +165,7 @@ export default function NavCollapseHorizontal({ menu, level, navCollapse }: Prop
       }}
     >
       <Box onClick={handlerIconLink} sx={FlexBox}>
-        {menuIcon && (
-          <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36, color: 'secondary.dark' }}>{menuIcon}</ListItemIcon>
-        )}
+        {menuIcon && <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36, color: 'secondary.dark' }}>{menuIcon}</ListItemIcon>}
         <ListItemText
           primary={
             <Typography

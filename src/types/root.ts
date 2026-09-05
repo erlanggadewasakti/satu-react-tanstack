@@ -1,11 +1,11 @@
 import { ComponentClass, FunctionComponent } from 'react';
 
 // material-ui
-import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 
 // third-party
-import { Icon } from 'iconsax-react';
+import { Icon } from 'iconsax-reactjs';
 
 // ==============================|| TYPES - ROOT  ||============================== //
 
