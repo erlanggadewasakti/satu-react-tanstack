@@ -53,8 +53,6 @@ export default function Profile() {
     setOpen(false);
   };
 
-  const userRoles = Array.isArray(user?.role) ? user.role : user?.role ? [user.role] : [];
-
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
       <ButtonBase
@@ -111,7 +109,7 @@ export default function Profile() {
                             {user?.name || <FormattedMessage id="profile.guest" />}
                           </Typography>
                           {user?.username && (
-                            <Typography variant="caption" color="secondary" noWrap>
+                            <Typography variant="caption" color="text.secondary" noWrap>
                               {`@${user.username}`}
                             </Typography>
                           )}
@@ -124,21 +122,31 @@ export default function Profile() {
                         </Typography>
                       )}
 
-                      <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
-                        {userRoles.map((role, idx) => (
-                          <Chip
-                            key={idx}
-                            label={String(role)}
-                            color="primary"
-                            variant="outlined"
-                            size="small"
-                            sx={{ height: 22, fontWeight: 600 }}
-                          />
-                        ))}
-                        {user?.lecturerCode && (
-                          <Chip label={user.lecturerCode} color="success" size="small" sx={{ height: 22, fontWeight: 600 }} />
-                        )}
-                      </Stack>
+                      {(user?.employeeType || user?.identifyNumber || user?.lecturerCode) && (
+                        <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', gap: 0.5, alignItems: 'center' }}>
+                          {user?.employeeType && (
+                            <Chip
+                              label={user.employeeType}
+                              color="primary"
+                              variant="outlined"
+                              size="small"
+                              sx={{ height: 22, fontWeight: 600 }}
+                            />
+                          )}
+                          {user?.identifyNumber && (
+                            <Chip
+                              label={user.identifyNumber}
+                              color="secondary"
+                              variant="outlined"
+                              size="small"
+                              sx={{ height: 22, fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}
+                            />
+                          )}
+                          {user?.lecturerCode && (
+                            <Chip label={user.lecturerCode} color="success" size="small" sx={{ height: 22, fontWeight: 600 }} />
+                          )}
+                        </Stack>
+                      )}
                     </Stack>
                   </CardContent>
 
@@ -147,17 +155,44 @@ export default function Profile() {
                   <Box sx={{ p: 1.5 }}>
                     <Button
                       fullWidth
-                      variant="light"
-                      color="error"
                       onClick={handleLogout}
                       startIcon={<Logout size={18} />}
-                      sx={{
+                      sx={(theme) => ({
                         justifyContent: 'flex-start',
                         px: 2,
                         py: 1,
                         borderRadius: 1,
-                        fontWeight: 600
-                      }}
+                        fontWeight: 600,
+                        color: 'text.primary',
+                        bgcolor: 'transparent',
+                        transition: theme.transitions.create(['background-color', 'color'], {
+                          duration: theme.transitions.duration.shorter
+                        }),
+                        '&:hover': {
+                          bgcolor: 'error.main',
+                          color: 'common.white',
+                          '& .MuiButton-startIcon': {
+                            color: 'common.white'
+                          },
+                          '& svg': {
+                            color: 'common.white'
+                          }
+                        },
+                        '&:active': {
+                          bgcolor: 'error.dark',
+                          color: 'common.white',
+                          '& .MuiButton-startIcon': {
+                            color: 'common.white'
+                          },
+                          '& svg': {
+                            color: 'common.white'
+                          }
+                        },
+                        '&:focus-visible': {
+                          outline: `2px solid ${theme.vars.palette.error.main}`,
+                          outlineOffset: 2
+                        }
+                      })}
                     >
                       <FormattedMessage id="profile.logout" />
                     </Button>
