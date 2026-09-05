@@ -45,7 +45,8 @@
     "preview": "vite preview",
     "lint": "oxlint src",
     "lint:fix": "oxlint --fix src",
-    "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
+    "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "doctor": "npx react-doctor@latest"
   },
   "eslintConfig": {
     "extends": [
@@ -90,6 +91,7 @@
     "immutable": "5.1.9",
     "oxlint": "^1.81.0",
     "prettier": "3.9.6",
+    "react-doctor": "^0.9.13",
     "typescript": "7.0.2"
   },
   "resolutions": {
