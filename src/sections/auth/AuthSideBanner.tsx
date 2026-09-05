@@ -10,16 +10,52 @@ import satuLogo from 'assets/images/logo-satu.svg';
 // ==============================|| AUTH - BOKEH & SIDE BANNER ||============================== //
 
 const bokehSpans = [
-  { top: '12%', left: '33%', size: '18vmin', duration: '14s', delay: '-1s', origin: '15vw -5vh', color: 'rgb(108, 117, 125)' },
-  { top: '40%', left: '50%', size: '22vmin', duration: '18s', delay: '-3s', origin: '5vw 10vh', color: 'rgb(106, 4, 23)' },
-  { top: '25%', left: '75%', size: '16vmin', duration: '22s', delay: '-4s', origin: '-20vw 15vh', color: 'rgb(38, 50, 56)' },
-  { top: '80%', left: '10%', size: '20vmin', duration: '26s', delay: '0s', origin: '10vw -15vh', color: 'rgb(108, 117, 125)' },
-  { top: '5%', left: '20%', size: '16vmin', duration: '12s', delay: '-2s', origin: '-10vw 5vh', color: 'rgb(106, 4, 23)' },
-  { top: '55%', left: '80%', size: '20vmin', duration: '19s', delay: '-5s', origin: '0vw 20vh', color: 'rgb(38, 50, 56)' },
-  { top: '70%', left: '30%', size: '22vmin', duration: '24s', delay: '-1s', origin: '20vw 10vh', color: 'rgb(108, 117, 125)' },
-  { top: '15%', left: '45%', size: '18vmin', duration: '28s', delay: '-3s', origin: '15vw -10vh', color: 'rgb(106, 4, 23)' },
-  { top: '60%', left: '70%', size: '16vmin', duration: '14s', delay: '-2s', origin: '-5vw 5vh', color: 'rgb(38, 50, 56)' },
-  { top: '35%', left: '55%', size: '20vmin', duration: '20s', delay: '-4s', origin: '10vw 20vh', color: 'rgb(108, 117, 125)' }
+  {
+    id: 'bokeh-1',
+    top: '12%',
+    left: '33%',
+    size: '18vmin',
+    duration: '14s',
+    delay: '-1s',
+    origin: '15vw -5vh',
+    color: 'rgb(108, 117, 125)'
+  },
+  { id: 'bokeh-2', top: '40%', left: '50%', size: '22vmin', duration: '18s', delay: '-3s', origin: '5vw 10vh', color: 'rgb(106, 4, 23)' },
+  { id: 'bokeh-3', top: '25%', left: '75%', size: '16vmin', duration: '22s', delay: '-4s', origin: '-20vw 15vh', color: 'rgb(38, 50, 56)' },
+  {
+    id: 'bokeh-4',
+    top: '80%',
+    left: '10%',
+    size: '20vmin',
+    duration: '26s',
+    delay: '0s',
+    origin: '10vw -15vh',
+    color: 'rgb(108, 117, 125)'
+  },
+  { id: 'bokeh-5', top: '5%', left: '20%', size: '16vmin', duration: '12s', delay: '-2s', origin: '-10vw 5vh', color: 'rgb(106, 4, 23)' },
+  { id: 'bokeh-6', top: '55%', left: '80%', size: '20vmin', duration: '19s', delay: '-5s', origin: '0vw 20vh', color: 'rgb(38, 50, 56)' },
+  {
+    id: 'bokeh-7',
+    top: '70%',
+    left: '30%',
+    size: '22vmin',
+    duration: '24s',
+    delay: '-1s',
+    origin: '20vw 10vh',
+    color: 'rgb(108, 117, 125)'
+  },
+  { id: 'bokeh-8', top: '15%', left: '45%', size: '18vmin', duration: '28s', delay: '-3s', origin: '15vw -10vh', color: 'rgb(106, 4, 23)' },
+  { id: 'bokeh-9', top: '60%', left: '70%', size: '16vmin', duration: '14s', delay: '-2s', origin: '-5vw 5vh', color: 'rgb(38, 50, 56)' },
+  {
+    id: 'bokeh-10',
+    top: '35%',
+    left: '55%',
+    size: '20vmin',
+    duration: '20s',
+    delay: '-4s',
+    origin: '10vw 20vh',
+    color: 'rgb(108, 117, 125)'
+  }
 ];
 
 export function AuthBokehBackground() {
@@ -48,10 +84,10 @@ export function AuthBokehBackground() {
         }
       }}
     >
-      {bokehSpans.map((b, i) => (
+      {bokehSpans.map((b) => (
         <Box
           component="span"
-          key={i}
+          key={b.id}
           sx={{
             top: b.top,
             left: b.left,

@@ -145,23 +145,24 @@ export default function SearchModal({
 
                 // Determine badge text: prefer subAppName, fallback to category if meaningful and distinct
                 const badgeText = subAppName.id
-                  ? (intl.locale === 'en' ? subAppName.en || subAppName.id : subAppName.id || subAppName.en)
+                  ? intl.locale === 'en'
+                    ? subAppName.en || subAppName.id
+                    : subAppName.id || subAppName.en
                   : category.id && !['GENERAL', 'MENU', 'SUPPORT', 'OTHERS'].includes(category.id.toUpperCase())
-                    ? (intl.locale === 'en' ? category.en || category.id : category.id || category.en)
+                    ? intl.locale === 'en'
+                      ? category.en || category.id
+                      : category.id || category.en
                     : '';
 
                 // Subtitle should not duplicate title, subAppName, or category
                 const hasSubTitle = Boolean(
-                  (subTitle.id || subTitle.en) &&
-                  subTitle.id !== title.id &&
-                  subTitle.id !== subAppName.id &&
-                  subTitle.id !== category.id
+                  (subTitle.id || subTitle.en) && subTitle.id !== title.id && subTitle.id !== subAppName.id && subTitle.id !== category.id
                 );
                 const hasDescription = Boolean(description.id || description.en);
 
                 return (
                   <ListItemButton
-                    key={`${item.id}-${index}`}
+                    key={`${item.subAppId || ''}-${item.id}`}
                     selected={isSelected}
                     onClick={() => onSelect(item)}
                     onMouseEnter={() => onSelectedIndexChange(index)}

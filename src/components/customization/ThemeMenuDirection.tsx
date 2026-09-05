@@ -1,15 +1,11 @@
 // material-ui
-import CardMedia from '@mui/material/CardMedia';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 // project-imports
-import MainCard from 'components/MainCard';
 import useConfig from 'hooks/useConfig';
 import { ThemeDirection } from 'config';
+import LayoutCard from './LayoutCard';
 
 // assets
 import defaultLayout from 'assets/images/customization/ltr.svg';
@@ -20,6 +16,11 @@ const layouts = [
   { value: ThemeDirection.RTL, label: 'RTL', img: rtlLayout }
 ];
 
+const activeCardStyle = {
+  borderColor: 'primary.main',
+  '&:hover': { borderColor: 'primary.darker' }
+};
+
 // ==============================|| CUSTOMIZATION - MENU DIRECTION ||============================== //
 
 export default function ThemeMenuDirection() {
@@ -27,28 +28,6 @@ export default function ThemeMenuDirection() {
     state: { themeDirection },
     setField
   } = useConfig();
-
-  const activeCardStyle = {
-    borderColor: 'primary.main',
-    '&:hover': { borderColor: 'primary.darker' }
-  };
-
-  const renderLayoutCard = ({ value: layoutValue, label, img }: any) => (
-    <FormControlLabel
-      key={layoutValue}
-      value={layoutValue}
-      sx={{ width: 1, m: 0, display: 'flex' }}
-      control={<Radio sx={{ display: 'none' }} />}
-      label={
-        <Stack sx={{ gap: 0.5, alignItems: 'center' }}>
-          <MainCard content={false} sx={{ borderWidth: 2, p: 1, ...(themeDirection === layoutValue && { ...activeCardStyle }) }}>
-            <CardMedia component="img" src={img} alt={label} />
-          </MainCard>
-          <Typography variant="caption">{label}</Typography>
-        </Stack>
-      }
-    />
-  );
 
   return (
     <RadioGroup
@@ -59,7 +38,16 @@ export default function ThemeMenuDirection() {
       onChange={(e) => setField('themeDirection', e.target.value as ThemeDirection)}
     >
       <Stack direction="row" sx={{ gap: 2.5, alignItems: 'center', width: '100%' }}>
-        {layouts.map((layout) => renderLayoutCard(layout))}
+        {layouts.map((layout) => (
+          <LayoutCard
+            key={layout.value}
+            value={layout.value}
+            label={layout.label}
+            img={layout.img}
+            isSelected={themeDirection === layout.value}
+            activeCardStyle={activeCardStyle}
+          />
+        ))}
       </Stack>
     </RadioGroup>
   );

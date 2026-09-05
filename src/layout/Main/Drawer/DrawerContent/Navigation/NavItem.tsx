@@ -22,6 +22,7 @@ import useConfig from 'hooks/useConfig';
 
 // types
 import { LinkTarget, NavItemType } from 'types/menu';
+import { OverrideIcon } from 'types/root';
 
 interface Props {
   item: NavItemType;
@@ -177,13 +178,13 @@ export default function NavItem({ item, level, isParents = false, setSelectedID 
 
           {(drawerOpen || (!drawerOpen && level !== 1)) &&
             item?.actions &&
-            item?.actions.map((action, index) => {
-              const ActionIcon = action?.icon!;
+            item?.actions.map((action) => {
+              const ActionIcon = action.icon as OverrideIcon;
               const callAction = action?.function;
 
               return (
                 <IconButton
-                  key={index}
+                  key={action.label || action.url || 'action'}
                   {...(action.type === NavActionType.FUNCTION && {
                     onClick: (event) => {
                       event.stopPropagation();
@@ -210,7 +211,7 @@ export default function NavItem({ item, level, isParents = false, setSelectedID 
                     ...theme.applyStyles('dark', { color: isSelected ? 'primary.main' : 'secondary.400' })
                   })}
                 >
-                  <ActionIcon size={12} style={{ marginLeft: 1 }} />
+                  {ActionIcon && <ActionIcon size={12} style={{ marginLeft: 1 }} />}
                 </IconButton>
               );
             })}

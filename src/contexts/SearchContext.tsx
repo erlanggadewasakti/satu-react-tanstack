@@ -105,7 +105,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       closeSearch();
 
       if (item.external) {
-        window.open(item.url, item.target ? '_blank' : '_self');
+        window.open(item.url, item.target ? '_blank' : '_self', item.target ? 'noopener,noreferrer' : undefined);
         return;
       }
 
@@ -118,22 +118,25 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     [activeSubApp.id, changeSubApp, closeSearch, navigate]
   );
 
+  const contextValue = useMemo(
+    () => ({
+      query,
+      setQuery,
+      results,
+      isOpen,
+      openSearch,
+      closeSearch,
+      setIsOpen,
+      selectedIndex,
+      setSelectedIndex,
+      handleSelect,
+      searchableItems
+    }),
+    [query, results, isOpen, openSearch, closeSearch, setIsOpen, selectedIndex, setSelectedIndex, handleSelect, searchableItems]
+  );
+
   return (
-    <SearchContext.Provider
-      value={{
-        query,
-        setQuery,
-        results,
-        isOpen,
-        openSearch,
-        closeSearch,
-        setIsOpen,
-        selectedIndex,
-        setSelectedIndex,
-        handleSelect,
-        searchableItems
-      }}
-    >
+    <SearchContext.Provider value={contextValue}>
       {children}
       <SearchModal
         open={isOpen}

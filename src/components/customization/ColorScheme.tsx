@@ -19,13 +19,52 @@ import { PresetColor } from 'types/config';
 // assets
 import { TickSquare } from 'iconsax-reactjs';
 
-interface ColorProps {
-  id: PresetColor;
-  primary: string;
-  darker: string;
-}
-
 // ==============================|| CUSTOMIZATION - COLOR SCHEME ||============================== //
+
+const COLOR_CONFIG: Record<PresetColor, { light: { primary: string; darker: string }; dark: { primary: string; darker: string } }> = {
+  default: {
+    light: { primary: '#4680FF', darker: '#2F63FF' },
+    dark: { primary: '#4680FF', darker: '#2F63FF' }
+  },
+  theme1: {
+    light: { primary: '#3366FF', darker: '#102693' },
+    dark: { primary: '#305bdd', darker: '#a9c5f8' }
+  },
+  theme2: {
+    light: { primary: '#7265E6', darker: '#5549DB' },
+    dark: { primary: '#655ac8', darker: '#c3baf4' }
+  },
+  theme3: {
+    light: { primary: '#068e44', darker: '#001c0f' },
+    dark: { primary: '#0a7d3e', darker: '#173123' }
+  },
+  theme4: {
+    light: { primary: '#3c64d0', darker: '#0d1b5e' },
+    dark: { primary: '#5d7dcb', darker: '#212841' }
+  },
+  theme5: {
+    light: { primary: '#f27013', darker: '#802800' },
+    dark: { primary: '#d26415', darker: '#f8c48c' }
+  },
+  theme6: {
+    light: { primary: '#2aa1af', darker: '#06323d' },
+    dark: { primary: '#288d99', darker: '#96d0d0' }
+  },
+  theme7: {
+    light: { primary: '#00a854', darker: '#003620' },
+    dark: { primary: '#05934c', darker: '#61ca8b' }
+  },
+  theme8: {
+    light: { primary: '#009688', darker: '#002424' },
+    dark: { primary: '#058478', darker: '#59b8a5' }
+  },
+  satu: {
+    light: { primary: '#B53D3D', darker: '#8A2E2E' },
+    dark: { primary: '#f05545', darker: '#ffcdcf' }
+  }
+};
+
+const COLOR_IDS: PresetColor[] = ['default', 'theme1', 'theme2', 'theme3', 'theme4', 'theme5', 'theme6', 'theme7', 'theme8', 'satu'];
 
 export default function ColorScheme() {
   const { colorScheme } = useColorScheme();
@@ -34,58 +73,7 @@ export default function ColorScheme() {
     setField
   } = useConfig();
 
-  const colorOptions: ColorProps[] = [
-    {
-      id: 'default',
-      primary: '#4680FF',
-      darker: '#2F63FF'
-    },
-    {
-      id: 'theme1',
-      primary: colorScheme === ThemeMode.DARK ? '#305bdd' : '#3366FF',
-      darker: colorScheme === ThemeMode.DARK ? '#a9c5f8' : '#102693'
-    },
-    {
-      id: 'theme2',
-      primary: colorScheme === ThemeMode.DARK ? '#655ac8' : '#7265E6',
-      darker: colorScheme === ThemeMode.DARK ? '#c3baf4' : '#5549DB'
-    },
-    {
-      id: 'theme3',
-      primary: colorScheme === ThemeMode.DARK ? '#0a7d3e' : '#068e44',
-      darker: colorScheme === ThemeMode.DARK ? '#173123' : '#001c0f'
-    },
-    {
-      id: 'theme4',
-      primary: colorScheme === ThemeMode.DARK ? '#5d7dcb' : '#3c64d0',
-      darker: colorScheme === ThemeMode.DARK ? '#212841' : '#0d1b5e'
-    },
-    {
-      id: 'theme5',
-      primary: colorScheme === ThemeMode.DARK ? '#d26415' : '#f27013',
-      darker: colorScheme === ThemeMode.DARK ? '#f8c48c' : '#802800'
-    },
-    {
-      id: 'theme6',
-      primary: colorScheme === ThemeMode.DARK ? '#288d99' : '#2aa1af',
-      darker: colorScheme === ThemeMode.DARK ? '#96d0d0' : '#06323d'
-    },
-    {
-      id: 'theme7',
-      primary: colorScheme === ThemeMode.DARK ? '#05934c' : '#00a854',
-      darker: colorScheme === ThemeMode.DARK ? '#61ca8b' : '#003620'
-    },
-    {
-      id: 'theme8',
-      primary: colorScheme === ThemeMode.DARK ? '#058478' : '#009688',
-      darker: colorScheme === ThemeMode.DARK ? '#59b8a5' : '#002424'
-    },
-    {
-      id: 'satu',
-      primary: colorScheme === ThemeMode.DARK ? '#f05545' : '#B53D3D',
-      darker: colorScheme === ThemeMode.DARK ? '#ffcdcf' : '#8A2E2E'
-    }
-  ];
+  const mode = colorScheme === ThemeMode.DARK ? 'dark' : 'light';
 
   const handlePresetColorChange = (event: ChangeEvent<HTMLInputElement>) => {
     setField('presetColor', event.target.value as PresetColor);
@@ -94,45 +82,48 @@ export default function ColorScheme() {
   return (
     <RadioGroup row aria-label="payment-card" name="payment-card" value={presetColor} onChange={handlePresetColorChange}>
       <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center', width: 1 }}>
-        {colorOptions.map((color, index) => (
-          <FormControlLabel
-            key={index}
-            control={<Radio value={color.id} sx={{ display: 'none' }} />}
-            sx={{ m: 0, width: presetColor === color.id ? '100%' : 'auto', display: 'flex' }}
-            slotProps={{ typography: { sx: { flex: 1 } } }}
-            label={
-              <MainCard
-                content={false}
-                sx={{
-                  bgcolor: color.primary,
-                  p: 1,
-                  borderRadius: 0.5,
-                  borderWidth: 4,
-                  borderColor: presetColor === color.id ? color.darker : color.primary,
-                  '&:hover': { borderColor: color.darker }
-                }}
-              >
-                <Stack
-                  direction="row"
-                  sx={{ alignItems: 'center', justifyContent: 'center', width: presetColor === color.id ? '100%' : 1, height: 44 }}
+        {COLOR_IDS.map((id) => {
+          const color = { id, ...COLOR_CONFIG[id][mode] };
+          return (
+            <FormControlLabel
+              key={color.id}
+              control={<Radio value={color.id} sx={{ display: 'none' }} />}
+              sx={{ m: 0, width: presetColor === color.id ? '100%' : 'auto', display: 'flex' }}
+              slotProps={{ typography: { sx: { flex: 1 } } }}
+              label={
+                <MainCard
+                  content={false}
+                  sx={{
+                    bgcolor: color.primary,
+                    p: 1,
+                    borderRadius: 0.5,
+                    borderWidth: 4,
+                    borderColor: presetColor === color.id ? color.darker : color.primary,
+                    '&:hover': { borderColor: color.darker }
+                  }}
                 >
-                  {presetColor === color.id && (
-                    <Stack
-                      sx={(theme) => ({
-                        alignItems: 'center',
-                        color: 'background.paper',
-                        ...theme.applyStyles('dark', { color: 'text.primary' })
-                      })}
-                    >
-                      <TickSquare variant="Bulk" />
-                      <Typography variant="caption">{color.id}</Typography>
-                    </Stack>
-                  )}
-                </Stack>
-              </MainCard>
-            }
-          />
-        ))}
+                  <Stack
+                    direction="row"
+                    sx={{ alignItems: 'center', justifyContent: 'center', width: presetColor === color.id ? '100%' : 1, height: 44 }}
+                  >
+                    {presetColor === color.id && (
+                      <Stack
+                        sx={(theme) => ({
+                          alignItems: 'center',
+                          color: 'background.paper',
+                          ...theme.applyStyles('dark', { color: 'text.primary' })
+                        })}
+                      >
+                        <TickSquare variant="Bulk" />
+                        <Typography variant="caption">{color.id}</Typography>
+                      </Stack>
+                    )}
+                  </Stack>
+                </MainCard>
+              }
+            />
+          );
+        })}
       </Stack>
     </RadioGroup>
   );

@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useEffect, useReducer } from 'react';
+import { createContext, ReactElement, useCallback, useEffect, useMemo, useReducer } from 'react';
 
 // third-party
 import { jwtDecode } from 'jwt-decode';
@@ -84,7 +84,7 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
     init();
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = useCallback(async (username: string, password: string) => {
     const response = await axios.post('auth/login', { username, password });
     const responseData = response.data?.data;
     const serviceToken = responseData?.access_token || response.data?.access_token;
@@ -100,18 +100,20 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
         user
       }
     });
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setSession(null);
     dispatch({ type: LOGOUT });
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({ ...state, login, logout }), [state, login, logout]);
 
   if (state.isInitialized !== undefined && !state.isInitialized) {
     return <Loader />;
   }
 
-  return <JWTContext value={{ ...state, login, logout }}>{children}</JWTContext>;
+  return <JWTContext value={contextValue}>{children}</JWTContext>;
 };
 
 export default JWTContext;

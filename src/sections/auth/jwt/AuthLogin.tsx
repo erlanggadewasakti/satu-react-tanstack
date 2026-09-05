@@ -29,6 +29,10 @@ import { Eye, EyeSlash } from 'iconsax-reactjs';
 
 // ============================|| LOGIN FORM ||============================ //
 
+const handleMouseDownPassword = (event: SyntheticEvent) => {
+  event.preventDefault();
+};
+
 export default function AuthLogin() {
   const intl = useIntl();
   const [checked, setChecked] = useState(true);
@@ -38,10 +42,6 @@ export default function AuthLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event: SyntheticEvent) => {
-    event.preventDefault();
   };
 
   return (

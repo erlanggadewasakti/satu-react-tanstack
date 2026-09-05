@@ -1,4 +1,4 @@
-import { SetStateAction } from 'react';
+import { ReactNode, SetStateAction } from 'react';
 
 // material-ui
 import FormControl from '@mui/material/FormControl';
@@ -56,13 +56,16 @@ export default function SelectColumnSorting<T extends RowData = any>({
           );
         }}
       >
-        {getAllColumns()
-          .filter((col) => (col.columnDef as { accessorKey?: string }).accessorKey && col.getCanSort())
-          .map((col) => (
-            <MenuItem key={col.id} value={col.id}>
-              <ListItemText primary={typeof col.columnDef.header === 'string' ? col.columnDef.header : '#'} />
-            </MenuItem>
-          ))}
+        {getAllColumns().reduce<ReactNode[]>((acc, col) => {
+          if ((col.columnDef as { accessorKey?: string }).accessorKey && col.getCanSort()) {
+            acc.push(
+              <MenuItem key={col.id} value={col.id}>
+                <ListItemText primary={typeof col.columnDef.header === 'string' ? col.columnDef.header : '#'} />
+              </MenuItem>
+            );
+          }
+          return acc;
+        }, [])}
       </Select>
     </FormControl>
   );

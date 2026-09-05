@@ -13,16 +13,21 @@ export function hasRoleAccess(user: UserProfile | null | undefined, allowedRoles
   if (user.isSuperAdmin) return true;
 
   const userRoles = Array.isArray(user.role) ? user.role : user.role ? [user.role] : [];
-  return allowedRoles.some((role) => userRoles.includes(role));
+  const userRoleSet = new Set<Role | string>(userRoles);
+  return allowedRoles.some((role) => userRoleSet.has(role));
 }
 
 /**
  * Menyaring list menu items & children-nya secara rekursif berdasarkan hak akses role user.
  */
 export function filterMenuItemsByRole(items: NavItemType[], user: UserProfile | null | undefined): NavItemType[] {
-  return items
-    .filter((item) => hasRoleAccess(user, (item as NavItemType & { allowedRoles?: (Role | string)[] }).allowedRoles))
-    .map((item) => (item.children ? { ...item, children: filterMenuItemsByRole(item.children, user) } : item));
+  const result: NavItemType[] = [];
+  for (const item of items) {
+    if (hasRoleAccess(user, (item as NavItemType & { allowedRoles?: (Role | string)[] }).allowedRoles)) {
+      result.push(item.children ? { ...item, children: filterMenuItemsByRole(item.children, user) } : item);
+    }
+  }
+  return result;
 }
 
 /**

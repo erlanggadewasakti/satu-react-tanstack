@@ -252,7 +252,7 @@ export default function Breadcrumbs({
 
             return (
               <Typography
-                key={index}
+                key={link.to || link.title}
                 {...(link.to && { component: Link, to: link.to })}
                 variant="body1"
                 sx={{ textDecoration: 'none', fontWeight: 500, ...(link.to && { fontWeight: 400, cursor: 'pointer' }) }}

@@ -20,6 +20,29 @@ import { FontFamily } from 'types/config';
 
 // ==============================|| CUSTOMIZATION - FONT FAMILY ||============================== //
 
+const fonts = [
+  {
+    id: 'inter',
+    value: `Inter var`,
+    label: 'Inter'
+  },
+  {
+    id: 'roboto',
+    value: `'Roboto', sans-serif`,
+    label: 'Roboto'
+  },
+  {
+    id: 'poppins',
+    value: `'Poppins', sans-serif`,
+    label: 'Poppins'
+  },
+  {
+    id: 'public-sans',
+    value: `'Public Sans', sans-serif`,
+    label: 'Public Sans'
+  }
+];
+
 export default function ThemeFont() {
   const {
     state: { fontFamily },
@@ -30,34 +53,11 @@ export default function ThemeFont() {
     setField('fontFamily', event.target.value as FontFamily);
   };
 
-  const fonts = [
-    {
-      id: 'inter',
-      value: `Inter var`,
-      label: 'Inter'
-    },
-    {
-      id: 'roboto',
-      value: `'Roboto', sans-serif`,
-      label: 'Roboto'
-    },
-    {
-      id: 'poppins',
-      value: `'Poppins', sans-serif`,
-      label: 'Poppins'
-    },
-    {
-      id: 'public-sans',
-      value: `'Public Sans', sans-serif`,
-      label: 'Public Sans'
-    }
-  ];
-
   return (
     <RadioGroup row aria-label="payment-card" name="payment-card" value={fontFamily} onChange={handleFontChange}>
       <Grid container spacing={1.75} sx={{ ml: 0 }}>
-        {fonts.map((item, index) => (
-          <Grid key={index}>
+        {fonts.map((item) => (
+          <Grid key={item.id}>
             <FormControlLabel
               control={<Radio value={item.value} sx={{ display: 'none' }} />}
               sx={{ display: 'flex' }}

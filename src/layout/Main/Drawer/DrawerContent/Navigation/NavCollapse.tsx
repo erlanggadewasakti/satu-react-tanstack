@@ -73,6 +73,9 @@ interface Props {
   selectedLevel: number;
 }
 
+const FlexBox = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' };
+const arrowStyle = { size: 12, style: { marginLeft: 1 } };
+
 export default function NavCollapse({ menu, level, parentId, setSelectedItems, selectedItems, setSelectedLevel, selectedLevel }: Props) {
   const theme = useTheme();
   const navigation = useNavigate();
@@ -199,13 +202,9 @@ export default function NavCollapse({ menu, level, parentId, setSelectedItems, s
   const Icon = menu.icon!;
   const menuIcon = menu.icon ? <Icon variant="Bulk" size={drawerOpen ? 22 : 24} /> : borderIcon;
   const popperId = miniMenuOpened ? `collapse-pop-${menu.id}` : undefined;
-  const FlexBox = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' };
-
   const selectedTextColor = isSelected || anchorEl ? 'primary.main' : null;
   const lightTextColor = selectedTextColor || 'secondary.main';
   const darkTextColor = selectedTextColor || 'secondary.400';
-
-  const arrowStyle = { size: 12, style: { marginLeft: 1 } };
 
   return (
     <>

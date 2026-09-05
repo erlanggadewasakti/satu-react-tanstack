@@ -38,19 +38,21 @@ export interface MainCardProps {
 
 // ==============================|| CUSTOM - MAIN CARD ||============================== //
 
+const EMPTY_OBJECT = {};
+
 export default function MainCard({
   border = true,
   boxShadow,
   children,
   subheader,
   content = true,
-  contentSX = {},
+  contentSX = EMPTY_OBJECT,
   darkTitle,
   divider = true,
   elevation,
   secondary,
   shadow,
-  sx = {},
+  sx = EMPTY_OBJECT,
   title,
   codeHighlight = false,
   codeString,

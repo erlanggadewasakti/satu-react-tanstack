@@ -53,8 +53,8 @@ export default function MessageCard({ status, time, title, message, src, actions
         {actions && actions?.length > 0 && (
           <Grid sx={{ mt: 1 }} size={12}>
             <Stack direction="row" sx={{ gap: { xs: 1.5, sm: 2.5 }, alignItems: 'center' }}>
-              {actions.map((item: MessageActions, index: number) => (
-                <Button {...item.button} key={index}>
+              {actions.map((item: MessageActions) => (
+                <Button {...item.button} key={item.label}>
                   {item.label}
                 </Button>
               ))}

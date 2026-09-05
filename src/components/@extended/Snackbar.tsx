@@ -51,15 +51,15 @@ const animation: KeyedObject = {
 
 // ==============================|| SNACKBAR ||============================== //
 
+const handleClose = (_event: SyntheticEvent | Event, reason?: string) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+  closeSnackbar();
+};
+
 export default function Snackbar() {
   const { snackbar } = useGetSnackbar();
-
-  const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    closeSnackbar();
-  };
 
   return (
     <>

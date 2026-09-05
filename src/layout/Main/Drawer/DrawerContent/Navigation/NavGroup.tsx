@@ -1,4 +1,4 @@
-import { Activity, useEffect, useState, Dispatch, Fragment, MouseEvent, SetStateAction } from 'react';
+import { Activity, useEffect, useMemo, useState, Dispatch, Fragment, MouseEvent, SetStateAction } from 'react';
 import { useLocation } from '@tanstack/react-router';
 
 // material-ui
@@ -98,23 +98,18 @@ export default function NavGroup({
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   const [anchorEl, setAnchorEl] = useState<VirtualElement | (() => VirtualElement) | null | undefined>(null);
-  const [currentItem, setCurrentItem] = useState(item);
 
   const openMini = Boolean(anchorEl);
 
-  useEffect(() => {
-    if (lastItem) {
-      if (item.id === lastItemId) {
-        const localItem: any = { ...item };
-        const elements = remItems.map((ele: NavItemType) => ele.elements);
-        localItem.children = elements.flat(1);
-        setCurrentItem(localItem);
-      } else {
-        setCurrentItem(item);
-      }
+  const currentItem: NavItemType = useMemo(() => {
+    if (lastItem && item.id === lastItemId) {
+      const localItem: NavItemType = { ...item };
+      const elements = remItems.map((ele: NavItemType) => ele.elements);
+      localItem.children = elements.flat(1) as NavItemType[];
+      return localItem;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item, lastItem, downLG]);
+    return item;
+  }, [item, lastItem, lastItemId, remItems]);
 
   const checkOpenForParent = (child: NavItemType[], id: string) => {
     child.forEach((ele: NavItemType) => {
@@ -165,7 +160,7 @@ export default function NavGroup({
     </Box>
   ) : null;
 
-  const navCollapse = item.children?.map((menuItem, index) => {
+  const navCollapse = item.children?.map((menuItem) => {
     switch (menuItem.type) {
       case 'collapse':
         return (
@@ -184,15 +179,15 @@ export default function NavGroup({
         return <NavItem key={menuItem.id} item={menuItem} level={1} />;
       default:
         return (
-          <Typography key={index} variant="h6" color="error" align="center">
+          <Typography key={menuItem.id || `group-fix-${menuItem.title || menuItem.type}`} variant="h6" color="error" align="center">
             Fix - Group Collapse or Items
           </Typography>
         );
     }
   });
 
-  const moreItems = remItems.map((itemRem: NavItemType, i) => (
-    <Fragment key={i}>
+  const moreItems = remItems.map((itemRem: NavItemType) => (
+    <Fragment key={itemRem.id || itemRem.url || `rem-item-${itemRem.title || 'sub'}`}>
       {itemRem.url ? (
         <NavItem item={itemRem} level={1} />
       ) : (
@@ -231,7 +226,7 @@ export default function NavGroup({
   ));
 
   // menu list collapse & items
-  const items = currentItem.children?.map((menu) => {
+  const items = currentItem.children?.map((menu: NavItemType) => {
     switch (menu?.type) {
       case 'collapse':
         return (

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 // third-party
-import { motion, useCycle } from 'framer-motion';
+import { domAnimation, LazyMotion, m, useCycle, useReducedMotion } from 'framer-motion';
 
 // ==============================|| ANIMATION BUTTON ||============================== //
 
@@ -25,8 +25,10 @@ export default function AnimateButton({
   offset = 10,
   scale = { hover: 1.05, tap: 0.954 }
 }: Props) {
-  let offset1;
-  let offset2;
+  const shouldReduceMotion = useReducedMotion();
+
+  let offset1: number;
+  let offset2: number;
   switch (direction) {
     case 'up':
     case 'left':
@@ -44,47 +46,62 @@ export default function AnimateButton({
   const [x, cycleX] = useCycle(offset1, offset2);
   const [y, cycleY] = useCycle(offset1, offset2);
 
+  if (shouldReduceMotion) {
+    return <>{children}</>;
+  }
+
   switch (type) {
     case 'rotate':
       return (
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{
-            repeat: Infinity,
-            repeatType: 'loop',
-            duration: 2,
-            repeatDelay: 0
-          }}
-        >
-          {children}
-        </motion.div>
+        <LazyMotion features={domAnimation}>
+          <m.div
+            animate={{ rotate: 360 }}
+            transition={{
+              repeat: Infinity,
+              repeatType: 'loop',
+              duration: 2,
+              repeatDelay: 0
+            }}
+          >
+            {children}
+          </m.div>
+        </LazyMotion>
       );
     case 'slide':
       if (direction === 'up' || direction === 'down') {
         return (
-          <motion.div animate={{ y: y !== undefined ? y : '' }} onHoverEnd={() => cycleY()} onHoverStart={() => cycleY()}>
-            {children}
-          </motion.div>
+          <LazyMotion features={domAnimation}>
+            <m.div animate={{ y: y !== undefined ? y : '' }} onHoverEnd={() => cycleY()} onHoverStart={() => cycleY()}>
+              {children}
+            </m.div>
+          </LazyMotion>
         );
       }
       return (
-        <motion.div animate={{ x: x !== undefined ? x : '' }} onHoverEnd={() => cycleX()} onHoverStart={() => cycleX()}>
-          {children}
-        </motion.div>
+        <LazyMotion features={domAnimation}>
+          <m.div animate={{ x: x !== undefined ? x : '' }} onHoverEnd={() => cycleX()} onHoverStart={() => cycleX()}>
+            {children}
+          </m.div>
+        </LazyMotion>
       );
 
     case 'scale':
-    default:
-      if (typeof scale === 'number') {
-        scale = {
-          hover: scale,
-          tap: scale
-        };
-      }
+    default: {
+      const scaleValues =
+        typeof scale === 'number'
+          ? {
+              hover: scale,
+              tap: scale
+            }
+          : scale;
+
       return (
-        <motion.div whileHover={{ scale: scale?.hover }} whileTap={{ scale: scale?.tap }}>
-          {children}
-        </motion.div>
+        <LazyMotion features={domAnimation}>
+          <m.div whileHover={{ scale: scaleValues?.hover }} whileTap={{ scale: scaleValues?.tap }}>
+            {children}
+          </m.div>
+        </LazyMotion>
       );
+    }
   }
 }

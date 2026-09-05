@@ -1,18 +1,14 @@
 import { ChangeEvent } from 'react';
 
 // material-ui
-import CardMedia from '@mui/material/CardMedia';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 
 // project-imports
-import MainCard from 'components/MainCard';
 import useConfig from 'hooks/useConfig';
 import { MenuOrientation } from 'config';
 import { handlerDrawerOpen } from 'api/menu';
+import LayoutCard from './LayoutCard';
 
 // assets
 import defaultLayout from 'assets/images/customization/ltr.svg';
@@ -24,6 +20,8 @@ const layouts = [
   { value: MenuOrientation.HORIZONTAL, label: 'Horizontal', img: horizontalLayout },
   { value: MenuOrientation.MINI_VERTICAL, label: 'Mini Drawer', img: miniMenu }
 ];
+
+const activeCardStyle = { borderColor: 'primary.main' };
 
 // ==============================|| CUSTOMIZATION - THEME LAYOUT/ORIENTATION ||============================== //
 
@@ -39,29 +37,19 @@ export default function ThemeLayout() {
     handlerDrawerOpen(newValue === MenuOrientation.MINI_VERTICAL ? false : true);
   };
 
-  const activeCardStyle = { borderColor: 'primary.main' };
-
-  const renderLayoutCard = ({ value: layoutValue, label, img }: any) => (
-    <FormControlLabel
-      key={layoutValue}
-      value={layoutValue}
-      sx={{ width: 1, m: 0, display: 'flex' }}
-      control={<Radio sx={{ display: 'none' }} />}
-      label={
-        <Stack sx={{ gap: 0.5, alignItems: 'center' }}>
-          <MainCard content={false} sx={{ borderWidth: 2, p: 1, ...(menuOrientation === layoutValue && { ...activeCardStyle }) }}>
-            <CardMedia component="img" src={img} alt={label} />
-          </MainCard>
-          <Typography variant="caption">{label}</Typography>
-        </Stack>
-      }
-    />
-  );
-
   return (
     <RadioGroup row aria-label="theme-layout" name="theme-layout" value={menuOrientation} onChange={handleRadioChange}>
       <Stack direction="row" sx={{ gap: 2.5, alignItems: 'center', width: '100%' }}>
-        {layouts.map((layout) => renderLayoutCard(layout))}
+        {layouts.map((layout) => (
+          <LayoutCard
+            key={layout.value}
+            value={layout.value}
+            label={layout.label}
+            img={layout.img}
+            isSelected={menuOrientation === layout.value}
+            activeCardStyle={activeCardStyle}
+          />
+        ))}
       </Stack>
     </RadioGroup>
   );
