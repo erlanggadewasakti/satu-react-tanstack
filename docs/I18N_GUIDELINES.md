@@ -1,136 +1,188 @@
 # Panduan Standar Internationalization (i18n) & Multi-Bahasa
 
-Aplikasi ini menggunakan sistem lokalisasi **2 Bahasa Wajib**: **Bahasa Indonesia (`id`)** dan **Bahasa Inggris (`en`)**.
+Aplikasi **SATU / LENS** menggunakan sistem lokalisasi **2 Bahasa Wajib**: **Bahasa Indonesia (`id`)** dan **Bahasa Inggris (`en`)**. Seluruh teks antarmuka pengguna diatur oleh pustaka `react-intl` dengan jaminan keselarasan kunci 100% dan penegakan tipe data statis (*compile-time type-safety*).
 
 ---
 
-## ⚠️ ATURAN UTAMA (WAJIB DIIKUTI)
+## ⚠️ Aturan Utama (Guardrail Wajib Diikuti)
 
-1. **Wajib Kedua Bahasa**: Setiap teks/label/pesan/judul/menu/tombol baru yang dibuat di UI **HARUS** didaftarkan di **KEDUA** file kamus:
-   - `src/utils/locales/id.json` (Bahasa Indonesia)
-   - `src/utils/locales/en.json` (Bahasa Inggris)
-2. **Dilarang Fallback Default**: Jangan menggunakan `defaultMessage` di `<FormattedMessage>` atau `intl.formatMessage()`. Jika suatu key tidak memiliki terjemahan di salah satu bahasa, sistem akan **melempar error (throw error)** secara sengaja.
-3. **Zero Untranslated Keys**: Jangan biarkan nilai translation kosong `""`.
+1. **Paritas Kunci 100% (Strict Key Parity)**:
+   Setiap key baru yang ditambahkan ke salah satu bahasa **WAJIB** ditambahkan ke bahasa lainnya:
+   - [`src/utils/locales/id.json`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/utils/locales/id.json) (Bahasa Indonesia — Formal & Baku)
+   - [`src/utils/locales/en.json`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/utils/locales/en.json) (Bahasa Inggris — Standar Terminologi OBE Internasional)
+2. **Dilarang Fallback Default (`defaultMessage`)**:
+   Dilarang keras menggunakan prop `defaultMessage` pada `<FormattedMessage>` maupun di `intl.formatMessage()`. Kebijakan ini diterapkan agar terjemahan yang hilang tidak pernah disamarkan oleh fallback sementara.
+3. **Zero Raw Strings di JSX**:
+   Dilarang menulis teks antarmuka langsung seperti `<Button>Simpan</Button>` atau `<Typography>Selamat Datang</Typography>`. Seluruh teks yang tampil ke pengguna wajib dibungkus oleh komponen terjemahan.
+4. **Zero Empty Translations**:
+   Jangan pernah meninggalkan nilai terjemahan dalam kondisi string kosong `""`.
 
 ---
 
-## 📁 Struktur File & Kamus Bahasa
+## 📁 Struktur File & Jaminan Tipe TypeScript
 
 ```
 src/
 ├── utils/
 │   └── locales/
-│       ├── en.json      <-- Kamus Bahasa Inggris (Academic/OBE Terminology)
-│       └── id.json      <-- Kamus Bahasa Indonesia (Baku & Formal)
+│       ├── en.json         <-- Kamus Bahasa Inggris (Basis Definisi Type)
+│       └── id.json         <-- Kamus Bahasa Indonesia
 ├── types/
-│   └── i18n.ts          <-- Strict TypeScript key definition & global types
+│   └── i18n.ts             <-- Penegakan compile-time types FormatjsIntl
 scripts/
-└── check-i18n.mjs       <-- Skrip validasi keselarasan key (Parity Checker)
+└── check-i18n.mjs          <-- Skrip validasi CLI (Parity Checker)
 ```
+
+### Penegakan Tipe Statis & Autocomplete (`src/types/i18n.ts`)
+
+Repositori ini secara otomatis menginferensi seluruh key kamus dari file `en.json` untuk menimpa definisi bawaan `FormatjsIntl.Message`:
+
+```typescript
+// src/types/i18n.ts
+import type enJson from 'utils/locales/en.json';
+
+export type LocaleKey = keyof typeof enJson;
+
+declare global {
+  namespace FormatjsIntl {
+    interface Message {
+      ids: LocaleKey;
+    }
+  }
+}
+```
+
+**Dampak bagi Developer**:
+- Editor (VS Code / Antigravity IDE) memberikan **autocomplete instan** untuk seluruh key translation saat mengetik `<FormattedMessage id="..." />`.
+- Jika Anda salah mengetikkan key atau key tersebut belum terdaftar di `en.json`, TypeScript akan langsung memunculkan garis merah (*compile-time type error*).
 
 ---
 
-## 💡 Cara Penggunaan di Komponen (Contoh Kode)
+## 💡 Panduan Penggunaan di Komponen
 
-### 1. Menggunakan `<FormattedMessage />` (Direkomendasikan untuk JSX/HTML)
+### 1. Menggunakan `<FormattedMessage />` (Untuk Elemen Teks JSX)
+
+Gunakan `<FormattedMessage />` untuk judul, paragraf, label tombol, dan teks yang mendukung interpolasi variabel atau tag HTML:
 
 ```tsx
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import { FormattedMessage } from 'react-intl';
 
-export default function MyComponent() {
+export default function WelcomeCard({ username }: { username: string }) {
   return (
     <div>
-      {/* Label/Judul Biasa */}
-      <h1><FormattedMessage id="kurikulum.title" /></h1>
+      {/* Teks statis */}
+      <Typography variant="h4">
+        <FormattedMessage id="kurikulum.home-title" />
+      </Typography>
 
-      {/* Dengan Interpolasi Variabel / Tag HTML */}
-      <p>
+      {/* Teks dengan interpolasi variabel & formatting kaya */}
+      <Typography variant="body1">
         <FormattedMessage
           id="home.welcome-user"
           values={{
-            username: 'Erlangga',
-            strong: (chunks: React.ReactNode) => <strong>{chunks}</strong>
+            username,
+            bold: (chunks) => <strong>{chunks}</strong>
           }}
         />
-      </p>
+      </Typography>
+
+      <Button variant="contained">
+        <FormattedMessage id="common.save" />
+      </Button>
     </div>
   );
 }
 ```
 
-### 2. Menggunakan Hook `useIntl()` (Untuk Props String, Placeholder, Validation, Alert)
+---
+
+### 2. Menggunakan Hook `useIntl()` (Untuk Props Berupa Tipe `string`)
+
+Komponen tertentu memerlukan nilai bertipe murni `string` (misalnya: properti `title` pada `MainCard`, `placeholder`, `label` TextField, atau pesan Formik/Yup):
 
 ```tsx
+import TextField from '@mui/material/TextField';
 import { useIntl } from 'react-intl';
+import MainCard from 'components/MainCard';
 
-export default function FormComponent() {
+export default function SearchForm() {
   const intl = useIntl();
 
   return (
-    <TextField
-      label={intl.formatMessage({ id: 'form.username-label' })}
-      placeholder={intl.formatMessage({ id: 'form.username-placeholder' })}
-      helperText={intl.formatMessage({ id: 'form.username-helper' })}
-    />
+    <MainCard title={intl.formatMessage({ id: 'kurikulum.home-title' })}>
+      <TextField
+        fullWidth
+        label={intl.formatMessage({ id: 'form.search-label' })}
+        placeholder={intl.formatMessage({ id: 'form.search-placeholder' })}
+        helperText={intl.formatMessage({ id: 'form.search-helper' })}
+      />
+    </MainCard>
   );
 }
 ```
 
+---
+
 ### 3. Mendaftarkan Menu Navigasi di `src/menu-items/`
 
-Gunakan key translation sebagai `title`:
+Properti `title` pada objek `NavItemType` di file konfigurasi menu wajib menggunakan ID key terjemahan yang ada pada `id.json` dan `en.json`:
 
 ```typescript
 // src/menu-items/kurikulum.ts
+import { NavItemType } from 'types/menu';
+
 const kurikulumMenuItems: NavItemType = {
   id: 'group-kurikulum',
-  title: 'menu.kurikulum-group', // Key yang ada di en.json dan id.json
+  title: 'group-kurikulum', // Otomatis diterjemahkan oleh NavGroup
   type: 'group',
   children: [
     {
       id: 'kurikulum-home',
-      title: 'menu.kurikulum-home', // Key yang ada di en.json dan id.json
+      title: 'kurikulum-home', // Otomatis diterjemahkan oleh NavItem
       type: 'item',
       url: '/kurikulum/home'
     }
   ]
 };
+
+export default kurikulumMenuItems;
 ```
 
 ---
 
-## 🛡️ Mekanisme Deteksi & Error
+## 🛡️ 3 Lapis Deteksi Error Terjemahan
 
-Jika pengembang atau AI agent lupa menambahkan terjemahan di salah satu bahasa, error akan muncul di 3 tempat:
+Jika pengembang atau AI agent lupa menambahkan terjemahan pada salah satu bahasa, sistem memiliki 3 lapis perlindungan aktif:
 
-1. **Terminal saat `bun run dev` / `bun run build`**:
-   Skrip `scripts/check-i18n.mjs` otomatis berjalan dan menggagalkan eksekusi jika ada key yang tidak sinkron:
+1. **Lapis 1 — Validasi CLI Otomatis (`scripts/check-i18n.mjs`)**:
+   Berjalan secara otomatis sebelum `bun run dev` dan `bun run build`. Skrip akan menghentikan proses (*exit code 1*) jika ditemukan ketimpangan kunci:
    ```bash
    ❌ Missing 1 key(s) in id.json:
-      - "feature.new-key" (Defined in en.json)
+      - "keuangan-home" (Defined in en.json)
    💥 i18n parity check FAILED! Please provide translations for both languages.
    ```
-2. **Terminal saat Live Coding (Vite Watcher)**:
-   Plugin `i18nParityPlugin` di `vite.config.mts` langsung menampilkan peringatan di konsol terminal setiap kali file `.json` disimpan.
-3. **Browser Screen (Vite Red Error Overlay)**:
-   `IntlProvider` di `Locales.tsx` akan melempar `Error`:
+
+2. **Lapis 2 — Live HMR Watcher di Vite (`i18nParityPlugin`)**:
+   Dikonfigurasi di [`vite.config.mts`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/vite.config.mts). Setiap kali file `id.json` atau `en.json` disimpan, terminal development langsung menampilkan peringatan warna merah jika terdapat kunci yang tidak seimbang.
+
+3. **Lapis 3 — Dev Runtime Error Throwing ([`src/components/Locales.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/components/Locales.tsx))**:
+   Jika ada key yang dipanggil di UI namun tidak terdaftar pada file kamus locale aktif, `IntlProvider` secara sengaja melempar uncaught `Error` di mode development peramban:
    ```text
-   [i18n Error] Missing translation for key: "feature.new-key" in locale: "id". Please add it to id.json.
+   [i18n Error] Missing translation for key: "keuangan-home" in locale: "id". Please add it to id.json.
    ```
 
 ---
 
 ## 🔍 Perintah Pemeriksaan Mandiri
 
-Jalankan perintah berikut sebelum commit/deploy:
+Jalankan perintah ini untuk memastikan seluruh kamus terjemahan sinkron dan bebas dari kesalahan kompilasi:
 
 ```bash
-# Periksa keselarasan kamus terjemahan
+# Validasi keselarasan key kamus (ID & EN)
 bun run check:i18n
 
-# Periksa tipe TypeScript
+# Validasi static type TypeScript untuk seluruh pemanggilan i18n
 bun x tsc --noEmit
-
-# Uji coba build produksi
-bun run build
 ```
