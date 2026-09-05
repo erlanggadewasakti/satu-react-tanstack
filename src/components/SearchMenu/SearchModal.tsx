@@ -214,8 +214,8 @@ export default function SearchModal({
                             <Typography
                               variant="subtitle1"
                               sx={{
-                                fontWeight: 600,
-                                color: isSelected ? 'primary.main' : 'text.primary',
+                                fontWeight: 700,
+                                color: 'text.primary',
                                 lineHeight: 1.4
                               }}
                             >
@@ -225,8 +225,9 @@ export default function SearchModal({
                               <Typography
                                 variant="body2"
                                 sx={{
-                                  color: isSelected ? 'text.primary' : 'text.secondary',
+                                  color: 'text.secondary',
                                   fontWeight: 500,
+                                  fontStyle: 'italic',
                                   lineHeight: 1.4
                                 }}
                               >
@@ -266,16 +267,24 @@ export default function SearchModal({
                               variant="caption"
                               sx={{
                                 color: isSelected ? 'text.primary' : 'text.secondary',
-                                fontWeight: 500,
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: 0.5,
                                 lineHeight: 1.35
                               }}
                             >
-                              {subTitle.id}
+                              <Box component="span" sx={{ fontWeight: 700 }}>
+                                {subTitle.id}
+                              </Box>
                               {subTitle.en && subTitle.en !== subTitle.id && (
-                                <Box component="span" sx={{ color: isSelected ? 'text.primary' : 'text.secondary', fontWeight: 500 }}>
+                                <Box
+                                  component="span"
+                                  sx={{
+                                    color: isSelected ? 'text.primary' : 'text.secondary',
+                                    fontWeight: 500,
+                                    fontStyle: 'italic'
+                                  }}
+                                >
                                   • {subTitle.en}
                                 </Box>
                               )}
@@ -289,27 +298,32 @@ export default function SearchModal({
                                   <Chip
                                     label="ID"
                                     size="small"
-                                    sx={{
+                                    sx={(theme) => ({
                                       height: 18,
                                       borderRadius: 0.5,
                                       transition: 'none',
-                                      bgcolor: isSelected ? 'background.paper' : 'secondary.100',
-                                      color: isSelected ? 'primary.main' : 'text.secondary',
+                                      bgcolor: isSelected ? '#ffffff' : '#ffebee',
+                                      color: '#d32f2f',
                                       border: '1px solid',
-                                      borderColor: isSelected ? 'divider' : 'transparent',
+                                      borderColor: '#ffcdd2',
+                                      ...theme.applyStyles('dark', {
+                                        bgcolor: isSelected ? 'background.paper' : 'rgba(211, 47, 47, 0.15)',
+                                        color: '#ef5350',
+                                        borderColor: 'rgba(211, 47, 47, 0.4)'
+                                      }),
                                       '& .MuiChip-label': { px: 0.6, fontWeight: 700 }
-                                    }}
+                                    })}
                                   />
                                   <Typography
                                     variant="caption"
                                     sx={{
-                                      color: isSelected ? 'text.primary' : 'text.secondary',
+                                      color: isSelected ? 'text.primary' : 'text.primary',
                                       lineHeight: 1.45,
                                       display: '-webkit-box',
                                       WebkitLineClamp: 1,
                                       WebkitBoxOrient: 'vertical',
                                       overflow: 'hidden',
-                                      fontWeight: 400
+                                      fontWeight: 700
                                     }}
                                   >
                                     {description.id}
@@ -321,16 +335,21 @@ export default function SearchModal({
                                   <Chip
                                     label="EN"
                                     size="small"
-                                    sx={{
+                                    sx={(theme) => ({
                                       height: 18,
                                       borderRadius: 0.5,
                                       transition: 'none',
-                                      bgcolor: isSelected ? 'background.paper' : 'secondary.100',
-                                      color: isSelected ? 'primary.main' : 'primary.main',
+                                      bgcolor: isSelected ? '#ffffff' : '#e3f2fd',
+                                      color: '#1976d2',
                                       border: '1px solid',
-                                      borderColor: isSelected ? 'divider' : 'transparent',
+                                      borderColor: '#bbdefb',
+                                      ...theme.applyStyles('dark', {
+                                        bgcolor: isSelected ? 'background.paper' : 'rgba(25, 118, 210, 0.15)',
+                                        color: '#42a5f5',
+                                        borderColor: 'rgba(25, 118, 210, 0.4)'
+                                      }),
                                       '& .MuiChip-label': { px: 0.6, fontWeight: 700 }
-                                    }}
+                                    })}
                                   />
                                   <Typography
                                     variant="caption"
@@ -341,7 +360,8 @@ export default function SearchModal({
                                       WebkitLineClamp: 1,
                                       WebkitBoxOrient: 'vertical',
                                       overflow: 'hidden',
-                                      fontWeight: 500
+                                      fontWeight: 500,
+                                      fontStyle: 'italic'
                                     }}
                                   >
                                     {description.en}
