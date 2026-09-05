@@ -1,5 +1,5 @@
 // assets
-import { CloudConnection, DocumentText, Home3, Profile } from 'iconsax-reactjs';
+import { CloudConnection, DocumentText, Home3, Profile } from 'iconsax-react';
 
 // types
 import type { SearchableItem } from './searchConfig';

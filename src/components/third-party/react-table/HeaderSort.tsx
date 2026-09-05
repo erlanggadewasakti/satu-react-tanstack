@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
 // assets
-import { ArrowDown2, ArrowUp2 } from 'iconsax-reactjs';
+import { ArrowDown2, ArrowUp2 } from 'iconsax-react';
 
 // types
 import { CellData, Column, RowData, StockFeatures } from '@tanstack/react-table';

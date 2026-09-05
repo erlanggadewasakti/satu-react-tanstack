@@ -24,7 +24,7 @@ import SimpleBar from 'components/third-party/SimpleBar';
 import { GRID_COMMON_SPACING, HEADER_HEIGHT } from 'config';
 
 // assets
-import { Add, Setting2 } from 'iconsax-reactjs';
+import { Add, Setting2 } from 'iconsax-react';
 
 // ==============================|| HEADER CONTENT - CUSTOMIZATION ||============================== //
 

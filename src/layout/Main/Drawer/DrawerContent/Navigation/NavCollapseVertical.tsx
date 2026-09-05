@@ -26,7 +26,7 @@ import { useGetMenuMaster } from 'api/menu';
 import useMenuCollapse from 'hooks/useMenuCollapse';
 
 // assets
-import { ArrowDown2, ArrowUp2, ArrowRight2, Copy } from 'iconsax-reactjs';
+import { ArrowDown2, ArrowUp2, ArrowRight2, Copy } from 'iconsax-react';
 
 // types
 import { NavItemType } from 'types/menu';

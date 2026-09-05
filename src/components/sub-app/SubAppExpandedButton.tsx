@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import { Box, ButtonBase, Typography } from '@mui/material';
-import { ArrowDown2 } from 'iconsax-reactjs';
+import { ArrowDown2 } from 'iconsax-react';
 import { FormattedMessage } from 'react-intl';
 import SubAppIcon from './SubAppIcon';
 

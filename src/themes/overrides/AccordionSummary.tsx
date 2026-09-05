@@ -2,7 +2,7 @@
 import { Theme } from '@mui/material/styles';
 
 // assets
-import { ArrowRight2 } from 'iconsax-reactjs';
+import { ArrowRight2 } from 'iconsax-react';
 
 // ==============================|| OVERRIDES - ACCORDION SUMMARY ||============================== //
 

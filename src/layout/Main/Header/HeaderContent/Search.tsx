@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { SearchNormal1 } from 'iconsax-reactjs';
+import { SearchNormal1 } from 'iconsax-react';
 
 // project-imports
 import useMenuSearch from 'hooks/useMenuSearch';

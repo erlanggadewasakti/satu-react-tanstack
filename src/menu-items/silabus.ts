@@ -1,4 +1,4 @@
-import { Book, Home3 } from 'iconsax-reactjs';
+import { Book, Home3 } from 'iconsax-react';
 import { NavItemType } from 'types/menu';
 
 const icons = {

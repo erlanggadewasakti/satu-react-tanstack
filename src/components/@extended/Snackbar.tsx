@@ -16,7 +16,7 @@ import IconButton from './IconButton';
 import { KeyedObject } from 'types/root';
 
 // assets
-import { Add } from 'iconsax-reactjs';
+import { Add } from 'iconsax-react';
 
 // animation function
 function TransitionSlideLeft(props: SlideProps) {

@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import IconButton from 'components/@extended/IconButton';
 
 // assets
-import { Maximize1 } from 'iconsax-reactjs';
+import { Maximize1 } from 'iconsax-react';
 
 // ==============================|| HEADER CONTENT - FULLSCREEN ||============================== //
 

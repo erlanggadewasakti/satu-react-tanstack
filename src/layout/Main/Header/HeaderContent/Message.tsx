@@ -16,7 +16,7 @@ import SimpleBar from 'components/third-party/SimpleBar';
 import { ThemeMode } from 'config';
 
 // assets
-import { Add, NotificationStatus } from 'iconsax-reactjs';
+import { Add, NotificationStatus } from 'iconsax-react';
 
 import message1Light from 'assets/images/widget/message/message1Light.svg';
 import message1Dark from 'assets/images/widget/message/message1Dark.svg';

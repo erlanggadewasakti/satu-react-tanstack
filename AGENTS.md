@@ -11,7 +11,7 @@ This document serves as the primary engineering guide and operational contract f
 - **Core**: React 19, TypeScript (strict mode), Vite 8 with `@tanstack/router-plugin` & `nitro`
 - **Routing**: TanStack Router (file-based routing under `src/routes/`)
 - **Server State & Networking**: TanStack Query (`@tanstack/react-query`) + Axios (`src/api/client.ts`)
-- **UI Framework**: Material UI (MUI v6/Emotion) with custom theme tokens & `iconsax-reactjs`
+- **UI Framework**: Material UI (MUI v6/Emotion) with custom theme tokens & `iconsax-react`
 - **Form Management**: Formik + Yup validation schemas
 - **Internationalization (i18n)**: `react-intl` with strict dual-language parity (Indonesian `id` & English `en`)
 

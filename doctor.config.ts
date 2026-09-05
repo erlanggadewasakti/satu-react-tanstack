@@ -1,5 +1,1 @@
-export default {
-  supplyChain: {
-    minScore: 30
-  }
-};
+export default {};

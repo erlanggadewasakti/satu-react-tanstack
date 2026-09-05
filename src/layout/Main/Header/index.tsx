@@ -16,7 +16,7 @@ import { withAlpha } from 'utils/colorUtils';
 import useConfig from 'hooks/useConfig';
 
 // assets
-import { HamburgerMenu } from 'iconsax-reactjs';
+import { HambergerMenu as HamburgerMenu } from 'iconsax-react';
 
 // ==============================|| MAIN LAYOUT - HEADER ||============================== //
 

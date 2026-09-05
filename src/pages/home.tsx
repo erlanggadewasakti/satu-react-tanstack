@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, Card, CardContent, Button, Stack, Chip } from '@mui/material';
-import { CallCalling, ExportSquare, ArrowRight, Category } from 'iconsax-reactjs';
+import { CallCalling, ExportSquare, ArrowRight, Category } from 'iconsax-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports

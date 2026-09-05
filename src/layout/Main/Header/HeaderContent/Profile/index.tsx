@@ -23,7 +23,7 @@ import useAuth from 'hooks/useAuth';
 
 // assets
 import defaultAvatar from 'assets/images/users/avatar-6.png';
-import { Logout } from 'iconsax-reactjs';
+import { Logout } from 'iconsax-react';
 
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 

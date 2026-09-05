@@ -1,5 +1,5 @@
 import { Box, Card, Chip, Grid, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
-import { Briefcase, Calendar, Call, DocumentText, Location, Refresh, User } from 'iconsax-reactjs';
+import { Briefcase, Calendar, Call, DocumentText, Location, Refresh, User } from 'iconsax-react';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 

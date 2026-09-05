@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
 
 // assets
-import { CloseCircle, SearchNormal1 } from 'iconsax-reactjs';
+import { CloseCircle, SearchNormal1 } from 'iconsax-react';
 
 // types
 interface Props extends Omit<OutlinedInputProps, 'onChange'> {

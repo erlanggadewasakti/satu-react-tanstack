@@ -25,7 +25,7 @@ import useAuth from 'hooks/useAuth';
 import { openSnackbar } from 'api/snackbar';
 
 // assets
-import { Eye, EyeSlash } from 'iconsax-reactjs';
+import { Eye, EyeSlash } from 'iconsax-react';
 
 // ============================|| LOGIN FORM ||============================ //
 

@@ -1,5 +1,5 @@
 import { Box, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
-import { TickCircle } from 'iconsax-reactjs';
+import { TickCircle } from 'iconsax-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SubAppConfig } from 'types/subApp';
 import SubAppIcon from './SubAppIcon';

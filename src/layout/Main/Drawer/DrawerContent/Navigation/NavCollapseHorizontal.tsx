@@ -18,7 +18,7 @@ import Transitions from 'components/@extended/Transitions';
 import SimpleBar from 'components/third-party/SimpleBar';
 
 // assets
-import { ArrowDown2, ArrowRight2, Copy } from 'iconsax-reactjs';
+import { ArrowDown2, ArrowRight2, Copy } from 'iconsax-react';
 
 // types
 import { NavItemType } from 'types/menu';

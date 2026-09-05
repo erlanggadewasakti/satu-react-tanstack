@@ -20,7 +20,7 @@ import NavCollapse from './NavCollapse';
 import NavItem from './NavItem';
 
 // assets
-import { More2 } from 'iconsax-reactjs';
+import { More2 } from 'iconsax-react';
 
 // types
 import { NavItemType } from 'types/menu';

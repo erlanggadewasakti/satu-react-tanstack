@@ -1,7 +1,7 @@
 import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material';
 
 // assets
-import { SearchNormal1 } from 'iconsax-reactjs';
+import { SearchNormal1 } from 'iconsax-react';
 
 // project-imports
 import useMenuSearch from 'hooks/useMenuSearch';

@@ -1,5 +1,5 @@
 // assets
-import { OceanProtocol, Level, ShieldCross, InfoCircle } from 'iconsax-reactjs';
+import { OceanProtocol, Level, ShieldCross, InfoCircle } from 'iconsax-react';
 
 // types
 import { NavItemType } from 'types/menu';

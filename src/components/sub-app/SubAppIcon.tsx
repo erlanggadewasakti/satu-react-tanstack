@@ -8,7 +8,7 @@ import {
   Profile,
   SecurityUser,
   UserSquare
-} from 'iconsax-reactjs';
+} from 'iconsax-react';
 
 interface SubAppIconProps {
   id?: string;

@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useNavigate } from '@tanstack/react-router';
-import { ArrowRight, CloudConnection, Code, DocumentText, LampCharge, OceanProtocol } from 'iconsax-reactjs';
+import { ArrowRight, CloudConnection, Code, DocumentText, LampCharge, OceanProtocol } from 'iconsax-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports

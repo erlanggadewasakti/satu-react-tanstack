@@ -7,7 +7,7 @@ import getColors from 'utils/getColors';
 import { withAlpha } from 'utils/colorUtils';
 
 // assets
-import { Stop, TickSquare, MinusSquare } from 'iconsax-reactjs';
+import { Stop, TickSquare, MinusSquare } from 'iconsax-react';
 
 // types
 import { ExtendedStyleProps } from 'types/extended';

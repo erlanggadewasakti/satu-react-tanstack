@@ -5,7 +5,7 @@ import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 // third-party
-import { Icon } from 'iconsax-reactjs';
+import { Icon } from 'iconsax-react';
 
 // ==============================|| TYPES - ROOT  ||============================== //
 

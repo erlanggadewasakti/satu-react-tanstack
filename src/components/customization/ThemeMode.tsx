@@ -13,7 +13,7 @@ import { ThemeMode } from 'config';
 import MainCard from 'components/MainCard';
 
 // assets
-import { Moon, Setting2, Sun1 } from 'iconsax-reactjs';
+import { Moon, Setting2, Sun1 } from 'iconsax-react';
 
 // ==============================|| CUSTOMIZATION - MODE ||============================== //
 

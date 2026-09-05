@@ -15,7 +15,7 @@ import { ThemeDirection } from 'config';
 import navigation from 'menu-items';
 
 // assets
-import { ArrowRight2, Buildings2, Home3 } from 'iconsax-reactjs';
+import { ArrowRight2, Buildings2, Home3 } from 'iconsax-react';
 
 // types
 import { NavItemType } from 'types/menu';

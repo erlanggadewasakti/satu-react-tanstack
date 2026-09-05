@@ -1,5 +1,5 @@
 import { Box, Chip, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
-import { ArrowRight, DocumentText } from 'iconsax-reactjs';
+import { ArrowRight, DocumentText } from 'iconsax-react';
 import { useIntl } from 'react-intl';
 import { SearchableItem, resolveLocalizedText } from 'config/searchConfig';
 

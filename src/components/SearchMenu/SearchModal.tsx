@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 // assets
-import { SearchNormal1 } from 'iconsax-reactjs';
+import { SearchNormal1 } from 'iconsax-react';
 
 // third-party
 import { useIntl } from 'react-intl';
