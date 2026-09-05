@@ -1,12 +1,12 @@
-import { createContext, useContext, useState, useMemo, useEffect, useCallback, ReactNode } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import Fuse from 'fuse.js';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 // project-imports
+import SearchModal from 'components/SearchMenu/SearchModal';
+import { getAllSearchableItems, SearchableItem } from 'config/searchConfig';
 import useAuth from 'hooks/useAuth';
 import useSubApp from 'hooks/useSubApp';
-import { getAllSearchableItems, SearchableItem } from 'config/searchConfig';
-import SearchModal from 'components/SearchMenu/SearchModal';
 
 // ==============================|| SEARCH CONTEXT - TYPES ||============================== //
 
@@ -52,11 +52,17 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const fuse = useMemo(() => {
     return new Fuse(searchableItems, {
       keys: [
-        { name: 'title', weight: 0.45 },
+        { name: 'title.id', weight: 0.35 },
+        { name: 'title.en', weight: 0.35 },
         { name: 'keywords', weight: 0.25 },
-        { name: 'category', weight: 0.15 },
-        { name: 'subAppName', weight: 0.1 },
-        { name: 'description', weight: 0.05 }
+        { name: 'subTitle.id', weight: 0.15 },
+        { name: 'subTitle.en', weight: 0.15 },
+        { name: 'subAppName.id', weight: 0.1 },
+        { name: 'subAppName.en', weight: 0.1 },
+        { name: 'description.id', weight: 0.1 },
+        { name: 'description.en', weight: 0.1 },
+        { name: 'category.id', weight: 0.05 },
+        { name: 'category.en', weight: 0.05 }
       ],
       threshold: 0.35,
       ignoreLocation: true,

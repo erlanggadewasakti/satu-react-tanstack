@@ -23,9 +23,8 @@ import { ArrowRight, DocumentText, SearchNormal1 } from 'iconsax-reactjs';
 // third-party
 import { FormattedMessage, useIntl } from 'react-intl';
 
-// project-imports
 import SimpleBar from 'components/third-party/SimpleBar';
-import { SearchableItem } from 'config/searchConfig';
+import { SearchableItem, resolveLocalizedText } from 'config/searchConfig';
 
 interface Props {
   open: boolean;
@@ -125,18 +124,40 @@ export default function SearchModal({
             sx={{
               bgcolor: 'transparent',
               '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-              '& .MuiOutlinedInput-input': { fontSize: '1rem', py: 0.5 }
+              '& .MuiOutlinedInput-input': { py: 0.75 }
             }}
           />
         </Box>
 
         {/* Results List */}
-        <SimpleBar sx={{ maxHeight: 380, p: 1 }}>
+        <SimpleBar sx={{ maxHeight: 400, p: 1 }}>
           {results.length > 0 ? (
             <List disablePadding>
               {results.map((item, index) => {
                 const isSelected = index === selectedIndex;
                 const IconComponent = item.icon || DocumentText;
+
+                const title = resolveLocalizedText(item.title);
+                const subTitle = resolveLocalizedText(item.subTitle);
+                const description = resolveLocalizedText(item.description);
+                const subAppName = resolveLocalizedText(item.subAppName);
+                const category = resolveLocalizedText(item.category);
+
+                // Determine badge text: prefer subAppName, fallback to category if meaningful and distinct
+                const badgeText = subAppName.id
+                  ? (intl.locale === 'en' ? subAppName.en || subAppName.id : subAppName.id || subAppName.en)
+                  : category.id && !['GENERAL', 'MENU', 'SUPPORT', 'OTHERS'].includes(category.id.toUpperCase())
+                    ? (intl.locale === 'en' ? category.en || category.id : category.id || category.en)
+                    : '';
+
+                // Subtitle should not duplicate title, subAppName, or category
+                const hasSubTitle = Boolean(
+                  (subTitle.id || subTitle.en) &&
+                  subTitle.id !== title.id &&
+                  subTitle.id !== subAppName.id &&
+                  subTitle.id !== category.id
+                );
+                const hasDescription = Boolean(description.id || description.en);
 
                 return (
                   <ListItemButton
@@ -145,76 +166,218 @@ export default function SearchModal({
                     onClick={() => onSelect(item)}
                     onMouseEnter={() => onSelectedIndexChange(index)}
                     sx={(theme) => ({
-                      borderRadius: 1.5,
+                      borderRadius: 2,
                       my: 0.5,
                       px: 1.5,
-                      py: 1,
-                      transition: 'all 0.15s ease-in-out',
-                      ...(isSelected && {
-                        bgcolor: 'primary.lighter',
-                        ...theme.applyStyles('dark', { bgcolor: 'secondary.200' })
-                      })
+                      py: 1.25,
+                      alignItems: 'flex-start',
+                      transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
+                      ...(isSelected
+                        ? {
+                          bgcolor: 'primary.lighter',
+                          ...theme.applyStyles('dark', { bgcolor: 'secondary.200' })
+                        }
+                        : {
+                          '&:hover': {
+                            bgcolor: 'secondary.100'
+                          }
+                        })
                     })}
                   >
                     <ListItemIcon
                       sx={{
-                        minWidth: 36,
-                        color: isSelected ? 'primary.main' : 'secondary.main'
+                        minWidth: 40,
+                        width: 40,
+                        height: 40,
+                        borderRadius: 1.5,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bgcolor: isSelected ? 'background.paper' : 'secondary.100',
+                        color: isSelected ? 'primary.main' : 'text.secondary',
+                        mr: 1.75,
+                        mt: 0.25,
+                        boxShadow: isSelected ? 1 : 0,
+                        transition: 'all 0.18s ease-in-out'
                       }}
                     >
                       <IconComponent size={20} variant={isSelected ? 'Bold' : 'Linear'} />
                     </ListItemIcon>
 
                     <ListItemText
+                      disableTypography
+                      sx={{ my: 0, flex: 1, minWidth: 0 }}
                       primary={
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              fontWeight: isSelected ? 600 : 500,
-                              color: isSelected ? 'primary.main' : 'text.primary'
-                            }}
-                          >
-                            {item.title}
-                          </Typography>
-                          {item.subAppName && (
+                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                          <Box sx={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: 0.75, minWidth: 0 }}>
+                            <Typography
+                              variant="subtitle1"
+                              sx={{
+                                fontWeight: 600,
+                                color: isSelected ? 'primary.main' : 'text.primary',
+                                lineHeight: 1.4
+                              }}
+                            >
+                              {title.id}
+                            </Typography>
+                            {title.en && title.en !== title.id && (
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  color: isSelected ? 'text.primary' : 'text.secondary',
+                                  fontWeight: 500,
+                                  lineHeight: 1.4
+                                }}
+                              >
+                                ({title.en})
+                              </Typography>
+                            )}
+                          </Box>
+
+                          {badgeText && (
                             <Chip
-                              label={item.subAppName}
+                              label={badgeText}
                               size="small"
-                              variant="outlined"
-                              color={isSelected ? 'primary' : 'secondary'}
-                              sx={{ height: 18, px: 0.25 }}
+                              variant={isSelected ? 'filled' : 'outlined'}
+                              sx={{
+                                height: 20,
+                                flexShrink: 0,
+                                ml: 1,
+                                borderRadius: 1,
+                                borderColor: isSelected ? 'transparent' : 'divider',
+                                bgcolor: isSelected ? 'primary.main' : 'secondary.100',
+                                color: isSelected ? 'common.white' : 'text.secondary',
+                                '& .MuiChip-label': {
+                                  px: 0.75,
+                                  py: 0,
+                                  fontWeight: isSelected ? 600 : 500
+                                }
+                              }}
                             />
                           )}
                         </Stack>
                       }
                       secondary={
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            color: 'text.secondary',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 1,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden'
-                          }}
-                        >
-                          {item.subTitle || item.category || item.url}
-                        </Typography>
+                        <Stack spacing={0.35} sx={{ mt: 0.5, width: '100%' }}>
+                          {hasSubTitle && (
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                color: isSelected ? 'text.primary' : 'text.secondary',
+                                fontWeight: 500,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 0.5,
+                                lineHeight: 1.35
+                              }}
+                            >
+                              {subTitle.id}
+                              {subTitle.en && subTitle.en !== subTitle.id && (
+                                <Box component="span" sx={{ color: isSelected ? 'text.primary' : 'text.secondary', fontWeight: 500 }}>
+                                  • {subTitle.en}
+                                </Box>
+                              )}
+                            </Typography>
+                          )}
+
+                          {hasDescription && (
+                            <Stack spacing={0.35} sx={{ mt: 0.5 }}>
+                              {description.id && (
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                                  <Chip
+                                    label="ID"
+                                    size="small"
+                                    sx={{
+                                      height: 18,
+                                      borderRadius: 0.5,
+                                      bgcolor: isSelected ? 'background.paper' : 'secondary.100',
+                                      color: isSelected ? 'primary.main' : 'text.secondary',
+                                      border: '1px solid',
+                                      borderColor: isSelected ? 'divider' : 'transparent',
+                                      '& .MuiChip-label': { px: 0.6, fontWeight: 700 }
+                                    }}
+                                  />
+                                  <Typography
+                                    variant="caption"
+                                    sx={{
+                                      color: isSelected ? 'text.primary' : 'text.secondary',
+                                      lineHeight: 1.45,
+                                      display: '-webkit-box',
+                                      WebkitLineClamp: 1,
+                                      WebkitBoxOrient: 'vertical',
+                                      overflow: 'hidden',
+                                      fontWeight: 400
+                                    }}
+                                  >
+                                    {description.id}
+                                  </Typography>
+                                </Box>
+                              )}
+                              {description.en && description.en !== description.id && (
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                                  <Chip
+                                    label="EN"
+                                    size="small"
+                                    sx={{
+                                      height: 18,
+                                      borderRadius: 0.5,
+                                      bgcolor: isSelected ? 'background.paper' : 'secondary.100',
+                                      color: isSelected ? 'primary.main' : 'primary.main',
+                                      border: '1px solid',
+                                      borderColor: isSelected ? 'divider' : 'transparent',
+                                      '& .MuiChip-label': { px: 0.6, fontWeight: 700 }
+                                    }}
+                                  />
+                                  <Typography
+                                    variant="caption"
+                                    sx={{
+                                      color: isSelected ? 'text.primary' : 'text.primary',
+                                      lineHeight: 1.45,
+                                      display: '-webkit-box',
+                                      WebkitLineClamp: 1,
+                                      WebkitBoxOrient: 'vertical',
+                                      overflow: 'hidden',
+                                      fontWeight: 500
+                                    }}
+                                  >
+                                    {description.en}
+                                  </Typography>
+                                </Box>
+                              )}
+                            </Stack>
+                          )}
+
+                          {!hasSubTitle && !hasDescription && (
+                            <Typography variant="caption" sx={{ color: 'text.disabled', fontFamily: 'monospace' }}>
+                              {item.url}
+                            </Typography>
+                          )}
+                        </Stack>
                       }
                     />
 
-                    {isSelected && <ArrowRight size={16} style={{ marginLeft: 8, opacity: 0.8 }} color="currentColor" />}
+                    {isSelected && (
+                      <ArrowRight
+                        size={18}
+                        style={{
+                          alignSelf: 'center',
+                          marginLeft: 12,
+                          opacity: 0.8,
+                          flexShrink: 0
+                        }}
+                        color="currentColor"
+                      />
+                    )}
                   </ListItemButton>
                 );
               })}
             </List>
           ) : (
-            <Box sx={{ py: 5, textAlign: 'center' }}>
+            <Box sx={{ py: 6, px: 2, textAlign: 'center' }}>
               <Typography variant="subtitle1" color="text.secondary">
                 <FormattedMessage id="search.no-results" values={{ query }} />
               </Typography>
-              <Typography variant="caption" color="text.disabled" sx={{ mt: 0.5, display: 'block' }}>
+              <Typography variant="body2" color="text.disabled" sx={{ mt: 0.75, display: 'block' }}>
                 <FormattedMessage id="search.no-results-hint" />
               </Typography>
             </Box>
@@ -226,7 +389,7 @@ export default function SearchModal({
         <Box
           sx={{
             px: 2,
-            py: 1,
+            py: 1.25,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -234,25 +397,45 @@ export default function SearchModal({
             color: 'text.secondary'
           }}
         >
-          <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-            <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-              <Chip label="↑↓" size="small" sx={{ height: 18, px: 0.25 }} />
-              <Typography variant="caption">
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+            <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
+              <Chip
+                label="↑↓"
+                size="small"
+                sx={{
+                  height: 20,
+                  px: 0.25,
+                  fontWeight: 600,
+                  bgcolor: 'background.paper',
+                  color: 'text.secondary',
+                  boxShadow: 1
+                }}
+              />
+              <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="search.navigate" />
               </Typography>
             </Stack>
-            <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-              <Chip label="ENTER" size="small" sx={{ height: 18, px: 0.25 }} />
-              <Typography variant="caption">
+            <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
+              <Chip
+                label="ENTER"
+                size="small"
+                sx={{
+                  height: 20,
+                  px: 0.25,
+                  fontWeight: 600,
+                  bgcolor: 'background.paper',
+                  color: 'text.secondary',
+                  boxShadow: 1
+                }}
+              />
+              <Typography variant="caption" color="text.secondary">
                 <FormattedMessage id="search.open" />
               </Typography>
             </Stack>
           </Stack>
-          <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-            <Typography variant="caption" color="text.disabled">
-              Powered by Fuse.js
-            </Typography>
-          </Stack>
+          <Typography variant="caption" color="text.disabled">
+            Powered by Fuse.js
+          </Typography>
         </Box>
       </DialogContent>
     </Dialog>
