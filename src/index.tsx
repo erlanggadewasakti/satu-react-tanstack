@@ -5,7 +5,7 @@ import './index.css';
 
 // project-imports
 import App from './App';
-import { ConfigProvider } from 'contexts/ConfigContext';
+import { ConfigProvider } from 'contexts/ConfigProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);

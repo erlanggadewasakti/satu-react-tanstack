@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useMemo, useEffect, useCallback } from 'react';
+import { ReactNode, useMemo, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 
 // project-imports
@@ -7,17 +7,11 @@ import useAuth from 'hooks/useAuth';
 import { SUB_APPS } from 'config/subApps';
 import menuItems, { menuItemsBySubApp, globalHomeMenuItem } from 'menu-items';
 import { hasRoleAccess, filterMenuItemsByRole } from 'utils/auth';
-
-// types
-import { SubAppContextValue } from 'types/subApp';
+import { SubAppContext } from 'contexts/SubAppContext';
 
 export interface ChildrenProps {
   children: ReactNode;
 }
-
-// ==============================|| SUB-APP CONTEXT ||============================== //
-
-export const SubAppContext = createContext<SubAppContextValue | undefined>(undefined);
 
 // ==============================|| SUB-APP PROVIDER ||============================== //
 
@@ -82,3 +76,5 @@ export function SubAppProvider({ children }: ChildrenProps) {
 
   return <SubAppContext.Provider value={memoizedValue}>{children}</SubAppContext.Provider>;
 }
+
+export default SubAppProvider;

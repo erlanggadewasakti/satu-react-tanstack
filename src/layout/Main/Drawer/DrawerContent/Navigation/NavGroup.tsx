@@ -1,33 +1,21 @@
-import { Activity, useEffect, useMemo, useState, Dispatch, Fragment, MouseEvent, SetStateAction } from 'react';
+import { useMemo } from 'react';
 import { useLocation } from '@tanstack/react-router';
 
 // material-ui
-import { styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // project-imports
-import NavItem from './NavItem';
-import NavCollapse from './NavCollapse';
 import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
-import SimpleBar from 'components/third-party/SimpleBar';
-import Transitions from 'components/@extended/Transitions';
-
 import { useGetMenuMaster } from 'api/menu';
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
-
-// assets
-import { More2 } from 'iconsax-reactjs';
+import NavCollapse from './NavCollapse';
+import NavItem from './NavItem';
+import NavGroupHorizontal from './NavGroupHorizontal';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -38,40 +26,22 @@ interface Props {
   remItems: NavItemType[];
   lastItemId: string;
   selectedID: string | undefined;
-  setSelectedID: Dispatch<SetStateAction<string | undefined>>;
-  setSelectedItems: Dispatch<SetStateAction<string | undefined>>;
-  selectedItems: string | undefined;
-  setSelectedLevel: Dispatch<SetStateAction<number>>;
+  setSelectedID: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSelectedItems: (val: any) => void;
+  selectedItems: any;
+  setSelectedLevel: (val: any) => void;
   selectedLevel: number;
 }
 
-type VirtualElement = {
-  getBoundingClientRect: () => DOMRect;
-  contextElement?: Element;
-};
-
-const PopperStyled = styled(Popper)(({ theme }) => ({
-  overflow: 'visible',
-  zIndex: 1202,
-  minWidth: 180,
-  '&:before': {
-    background: theme.vars.palette.background.paper,
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    top: 5,
-    left: 32,
-    width: 12,
-    height: 12,
-    transform: 'translateY(-50%) rotate(45deg)',
-    zIndex: 120,
-    borderWidth: '6px',
-    borderStyle: 'solid',
-    borderColor: `${theme.vars.palette.background.paper}  transparent transparent ${theme.vars.palette.background.paper}`,
-    borderLeft: `1px solid ${theme.vars.palette.divider}`,
-    borderTop: `1px solid ${theme.vars.palette.divider}`
+function hasActiveRoute(item: NavItemType, pathname: string): boolean {
+  if (item.url && pathname === (item.link || item.url)) {
+    return true;
   }
-}));
+  if (item.children?.length) {
+    return item.children.some((child) => hasActiveRoute(child, pathname));
+  }
+  return false;
+}
 
 // ==============================|| NAVIGATION - GROUP ||============================== //
 
@@ -80,8 +50,6 @@ export default function NavGroup({
   lastItem,
   remItems,
   lastItemId,
-  selectedID,
-  setSelectedID,
   setSelectedItems,
   selectedItems,
   setSelectedLevel,
@@ -97,10 +65,6 @@ export default function NavGroup({
 
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
-  const [anchorEl, setAnchorEl] = useState<VirtualElement | (() => VirtualElement) | null | undefined>(null);
-
-  const openMini = Boolean(anchorEl);
-
   const currentItem: NavItemType = useMemo(() => {
     if (lastItem && item.id === lastItemId) {
       const localItem: NavItemType = { ...item };
@@ -111,54 +75,25 @@ export default function NavGroup({
     return item;
   }, [item, lastItem, lastItemId, remItems]);
 
-  const checkOpenForParent = (child: NavItemType[], id: string) => {
-    child.forEach((ele: NavItemType) => {
-      if (ele.children?.length) {
-        checkOpenForParent(ele.children, currentItem.id!);
-      }
+  const isSelected = useMemo(() => hasActiveRoute(currentItem, pathname), [currentItem, pathname]);
 
-      if (ele.url && pathname === (ele.link || ele.url)) {
-        setSelectedID(id);
-      }
-    });
-  };
-  const checkSelectedOnload = (data: NavItemType) => {
-    const childrens = data.children ? data.children : [];
-    childrens.forEach((itemCheck: NavItemType) => {
-      if (itemCheck?.children?.length) {
-        checkOpenForParent(itemCheck.children, currentItem.id!);
-      }
+  const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
 
-      if (itemCheck.url && pathname === (itemCheck.link || itemCheck.url)) {
-        setSelectedID(currentItem.id!);
-      }
-    });
-  };
-
-  useEffect(() => {
-    checkSelectedOnload(currentItem);
-    if (openMini) setAnchorEl(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, currentItem]);
-
-  const handleClick = (event: MouseEvent<HTMLElement> | undefined) => {
-    if (!openMini) {
-      setAnchorEl(event?.currentTarget);
-    }
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const isSelected = selectedID === currentItem.id;
-
-  const Icon = currentItem?.icon!;
-  const itemIcon = currentItem?.icon ? (
-    <Box component="span" sx={{ color: isSelected || anchorEl ? 'primary.main' : 'secondary.main' }}>
-      <Icon variant="Bulk" size={22} />
-    </Box>
-  ) : null;
+  if (isHorizontal) {
+    return (
+      <NavGroupHorizontal
+        item={item}
+        currentItem={currentItem}
+        isSelected={isSelected}
+        lastItemId={lastItemId}
+        remItems={remItems}
+        setSelectedItems={setSelectedItems}
+        setSelectedLevel={setSelectedLevel}
+        selectedLevel={selectedLevel}
+        selectedItems={selectedItems}
+      />
+    );
+  }
 
   const navCollapse = item.children?.map((menuItem) => {
     switch (menuItem.type) {
@@ -186,169 +121,36 @@ export default function NavGroup({
     }
   });
 
-  const moreItems = remItems.map((itemRem: NavItemType) => (
-    <Fragment key={itemRem.id || itemRem.url || `rem-item-${itemRem.title || 'sub'}`}>
-      {itemRem.url ? (
-        <NavItem item={itemRem} level={1} />
-      ) : (
-        itemRem.title && (
-          <Typography variant="caption" sx={{ pl: 2 }}>
-            {itemRem.title} {itemRem.url}
-          </Typography>
-        )
-      )}
-      {itemRem?.elements?.map((menu) => {
-        switch (menu.type) {
-          case 'collapse':
-            return (
-              <NavCollapse
-                key={menu.id}
-                menu={menu}
-                level={1}
-                parentId={currentItem.id!}
-                setSelectedItems={setSelectedItems}
-                setSelectedLevel={setSelectedLevel}
-                selectedLevel={selectedLevel}
-                selectedItems={selectedItems}
-              />
-            );
-          case 'item':
-            return <NavItem key={menu.id} item={menu} level={1} />;
-          default:
-            return (
-              <Typography key={menu.id} variant="h6" color="error" align="center">
-                Menu Items Error
-              </Typography>
-            );
-        }
-      })}
-    </Fragment>
-  ));
-
-  // menu list collapse & items
-  const items = currentItem.children?.map((menu: NavItemType) => {
-    switch (menu?.type) {
-      case 'collapse':
-        return (
-          <NavCollapse
-            key={menu.id}
-            menu={menu}
-            level={1}
-            parentId={currentItem.id!}
-            setSelectedItems={setSelectedItems}
-            setSelectedLevel={setSelectedLevel}
-            selectedLevel={selectedLevel}
-            selectedItems={selectedItems}
-          />
-        );
-      case 'item':
-        return <NavItem key={menu.id} item={menu} level={1} />;
-      default:
-        return (
-          <Typography key={menu?.id} variant="h6" color="error" align="center">
-            Menu Items Error
-          </Typography>
-        );
-    }
-  });
-
-  const popperId = openMini ? `group-pop-${item.id}` : undefined;
-
   return (
-    <>
-      {menuOrientation !== MenuOrientation.HORIZONTAL || downLG ? (
-        <List
-          subheader={
-            <>
-              {item.title ? (
-                drawerOpen &&
-                menuCaption && (
-                  <Box sx={{ pl: 3, mb: 1.5 }}>
-                    <Typography
-                      variant="overline"
-                      sx={(theme) => ({
-                        color: 'secondary.dark',
-                        ...theme.applyStyles('dark', { color: 'text.secondary' })
-                      })}
-                    >
-                      <SafeFormattedMessage id={item.title} />
-                    </Typography>
-                    {item.caption && (
-                      <Typography variant="caption" color="secondary">
-                        <SafeFormattedMessage id={item.caption} />
-                      </Typography>
-                    )}
-                  </Box>
-                )
-              ) : (
-                <Divider sx={{ my: 0.5 }} />
-              )}
-            </>
-          }
-          sx={{ mt: drawerOpen && menuCaption && item.title ? 1.5 : 0, py: 0, zIndex: 0 }}
-        >
-          {navCollapse}
-        </List>
-      ) : (
-        <List>
-          <ListItemButton
-            selected={isSelected}
-            sx={{ p: 1, px: 1.5, my: 0.5, mr: 1, display: 'flex', alignItems: 'center', borderRadius: 1 }}
-            onMouseEnter={handleClick}
-            onClick={handleClick}
-            onMouseLeave={handleClose}
-            disableTouchRipple
-            aria-describedby={popperId}
-            className={anchorEl ? 'Mui-selected' : ''}
-          >
-            <Activity mode={itemIcon ? 'visible' : 'hidden'}>
-              <ListItemIcon sx={{ minWidth: 32 }}>
-                {currentItem.id === lastItemId ? <More2 size={22} variant="Bulk" /> : itemIcon}
-              </ListItemIcon>
-            </Activity>
-            <ListItemText
-              sx={{ mr: 1 }}
-              primary={
-                <Typography
-                  variant="h6"
-                  sx={(theme) => ({
-                    fontWeight: isSelected || anchorEl ? 500 : 400,
-                    color: 'secondary.main',
-                    ...theme.applyStyles('dark', { color: 'secondary.400' }),
-                    ...((isSelected || anchorEl) && { color: 'primary.main' })
-                  })}
-                >
-                  <SafeFormattedMessage id={currentItem.id === lastItemId ? 'more-items' : currentItem.title} />
+    <List
+      subheader={
+        item.title ? (
+          drawerOpen &&
+          menuCaption && (
+            <Box sx={{ pl: 3, mb: 1.5 }}>
+              <Typography
+                variant="overline"
+                sx={(theme) => ({
+                  color: 'secondary.dark',
+                  ...theme.applyStyles('dark', { color: 'text.secondary' })
+                })}
+              >
+                <SafeFormattedMessage id={item.title} />
+              </Typography>
+              {item.caption && (
+                <Typography variant="caption" color="secondary">
+                  <SafeFormattedMessage id={item.caption} />
                 </Typography>
-              }
-            />
-            <Activity mode={anchorEl ? 'visible' : 'hidden'}>
-              <PopperStyled id={popperId} open={openMini} anchorEl={anchorEl} placement="bottom-start" style={{ zIndex: 2001 }}>
-                {({ TransitionProps }) => (
-                  <Transitions in={openMini} {...TransitionProps}>
-                    <Paper
-                      sx={(theme) => ({
-                        mt: 0.5,
-                        py: 1.25,
-                        boxShadow: theme.vars.customShadows.z1,
-                        border: '1px solid ',
-                        borderColor: 'divider',
-                        backgroundImage: 'none'
-                      })}
-                    >
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <SimpleBar sx={{ minWidth: 200, overflowY: 'auto', maxHeight: 'calc(100vh - 170px)' }}>
-                          {currentItem.id !== lastItemId ? items : moreItems}
-                        </SimpleBar>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Transitions>
-                )}
-              </PopperStyled>
-            </Activity>
-          </ListItemButton>
-        </List>
-      )}
-    </>
+              )}
+            </Box>
+          )
+        ) : (
+          <Divider sx={{ my: 0.5 }} />
+        )
+      }
+      sx={{ mt: drawerOpen && menuCaption && item.title ? 1.5 : 0, py: 0, zIndex: 0 }}
+    >
+      {navCollapse}
+    </List>
   );
 }

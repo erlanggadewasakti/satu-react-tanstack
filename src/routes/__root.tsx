@@ -1,7 +1,7 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { lazy, Suspense } from 'react';
-import { SubAppProvider } from 'contexts/SubAppContext';
-import { SearchProvider } from 'contexts/SearchContext';
+import { SubAppProvider } from 'contexts/SubAppProvider';
+import { SearchProvider } from 'contexts/SearchProvider';
 
 const Devtools = import.meta.env.DEV
   ? lazy(() =>

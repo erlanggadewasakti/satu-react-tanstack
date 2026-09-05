@@ -1,20 +1,17 @@
-import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 // project-imports
 import config from 'config';
 import useLocalStorage from 'hooks/useLocalStorage';
 import { registerDrawerSetter } from 'api/menu';
+import { ConfigContext } from 'contexts/ConfigContext';
 
 // types
-import { ConfigContextValue, ConfigStates } from 'types/config';
+import { ConfigStates } from 'types/config';
 
 export interface ChildrenProps {
   children: ReactNode;
 }
-
-// ==============================||  CONFIG CONTEXT  ||============================== //
-
-export const ConfigContext = createContext<ConfigContextValue | undefined>(undefined);
 
 // ==============================||  CONFIG PROVIDER  ||============================== //
 
@@ -40,3 +37,5 @@ export function ConfigProvider({ children }: ChildrenProps) {
 
   return <ConfigContext.Provider value={memoizedValue}>{children}</ConfigContext.Provider>;
 }
+
+export default ConfigProvider;

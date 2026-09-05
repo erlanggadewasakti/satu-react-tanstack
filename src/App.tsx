@@ -12,7 +12,7 @@ import Customization from 'components/customization';
 import Snackbar from 'components/@extended/Snackbar';
 
 // auth-provider
-import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
+import { JWTProvider as AuthProvider } from 'contexts/JWTProvider';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL  ||============================== //
 

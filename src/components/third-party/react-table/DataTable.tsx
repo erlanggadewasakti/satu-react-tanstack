@@ -4,10 +4,8 @@ import {
   Box,
   Button,
   Divider,
-  Skeleton,
   Stack,
   Table,
-  TableBody,
   TableCell,
   TableContainer,
   TableHead,
@@ -17,14 +15,17 @@ import { flexRender } from '@tanstack/react-table';
 import { FormattedMessage } from 'react-intl';
 
 // project-imports
-import DebouncedInput from './DebouncedInput';
-import EmptyTable from './EmptyTable';
+import DataTableToolbar from './DataTableToolbar';
+import DataTableBody from './DataTableBody';
 import HeaderSort from './HeaderSort';
-import SelectColumnSorting from './SelectColumnSorting';
-import SelectColumnVisibility from './SelectColumnVisibility';
 import TablePagination from './TablePagination';
 
 // ==============================|| REUSABLE DATA TABLE COMPONENT ||============================== //
+
+export interface DataTableToolbarConfig {
+  showSortingSelect?: boolean;
+  showVisibilitySelect?: boolean;
+}
 
 export interface DataTableProps {
   table: any;
@@ -37,8 +38,7 @@ export interface DataTableProps {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
-  showSortingSelect?: boolean;
-  showVisibilitySelect?: boolean;
+  toolbarConfig?: DataTableToolbarConfig;
   extraToolbarActions?: ReactNode;
   // Table customisation
   minWidth?: number | string;
@@ -48,62 +48,30 @@ export interface DataTableProps {
 export default function DataTable({
   table,
   isLoading = false,
+  isFetching = false,
   isError = false,
   errorMessage,
   onRetry,
   searchValue,
   onSearchChange,
   searchPlaceholder,
-  showSortingSelect = true,
-  showVisibilitySelect = true,
+  toolbarConfig,
   extraToolbarActions,
   minWidth = 700,
   emptyMessage = 'No data available'
 }: DataTableProps) {
-  const showToolbar = Boolean(onSearchChange || showSortingSelect || showVisibilitySelect || extraToolbarActions);
-
   return (
     <>
       {/* TOP SEARCH & ACTIONS TOOLBAR */}
-      {showToolbar && (
-        <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2, alignItems: 'center', justifyContent: 'space-between', p: 2.5 }}>
-          {onSearchChange ? (
-            <DebouncedInput
-              value={searchValue ?? ''}
-              onFilterChange={(val) => onSearchChange(String(val))}
-              placeholder={searchPlaceholder}
-              sx={{ width: { xs: '100%', sm: 340 } }}
-            />
-          ) : (
-            <Box />
-          )}
-
-          <Stack
-            direction="row"
-            sx={{
-              gap: 1.5,
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              width: { xs: '100%', sm: 'auto' },
-              justifyContent: { xs: 'space-between', sm: 'flex-end' }
-            }}
-          >
-            {showSortingSelect && table.getAllColumns && (
-              <SelectColumnSorting state={table.state} getAllColumns={table.getAllColumns} setSorting={table.setSorting} size="small" />
-            )}
-            {showVisibilitySelect && table.getVisibleLeafColumns && (
-              <SelectColumnVisibility
-                getVisibleLeafColumns={table.getVisibleLeafColumns}
-                getIsAllColumnsVisible={table.getIsAllColumnsVisible}
-                getToggleAllColumnsVisibilityHandler={table.getToggleAllColumnsVisibilityHandler}
-                getAllColumns={table.getAllColumns}
-                size="small"
-              />
-            )}
-            {extraToolbarActions}
-          </Stack>
-        </Stack>
-      )}
+      <DataTableToolbar
+        table={table}
+        searchValue={searchValue}
+        onSearchChange={onSearchChange}
+        searchPlaceholder={searchPlaceholder}
+        showSortingSelect={toolbarConfig?.showSortingSelect ?? true}
+        showVisibilitySelect={toolbarConfig?.showVisibilitySelect ?? true}
+        extraToolbarActions={extraToolbarActions}
+      />
 
       {/* ERROR ALERT */}
       {isError && (
@@ -159,43 +127,7 @@ export default function DataTable({
             ))}
           </TableHead>
 
-          <TableBody>
-            {isLoading ? (
-              Array.from({ length: table.state?.pagination?.pageSize || 10 }).map((_, index) => (
-                <TableRow key={index}>
-                  {table.getVisibleLeafColumns().map((col: any) => (
-                    <TableCell key={col.id} align={(col.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}>
-                      <Skeleton
-                        sx={{
-                          mx: (col.columnDef.meta as { align?: string })?.align === 'center' ? 'auto' : undefined
-                        }}
-                        width="75%"
-                      />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : table.getRowModel().rows.length > 0 ? (
-              table.getRowModel().rows.map((row: any) => (
-                <TableRow key={row.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  {row.getVisibleCells().map((cell: any) => (
-                    <TableCell
-                      key={cell.id}
-                      align={(cell.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow sx={{ '&.MuiTableRow-root:hover': { bgcolor: 'transparent' } }}>
-                <TableCell colSpan={table.getVisibleLeafColumns().length} sx={{ p: 0 }}>
-                  <EmptyTable msg={emptyMessage} />
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          <DataTableBody table={table} isLoading={isLoading || isFetching} emptyMessage={emptyMessage} />
         </Table>
       </TableContainer>
 

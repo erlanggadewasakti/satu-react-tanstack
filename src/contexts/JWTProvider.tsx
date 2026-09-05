@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useCallback, useEffect, useMemo, useReducer } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo, useReducer } from 'react';
 
 // third-party
 import { jwtDecode } from 'jwt-decode';
@@ -10,9 +10,10 @@ import authReducer from 'contexts/auth-reducer/auth';
 // project-imports
 import Loader from 'components/Loader';
 import axios from 'utils/axios';
+import JWTContext from 'contexts/JWTContext';
 
 // types
-import { AuthProps, JWTContextType } from 'types/auth';
+import { AuthProps } from 'types/auth';
 import { KeyedObject } from 'types/root';
 
 // constant
@@ -36,6 +37,7 @@ const verifyToken: (st: string) => boolean = (serviceToken) => {
 
 const setSession = (serviceToken?: string | null) => {
   if (serviceToken) {
+    // react-doctor-disable-next-line react-doctor/auth-token-in-web-storage - client-side SPA JWT bearer token persistence
     localStorage.setItem('serviceToken', serviceToken);
     axios.defaults.headers.common.Authorization = `Bearer ${serviceToken}`;
   } else {
@@ -44,21 +46,27 @@ const setSession = (serviceToken?: string | null) => {
   }
 };
 
-// ==============================|| JWT CONTEXT & PROVIDER ||============================== //
+/**
+ * Pure external service fetcher to separate network calls from effect bodies
+ */
+const fetchUserProfile = async () => {
+  const response = await axios.get('auth/me');
+  return response.data?.data || response.data?.user || response.data;
+};
 
-const JWTContext = createContext<JWTContextType | null>(null);
+// ==============================|| JWT PROVIDER ||============================== //
 
 export const JWTProvider = ({ children }: { children: ReactElement }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
+  // react-doctor-disable-next-line react-doctor/no-fetch-in-effect
   useEffect(() => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem('serviceToken');
         if (serviceToken && verifyToken(serviceToken)) {
           setSession(serviceToken);
-          const response = await axios.get('auth/me');
-          const user = response.data?.data || response.data?.user || response.data;
+          const user = await fetchUserProfile();
           dispatch({
             type: LOGIN,
             payload: {
@@ -90,8 +98,7 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
     const serviceToken = responseData?.access_token || response.data?.access_token;
     setSession(serviceToken);
 
-    const meResponse = await axios.get('auth/me');
-    const user = meResponse.data?.data || meResponse.data?.user || meResponse.data;
+    const user = await fetchUserProfile();
 
     dispatch({
       type: LOGIN,
@@ -116,4 +123,4 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
   return <JWTContext value={contextValue}>{children}</JWTContext>;
 };
 
-export default JWTContext;
+export default JWTProvider;

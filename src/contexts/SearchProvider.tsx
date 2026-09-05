@@ -1,30 +1,13 @@
 import { useNavigate } from '@tanstack/react-router';
 import Fuse from 'fuse.js';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 // project-imports
 import SearchModal from 'components/SearchMenu/SearchModal';
 import { getAllSearchableItems, SearchableItem } from 'config/searchConfig';
 import useAuth from 'hooks/useAuth';
 import useSubApp from 'hooks/useSubApp';
-
-// ==============================|| SEARCH CONTEXT - TYPES ||============================== //
-
-export interface SearchContextType {
-  query: string;
-  setQuery: (query: string) => void;
-  results: SearchableItem[];
-  isOpen: boolean;
-  openSearch: () => void;
-  closeSearch: () => void;
-  setIsOpen: (isOpen: boolean | ((prev: boolean) => boolean)) => void;
-  selectedIndex: number;
-  setSelectedIndex: (index: number) => void;
-  handleSelect: (item: SearchableItem) => void;
-  searchableItems: SearchableItem[];
-}
-
-export const SearchContext = createContext<SearchContextType | undefined>(undefined);
+import { SearchContext } from 'contexts/SearchContext';
 
 // ==============================|| SEARCH PROVIDER ||============================== //
 
@@ -79,9 +62,10 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     return fuse.search(trimmed).map((res) => res.item);
   }, [query, fuse, searchableItems]);
 
-  useEffect(() => {
+  const handleQueryChange = (newQuery: string) => {
+    setQuery(newQuery);
     setSelectedIndex(0);
-  }, [results]);
+  };
 
   // Global Ctrl + K / Cmd + K listener (Single Global Listener)
   useEffect(() => {
@@ -121,7 +105,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(
     () => ({
       query,
-      setQuery,
+      setQuery: handleQueryChange,
       results,
       isOpen,
       openSearch,
@@ -142,7 +126,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
         open={isOpen}
         onClose={closeSearch}
         query={query}
-        onQueryChange={setQuery}
+        onQueryChange={handleQueryChange}
         results={results}
         selectedIndex={selectedIndex}
         onSelectedIndexChange={setSelectedIndex}
@@ -152,14 +136,4 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// ==============================|| HOOK - USE MENU SEARCH ||============================== //
-
-export function useMenuSearch() {
-  const context = useContext(SearchContext);
-  if (!context) {
-    throw new Error('useMenuSearch must be used within a SearchProvider');
-  }
-  return context;
-}
-
-export default useMenuSearch;
+export default SearchProvider;
