@@ -171,17 +171,18 @@ export default function SearchModal({
                       px: 1.5,
                       py: 1.25,
                       alignItems: 'flex-start',
-                      transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
-                      ...(isSelected
-                        ? {
-                          bgcolor: 'primary.lighter',
-                          ...theme.applyStyles('dark', { bgcolor: 'secondary.200' })
-                        }
-                        : {
-                          '&:hover': {
-                            bgcolor: 'secondary.100'
-                          }
-                        })
+                      transition: 'none',
+                      '&:hover': {
+                        transition: 'none',
+                        bgcolor: 'secondary.100'
+                      },
+                      '&.Mui-selected': {
+                        transition: 'none'
+                      },
+                      ...(isSelected && {
+                        bgcolor: 'primary.lighter',
+                        ...theme.applyStyles('dark', { bgcolor: 'secondary.200' })
+                      })
                     })}
                   >
                     <ListItemIcon
@@ -198,7 +199,7 @@ export default function SearchModal({
                         mr: 1.75,
                         mt: 0.25,
                         boxShadow: isSelected ? 1 : 0,
-                        transition: 'all 0.18s ease-in-out'
+                        transition: 'none'
                       }}
                     >
                       <IconComponent size={20} variant={isSelected ? 'Bold' : 'Linear'} />
@@ -244,6 +245,7 @@ export default function SearchModal({
                                 flexShrink: 0,
                                 ml: 1,
                                 borderRadius: 1,
+                                transition: 'none',
                                 borderColor: isSelected ? 'transparent' : 'divider',
                                 bgcolor: isSelected ? 'primary.main' : 'secondary.100',
                                 color: isSelected ? 'common.white' : 'text.secondary',
@@ -290,6 +292,7 @@ export default function SearchModal({
                                     sx={{
                                       height: 18,
                                       borderRadius: 0.5,
+                                      transition: 'none',
                                       bgcolor: isSelected ? 'background.paper' : 'secondary.100',
                                       color: isSelected ? 'primary.main' : 'text.secondary',
                                       border: '1px solid',
@@ -321,6 +324,7 @@ export default function SearchModal({
                                     sx={{
                                       height: 18,
                                       borderRadius: 0.5,
+                                      transition: 'none',
                                       bgcolor: isSelected ? 'background.paper' : 'secondary.100',
                                       color: isSelected ? 'primary.main' : 'primary.main',
                                       border: '1px solid',
