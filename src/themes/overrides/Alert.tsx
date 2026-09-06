@@ -51,8 +51,18 @@ export default function Alert(theme: Theme) {
       },
       styleOverrides: {
         root: {
+          padding: '10px 16px',
+          alignItems: 'center',
           color: theme.vars.palette.text.primary,
           fontSize: '0.875rem',
+          lineHeight: 1.5,
+          '&:has(.MuiAlertTitle-root)': {
+            alignItems: 'flex-start',
+            '& .MuiAlert-icon': {
+              paddingTop: 2,
+              transform: 'none'
+            }
+          },
           variants: [
             {
               props: { variant: 'standard' },
@@ -62,6 +72,7 @@ export default function Alert(theme: Theme) {
                 return {
                   position: 'relative',
                   backgroundColor: withAlpha(paletteColor.main, 0.075),
+                  color: theme.vars.palette.text.primary,
                   '& .MuiAlert-icon': { color: paletteColor.main }
                 };
               }
@@ -72,8 +83,11 @@ export default function Alert(theme: Theme) {
                 const paletteColor = getPaletteColor(ownerState.severity) as PaletteColor;
 
                 return {
-                  color: theme.vars.palette.grey[0],
-                  backgroundColor: paletteColor.main
+                  color: paletteColor.contrastText || theme.vars.palette.common.white,
+                  backgroundColor: paletteColor.main,
+                  '& .MuiAlert-icon': {
+                    color: 'inherit'
+                  }
                 };
               }
             },
@@ -83,6 +97,8 @@ export default function Alert(theme: Theme) {
                 const paletteColor = getPaletteColor(ownerState.severity) as PaletteColor;
 
                 return {
+                  borderColor: paletteColor.main,
+                  color: theme.vars.palette.text.primary,
                   ...((ownerState.severity === 'primary' || ownerState.severity === 'secondary') && {
                     '& .MuiAlert-icon': { color: paletteColor.main }
                   })
@@ -92,17 +108,27 @@ export default function Alert(theme: Theme) {
           ]
         },
         icon: {
+          padding: 0,
+          marginRight: 12,
+          display: 'flex',
+          alignItems: 'center',
+          alignSelf: 'center',
+          opacity: 1,
+          transform: 'translateY(-1px)',
           '& svg': {
             width: 20,
-            height: 20
+            height: 20,
+            display: 'block'
           }
         },
         message: {
           padding: 0,
-          marginTop: 3
-        },
-        filled: {
-          color: theme.vars.palette.background.default
+          marginTop: 0,
+          flexGrow: 1,
+          minWidth: 0,
+          display: 'flex',
+          alignItems: 'center',
+          lineHeight: 1.45
         },
         border: {
           padding: '10px 16px',
@@ -116,17 +142,32 @@ export default function Alert(theme: Theme) {
           '&.MuiAlert-borderWarning': getColorStyle({ color: 'warning', theme })
         },
         action: {
+          padding: 0,
+          marginLeft: 'auto',
+          paddingLeft: 16,
+          marginRight: -4,
+          alignItems: 'center',
+          alignSelf: 'center',
+          display: 'flex',
           '& .MuiButton-root': {
-            padding: 2,
+            padding: '2px 8px',
             height: 'auto',
             fontSize: '0.75rem',
-            marginTop: -2
+            marginTop: 0
           },
           '& .MuiIconButton-root': {
-            width: 'auto',
-            height: 'auto',
-            padding: 2,
-            marginRight: 6,
+            width: 28,
+            height: 28,
+            padding: 0,
+            marginRight: 0,
+            color: 'inherit',
+            borderRadius: '50%',
+            transition: theme.transitions.create(['background-color', 'opacity'], {
+              duration: theme.transitions.duration.shorter
+            }),
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.18)'
+            },
             '& .MuiSvgIcon-root': {
               fontSize: '1rem'
             }

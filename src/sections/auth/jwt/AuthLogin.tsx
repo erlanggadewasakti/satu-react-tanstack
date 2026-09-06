@@ -218,7 +218,7 @@ export default function AuthLogin() {
               {/* ERROR ALERT */}
               {errors.submit && (
                 <Grid size={12}>
-                  <Alert severity="error" sx={{ py: 0.5, borderRadius: 1.5 }}>
+                  <Alert severity="error" sx={{ borderRadius: 1.5 }}>
                     {errors.submit}
                   </Alert>
                 </Grid>
