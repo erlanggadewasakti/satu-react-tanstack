@@ -122,7 +122,7 @@ function NavCollapseArrow({
   }
 
   return (
-    <Box component="span" sx={(theme) => ({ color: lightColor, ...theme.applyStyles('dark', { color: darkColor }) })}>
+    <Box component="span" sx={(theme) => ({ display: 'inline-flex', alignItems: 'center', color: lightColor, ...theme.applyStyles('dark', { color: darkColor }) })}>
       {icon}
     </Box>
   );
@@ -206,6 +206,7 @@ function NavCollapseLabel({
           variant="h6"
           component="span"
           sx={(theme) => ({
+            display: 'block',
             fontWeight: isSelected ? 500 : 400,
             color: lightColor,
             ...theme.applyStyles('dark', { color: darkColor })
@@ -216,7 +217,7 @@ function NavCollapseLabel({
       }
       secondary={
         caption && (
-          <Typography variant="caption" color="secondary">
+          <Typography variant="caption" component="span" color="text.secondary" sx={{ display: 'block' }}>
             <SafeFormattedMessage id={caption} />
           </Typography>
         )
@@ -364,11 +365,11 @@ function NavCollapseVerticalButton({
         py: !drawerOpen && level === 1 ? 1.25 : 1,
         ...(drawerOpen &&
           level === 1 && {
-            mx: 1.25,
-            my: 0.5,
-            borderRadius: 1,
-            '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
-          }),
+          mx: 1.25,
+          my: 0.5,
+          borderRadius: 1,
+          '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
+        }),
         ...(!drawerOpen && {
           px: 2.75,
           '&:hover': { bgcolor: 'transparent' },
@@ -380,11 +381,11 @@ function NavCollapseVerticalButton({
       })}
       {...((drawerOpen &&
         menu.isDropdown && {
-          'aria-controls': anchorElCollapse ? `${menu.id}-menu` : undefined,
-          'aria-haspopup': true,
-          'aria-expanded': anchorElCollapse ? 'true' : undefined,
-          onClick: onDropdownClick
-        }) as any)}
+        'aria-controls': anchorElCollapse ? `${menu.id}-menu` : undefined,
+        'aria-haspopup': true,
+        'aria-expanded': anchorElCollapse ? 'true' : undefined,
+        onClick: onDropdownClick
+      }) as any)}
     >
       <NavCollapseItemIcon
         icon={menuIcon}

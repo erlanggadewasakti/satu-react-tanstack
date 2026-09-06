@@ -1,5 +1,5 @@
-import { Activity, ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
+import { Activity, ReactNode } from 'react';
 
 // material-ui
 import Avatar from '@mui/material/Avatar';
@@ -61,11 +61,11 @@ export default function NavItemVertical({
           }),
           ...(drawerOpen &&
             level === 1 && {
-              mx: 1.25,
-              my: 0.5,
-              borderRadius: 1,
-              '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
-            }),
+            mx: 1.25,
+            my: 0.5,
+            borderRadius: 1,
+            '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
+          }),
           ...(!drawerOpen && {
             px: 2.75,
             justifyContent: 'center',
@@ -84,19 +84,19 @@ export default function NavItemVertical({
               ...(isSelected && { color: iconSelectedColor }),
               ...(!drawerOpen &&
                 level === 1 && {
-                  borderRadius: 1,
-                  width: 46,
-                  height: 46,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
-                }),
+                borderRadius: 1,
+                width: 46,
+                height: 46,
+                alignItems: 'center',
+                justifyContent: 'center',
+                '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
+              }),
               ...(!drawerOpen &&
                 isSelected && {
-                  bgcolor: 'primary.lighter',
-                  '&:hover': { bgcolor: 'primary.lighter' },
-                  ...theme.applyStyles('dark', { bgcolor: 'divider', '&:hover': { bgcolor: 'divider' } })
-                })
+                bgcolor: 'primary.lighter',
+                '&:hover': { bgcolor: 'primary.lighter' },
+                ...theme.applyStyles('dark', { bgcolor: 'divider', '&:hover': { bgcolor: 'divider' } })
+              })
             })}
           >
             {itemIcon}
@@ -116,6 +116,7 @@ export default function NavItemVertical({
                 variant="h6"
                 component="span"
                 sx={(theme) => ({
+                  display: 'block',
                   color: isSelected ? iconSelectedColor : 'secondary.main',
                   ...theme.applyStyles('dark', { color: isSelected ? iconSelectedColor : 'secondary.400' }),
                   fontWeight: isSelected ? 500 : 400
@@ -123,6 +124,13 @@ export default function NavItemVertical({
               >
                 <SafeFormattedMessage id={item.title} />
               </Typography>
+            }
+            secondary={
+              item.caption && (
+                <Typography variant="caption" component="span" color="text.secondary" sx={{ display: 'block' }}>
+                  <SafeFormattedMessage id={item.caption} />
+                </Typography>
+              )
             }
           />
         </Activity>

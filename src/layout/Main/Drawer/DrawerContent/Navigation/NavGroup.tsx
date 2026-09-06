@@ -1,21 +1,21 @@
-import { useMemo } from 'react';
 import { useLocation } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 // material-ui
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
-import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
 import { useGetMenuMaster } from 'api/menu';
+import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import NavCollapse from './NavCollapse';
-import NavItem from './NavItem';
 import NavGroupHorizontal from './NavGroupHorizontal';
+import NavItem from './NavItem';
 
 // types
 import { NavItemType } from 'types/menu';
@@ -131,6 +131,7 @@ export default function NavGroup({
               <Typography
                 variant="overline"
                 sx={(theme) => ({
+                  display: 'block',
                   color: 'secondary.dark',
                   ...theme.applyStyles('dark', { color: 'text.secondary' })
                 })}
@@ -138,7 +139,7 @@ export default function NavGroup({
                 <SafeFormattedMessage id={item.title} />
               </Typography>
               {item.caption && (
-                <Typography variant="caption" color="secondary">
+                <Typography variant="caption" component="span" color="text.secondary" sx={{ display: 'block' }}>
                   <SafeFormattedMessage id={item.caption} />
                 </Typography>
               )}
