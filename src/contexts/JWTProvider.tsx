@@ -92,6 +92,18 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
     init();
   }, []);
 
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setSession(null);
+      dispatch({ type: LOGOUT });
+    };
+
+    window.addEventListener('auth:unauthorized', handleUnauthorized);
+    return () => {
+      window.removeEventListener('auth:unauthorized', handleUnauthorized);
+    };
+  }, []);
+
   const login = useCallback(async (username: string, password: string) => {
     const response = await axios.post('auth/login', { username, password });
     const responseData = response.data?.data;

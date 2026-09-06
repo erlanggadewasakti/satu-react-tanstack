@@ -24,6 +24,9 @@ axiosServices.interceptors.response.use(
       localStorage.removeItem('serviceToken');
       delete axiosServices.defaults.headers.common.Authorization;
       delete axios.defaults.headers.common.Authorization;
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+      }
     }
     return Promise.reject((error.response && error.response.data) || 'Wrong Services');
   }
