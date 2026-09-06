@@ -1,4 +1,4 @@
-import { Activity, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 
 // material-ui
@@ -63,7 +63,7 @@ export default function NavItemHorizontal({
       })}
       onClick={onItemClick}
     >
-      <Activity mode={itemIcon ? 'visible' : 'hidden'}>
+      {itemIcon && (
         <ListItemIcon
           sx={{
             minWidth: 36,
@@ -80,7 +80,7 @@ export default function NavItemHorizontal({
         >
           {itemIcon}
         </ListItemIcon>
-      </Activity>
+      )}
 
       <ListItemText
         primary={
@@ -103,11 +103,7 @@ export default function NavItemHorizontal({
           variant={item.chip.variant}
           size={item.chip.size}
           label={item.chip.label}
-          avatar={
-            <Activity mode={item.chip.avatar ? 'visible' : 'hidden'}>
-              <Avatar>{item.chip.avatar}</Avatar>
-            </Activity>
-          }
+          avatar={item.chip.avatar ? <Avatar>{item.chip.avatar}</Avatar> : undefined}
           sx={{ ml: 1 }}
         />
       )}

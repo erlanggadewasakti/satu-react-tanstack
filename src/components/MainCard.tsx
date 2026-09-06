@@ -1,4 +1,4 @@
-import { Activity, CSSProperties, ReactNode, Ref } from 'react';
+import { CSSProperties, ReactNode, Ref } from 'react';
 
 // material-ui
 import { SxProps, Theme } from '@mui/material/styles';
@@ -24,6 +24,7 @@ export interface MainCardProps {
   contentSX?: CardContentProps['sx'];
   darkTitle?: boolean;
   divider?: boolean;
+  disableTypography?: boolean;
   sx?: CardProps['sx'];
   secondary?: CardHeaderProps['action'];
   shadow?: string;
@@ -49,6 +50,7 @@ export default function MainCard({
   contentSX = EMPTY_OBJECT,
   darkTitle,
   divider = true,
+  disableTypography,
   elevation,
   secondary,
   shadow,
@@ -101,23 +103,32 @@ export default function MainCard({
       }}
     >
       {/* card header and action */}
-      <Activity mode={!darkTitle && title ? 'visible' : 'hidden'}>
-        <CardHeader sx={headerSX} title={title} action={secondary} subheader={subheader} slotProps={{ title: { variant: 'subtitle1' } }} />
-      </Activity>
-      <Activity mode={darkTitle && title ? 'visible' : 'hidden'}>
-        <CardHeader sx={headerSX} title={<Typography variant="h4">{title}</Typography>} action={secondary} />
-      </Activity>
+      {!darkTitle && title && (
+        <CardHeader
+          sx={headerSX}
+          title={title}
+          action={secondary}
+          subheader={subheader}
+          disableTypography={disableTypography}
+          slotProps={{ title: { variant: 'subtitle1' } }}
+        />
+      )}
+      {darkTitle && title && (
+        <CardHeader
+          sx={headerSX}
+          title={typeof title === 'string' ? <Typography variant="h4">{title}</Typography> : title}
+          action={secondary}
+          subheader={subheader}
+          disableTypography={disableTypography}
+          slotProps={{ title: { variant: 'h4' } }}
+        />
+      )}
 
       {/* content & header divider */}
-      <Activity mode={title && divider ? 'visible' : 'hidden'}>
-        <Divider />
-      </Activity>
+      {title && divider && <Divider />}
 
       {/* card content */}
-      <Activity mode={content ? 'visible' : 'hidden'}>
-        <CardContent sx={contentSX}>{children}</CardContent>
-      </Activity>
-      <Activity mode={!content ? 'visible' : 'hidden'}>{children}</Activity>
+      {content ? <CardContent sx={contentSX}>{children}</CardContent> : children}
 
       {/* card footer - clipboard */}
       {codeString && <Divider sx={{ borderStyle: 'dashed' }} />}

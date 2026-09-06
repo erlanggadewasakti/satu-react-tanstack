@@ -122,6 +122,7 @@ export default function UniversalHomePage() {
 
       {/* KONTAK INFORMASI SECTION */}
       <MainCard
+        disableTypography
         title={
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <CallCalling size={22} aria-hidden="true" />

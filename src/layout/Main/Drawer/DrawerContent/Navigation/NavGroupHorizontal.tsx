@@ -1,4 +1,4 @@
-import { Activity, Fragment, MouseEvent, useState } from 'react';
+import { Fragment, MouseEvent, useState } from 'react';
 
 // material-ui
 import Box from '@mui/material/Box';
@@ -104,9 +104,9 @@ export default function NavGroupHorizontal({
         aria-describedby={popperId}
         className={anchorEl ? 'Mui-selected' : ''}
       >
-        <Activity mode={itemIcon ? 'visible' : 'hidden'}>
+        {itemIcon && (
           <ListItemIcon sx={{ minWidth: 32 }}>{currentItem.id === lastItemId ? <More2 size={22} variant="Bulk" /> : itemIcon}</ListItemIcon>
-        </Activity>
+        )}
         <ListItemText
           sx={{ mr: 1 }}
           primary={
@@ -123,7 +123,7 @@ export default function NavGroupHorizontal({
             </Typography>
           }
         />
-        <Activity mode={anchorEl ? 'visible' : 'hidden'}>
+        {anchorEl && (
           <PopperStyled id={popperId} open={openMini} anchorEl={anchorEl} placement="bottom-start" style={{ zIndex: 2001 }}>
             {({ TransitionProps }) => (
               <Transitions in={openMini} {...TransitionProps}>
@@ -199,7 +199,7 @@ export default function NavGroupHorizontal({
               </Transitions>
             )}
           </PopperStyled>
-        </Activity>
+        )}
       </ListItemButton>
     </List>
   );

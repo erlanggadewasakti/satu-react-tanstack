@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { Activity, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 // material-ui
 import Avatar from '@mui/material/Avatar';
@@ -84,7 +84,7 @@ export default function NavItemVertical({
       })}
       onClick={onItemClick}
     >
-      <Activity mode={itemIcon ? 'visible' : 'hidden'}>
+      {itemIcon && (
         <ListItemIcon
           sx={(theme) => ({
             minWidth: 38,
@@ -110,15 +110,15 @@ export default function NavItemVertical({
         >
           {itemIcon}
         </ListItemIcon>
-      </Activity>
+      )}
 
-      <Activity mode={!itemIcon && drawerOpen ? 'visible' : 'hidden'}>
+      {!itemIcon && drawerOpen && (
         <ListItemIcon sx={{ minWidth: 30 }}>
           <Dot size={isSelected ? 6 : 5} color={isSelected ? 'primary' : 'secondary'} />
         </ListItemIcon>
-      </Activity>
+      )}
 
-      <Activity mode={showTextOrSub ? 'visible' : 'hidden'}>
+      {showTextOrSub && (
         <ListItemText
           primary={
             <Typography
@@ -142,7 +142,7 @@ export default function NavItemVertical({
             )
           }
         />
-      </Activity>
+      )}
 
       {showTextOrSub && item.chip && (
         <Chip
@@ -150,11 +150,7 @@ export default function NavItemVertical({
           variant={item.chip.variant}
           size={item.chip.size}
           label={<SafeFormattedMessage id={item.chip.label as string} />}
-          avatar={
-            <Activity mode={item.chip.avatar ? 'visible' : 'hidden'}>
-              <Avatar>{item.chip.avatar}</Avatar>
-            </Activity>
-          }
+          avatar={item.chip.avatar ? <Avatar>{item.chip.avatar}</Avatar> : undefined}
         />
       )}
     </ListItemButton>
