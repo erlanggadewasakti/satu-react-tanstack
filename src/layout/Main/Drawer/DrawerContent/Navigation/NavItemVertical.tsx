@@ -8,7 +8,9 @@ import Chip from '@mui/material/Chip';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { useIntl } from 'react-intl';
 
 // project-imports
 import Dot from 'components/@extended/Dot';
@@ -41,114 +43,132 @@ export default function NavItemVertical({
   iconSelectedColor,
   onItemClick
 }: NavItemVerticalProps) {
+  const intl = useIntl();
   const showTextOrSub = drawerOpen || (!drawerOpen && level !== 1);
 
-  return (
-    <Box sx={{ position: 'relative' }}>
-      <ListItemButton
-        component={Link}
-        to={item.url!}
-        target={itemTarget}
-        disabled={item.disabled}
-        selected={isSelected}
-        sx={(theme) => ({
-          zIndex: 1201,
-          pl: level === 2 ? 3.25 : drawerOpen ? (level <= 3 ? (level * 20) / 8 : (level * 20 + (level - 3) * 10) / 8) : 1.5,
-          py: !drawerOpen && level === 1 ? 1.25 : 1,
-          ...(drawerOpen && {
-            '&:hover': { bgcolor: 'transparent' },
-            '&.Mui-selected': { '&:hover': { bgcolor: 'transparent' }, bgcolor: 'transparent' }
-          }),
-          ...(drawerOpen &&
-            level === 1 && {
-            mx: 1.25,
-            my: 0.5,
-            borderRadius: 1,
-            '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
-          }),
-          ...(!drawerOpen && {
-            px: 2.75,
-            justifyContent: 'center',
-            '&:hover': { bgcolor: 'transparent' },
-            '&.Mui-selected': { '&:hover': { bgcolor: 'transparent' }, bgcolor: 'transparent' }
-          })
-        })}
-        onClick={onItemClick}
-      >
-        <Activity mode={itemIcon ? 'visible' : 'hidden'}>
-          <ListItemIcon
-            sx={(theme) => ({
-              minWidth: 38,
-              color: 'secondary.main',
-              ...theme.applyStyles('dark', { color: 'secondary.400' }),
-              ...(isSelected && { color: iconSelectedColor }),
-              ...(!drawerOpen &&
-                level === 1 && {
-                borderRadius: 1,
-                width: 46,
-                height: 46,
-                alignItems: 'center',
-                justifyContent: 'center',
-                '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
-              }),
-              ...(!drawerOpen &&
-                isSelected && {
-                bgcolor: 'primary.lighter',
-                '&:hover': { bgcolor: 'primary.lighter' },
-                ...theme.applyStyles('dark', { bgcolor: 'divider', '&:hover': { bgcolor: 'divider' } })
-              })
-            })}
-          >
-            {itemIcon}
-          </ListItemIcon>
-        </Activity>
+  const messages = intl.messages as Record<string, string>;
+  const itemTitle =
+    typeof item.title === 'string' && item.title.trim().length > 0
+      ? (messages[item.title] ? intl.formatMessage({ id: item.title as any }) : item.title)
+      : '';
 
-        <Activity mode={!itemIcon && drawerOpen ? 'visible' : 'hidden'}>
-          <ListItemIcon sx={{ minWidth: 30 }}>
-            <Dot size={isSelected ? 6 : 5} color={isSelected ? 'primary' : 'secondary'} />
-          </ListItemIcon>
-        </Activity>
+  const itemButton = (
+    <ListItemButton
+      component={Link}
+      to={item.url!}
+      target={itemTarget}
+      disabled={item.disabled}
+      selected={isSelected}
+      aria-label={!showTextOrSub && itemTitle ? itemTitle : undefined}
+      sx={(theme) => ({
+        zIndex: 1201,
+        pl: level === 2 ? 3.25 : drawerOpen ? (level <= 3 ? (level * 20) / 8 : (level * 20 + (level - 3) * 10) / 8) : 1.5,
+        py: !drawerOpen && level === 1 ? 1.25 : 1,
+        ...(drawerOpen && {
+          '&:hover': { bgcolor: 'transparent' },
+          '&.Mui-selected': { '&:hover': { bgcolor: 'transparent' }, bgcolor: 'transparent' }
+        }),
+        ...(drawerOpen &&
+          level === 1 && {
+          mx: 1.25,
+          my: 0.5,
+          borderRadius: 1,
+          '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
+        }),
+        ...(!drawerOpen && {
+          px: 2.75,
+          justifyContent: 'center',
+          '&:hover': { bgcolor: 'transparent' },
+          '&.Mui-selected': { '&:hover': { bgcolor: 'transparent' }, bgcolor: 'transparent' }
+        })
+      })}
+      onClick={onItemClick}
+    >
+      <Activity mode={itemIcon ? 'visible' : 'hidden'}>
+        <ListItemIcon
+          sx={(theme) => ({
+            minWidth: 38,
+            color: 'secondary.main',
+            ...theme.applyStyles('dark', { color: 'secondary.400' }),
+            ...(isSelected && { color: iconSelectedColor }),
+            ...(!drawerOpen &&
+              level === 1 && {
+              borderRadius: 1,
+              width: 46,
+              height: 46,
+              alignItems: 'center',
+              justifyContent: 'center',
+              '&:hover': { bgcolor: 'secondary.200', ...theme.applyStyles('dark', { bgcolor: 'divider' }) }
+            }),
+            ...(!drawerOpen &&
+              isSelected && {
+              bgcolor: 'primary.lighter',
+              '&:hover': { bgcolor: 'primary.lighter' },
+              ...theme.applyStyles('dark', { bgcolor: 'divider', '&:hover': { bgcolor: 'divider' } })
+            })
+          })}
+        >
+          {itemIcon}
+        </ListItemIcon>
+      </Activity>
 
-        <Activity mode={showTextOrSub ? 'visible' : 'hidden'}>
-          <ListItemText
-            primary={
-              <Typography
-                variant="h6"
-                component="span"
-                sx={(theme) => ({
-                  display: 'block',
-                  color: isSelected ? iconSelectedColor : 'secondary.main',
-                  ...theme.applyStyles('dark', { color: isSelected ? iconSelectedColor : 'secondary.400' }),
-                  fontWeight: isSelected ? 500 : 400
-                })}
-              >
-                <SafeFormattedMessage id={item.title} />
+      <Activity mode={!itemIcon && drawerOpen ? 'visible' : 'hidden'}>
+        <ListItemIcon sx={{ minWidth: 30 }}>
+          <Dot size={isSelected ? 6 : 5} color={isSelected ? 'primary' : 'secondary'} />
+        </ListItemIcon>
+      </Activity>
+
+      <Activity mode={showTextOrSub ? 'visible' : 'hidden'}>
+        <ListItemText
+          primary={
+            <Typography
+              variant="h6"
+              component="span"
+              sx={(theme) => ({
+                display: 'block',
+                color: isSelected ? iconSelectedColor : 'secondary.main',
+                ...theme.applyStyles('dark', { color: isSelected ? iconSelectedColor : 'secondary.400' }),
+                fontWeight: isSelected ? 500 : 400
+              })}
+            >
+              <SafeFormattedMessage id={item.title} />
+            </Typography>
+          }
+          secondary={
+            item.caption && (
+              <Typography variant="caption" component="span" color="text.secondary" sx={{ display: 'block' }}>
+                <SafeFormattedMessage id={item.caption} />
               </Typography>
-            }
-            secondary={
-              item.caption && (
-                <Typography variant="caption" component="span" color="text.secondary" sx={{ display: 'block' }}>
-                  <SafeFormattedMessage id={item.caption} />
-                </Typography>
-              )
-            }
-          />
-        </Activity>
+            )
+          }
+        />
+      </Activity>
 
-        {showTextOrSub && item.chip && (
-          <Chip
-            color={item.chip.color}
-            variant={item.chip.variant}
-            size={item.chip.size}
-            label={<SafeFormattedMessage id={item.chip.label as string} />}
-            avatar={
-              <Activity mode={item.chip.avatar ? 'visible' : 'hidden'}>
-                <Avatar>{item.chip.avatar}</Avatar>
-              </Activity>
-            }
-          />
-        )}
-      </ListItemButton>
+      {showTextOrSub && item.chip && (
+        <Chip
+          color={item.chip.color}
+          variant={item.chip.variant}
+          size={item.chip.size}
+          label={<SafeFormattedMessage id={item.chip.label as string} />}
+          avatar={
+            <Activity mode={item.chip.avatar ? 'visible' : 'hidden'}>
+              <Avatar>{item.chip.avatar}</Avatar>
+            </Activity>
+          }
+        />
+      )}
+    </ListItemButton>
+  );
+
+  return (
+    <Box component="li" sx={{ position: 'relative', listStyle: 'none' }}>
+      {!drawerOpen && level === 1 && Boolean(itemTitle) ? (
+        <Tooltip title={itemTitle} placement="right">
+          {itemButton}
+        </Tooltip>
+      ) : (
+        itemButton
+      )}
 
       {showTextOrSub &&
         item?.actions &&

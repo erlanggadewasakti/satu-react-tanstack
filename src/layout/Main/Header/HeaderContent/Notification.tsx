@@ -16,6 +16,7 @@ import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useIntl } from 'react-intl';
 
 // project-imports
 import Avatar from 'components/@extended/Avatar';
@@ -41,6 +42,7 @@ const actionSX = {
 // ==============================|| HEADER CONTENT - NOTIFICATION ||============================== //
 
 export default function NotificationPage() {
+  const intl = useIntl();
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const anchorRef = useRef<any>(null);
@@ -62,7 +64,11 @@ export default function NotificationPage() {
       <IconButton
         color="secondary"
         variant="light"
-        aria-label="open profile"
+        aria-label={
+          read > 0
+            ? intl.formatMessage({ id: 'header.notifications.unread' }, { count: read })
+            : intl.formatMessage({ id: 'header.notifications' })
+        }
         ref={anchorRef}
         aria-controls={open ? 'profile-grow' : undefined}
         aria-haspopup="true"
