@@ -113,13 +113,17 @@ export default function SearchModal({
             sx={{
               bgcolor: 'transparent',
               '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-              '& .MuiOutlinedInput-input': { py: 0.75 }
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: 'none' },
+              '& .MuiOutlinedInput-input': {
+                py: 0.75,
+                '&:focus': { outline: 'none' }
+              }
             }}
           />
         </Box>
 
         {/* Results List */}
-        <SimpleBar sx={{ maxHeight: 400, p: 1 }}>
+        <SimpleBar sx={{ maxHeight: 420, px: 1, py: 0.75 }}>
           {results.length > 0 ? (
             <List disablePadding>
               {results.map((item, index) => (
@@ -138,7 +142,7 @@ export default function SearchModal({
         </SimpleBar>
 
         {/* Footer shortcuts info */}
-        <SearchFooter />
+        <SearchFooter totalResults={results.length} />
       </DialogContent>
     </Dialog>
   );
