@@ -1,5 +1,5 @@
 import { ENDPOINTS } from 'api/endpoints';
-import { MockItem, MockPaginatedData, MockPaginationParams } from 'types/api/mock';
+import { CreateMockItemPayload, MockItem, MockPaginatedData, MockPaginationParams } from 'types/api/mock';
 import axiosServices from 'utils/axios';
 
 /**
@@ -23,5 +23,21 @@ export const mockService = {
       }
     });
     return response.data?.data || response.data;
+  },
+
+  createMockData: async (payload: CreateMockItemPayload): Promise<MockItem> => {
+    const response = await axiosServices.post(ENDPOINTS.MOCK.CREATE, payload);
+    return response.data?.data || response.data;
+  },
+
+  updateMockData: async (id: string | number, payload: CreateMockItemPayload): Promise<MockItem> => {
+    const response = await axiosServices.put(ENDPOINTS.MOCK.UPDATE(id), payload);
+    return response.data?.data || response.data;
+  },
+
+  deleteMockData: async (id: string | number): Promise<void> => {
+    const response = await axiosServices.delete(ENDPOINTS.MOCK.DELETE(id));
+    return response.data;
   }
 };
+

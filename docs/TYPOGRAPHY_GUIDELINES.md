@@ -2,7 +2,7 @@
 
 Dokumen ini adalah pedoman resmi bagi developer dan AI coding agent saat membuat komponen baru atau memodifikasi tampilan UI yang sudah ada di repositori **SATU / LENS**.
 
-Standar ini diadopsi dari arsitektur desain sistem enterprise (**IBM Carbon Design System**, **Salesforce Lightning Design System**, dan **Microsoft Fluent UI**) untuk menjamin konsistensi visual, keterbacaan (*readability*), aksesibilitas (*a11y*), dan integrasi bebas pergeseran tata letak (*zero layout shift*).
+Standar ini diadopsi dari arsitektur desain sistem enterprise (**IBM Carbon Design System**, **Salesforce Lightning Design System**, dan **Microsoft Fluent UI**) untuk menjamin konsistensi visual, keterbacaan (_readability_), aksesibilitas (_a11y_), dan integrasi bebas pergeseran tata letak (_zero layout shift_).
 
 ---
 
@@ -10,21 +10,21 @@ Standar ini diadopsi dari arsitektur desain sistem enterprise (**IBM Carbon Desi
 
 Semua komponen **wajib** menggunakan variant bawaan Material UI yang telah dikonfigurasi di [`src/themes/typography.ts`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/themes/typography.ts). Dilarang membuat ukuran font manual sembarangan melalui `sx={{ fontSize: '...' }}`.
 
-| Variant | Desktop Size | Mobile Size (`<=600px`) | Weight | Line Height | Penggunaan Semantik |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `h1` | `2.25rem` (36px) | `1.75rem` (28px) | **700** (Bold) | 1.25 (desktop) / 1.3 (mobile) | Hero headline halaman login/publik |
-| `h2` | `1.875rem` (30px) | `1.5rem` (24px) | **700** (Bold) | 1.3 (desktop) / 1.35 (mobile) | Judul utama halaman aplikasi (`Page Title`), Judul Card Utama |
-| `h3` | `1.5rem` (24px) | `1.25rem` (20px) | **600** (SemiBold) | 1.33 (desktop) / 1.4 (mobile) | Judul section besar, welcome banners |
-| `h4` | `1.25rem` (20px) | `1.25rem` (20px) | **600** (SemiBold) | 1.4 | Judul sub-section, Card Header sekunder, KPI metrics |
-| `h5` | `1rem` (16px) | `1rem` (16px) | **600** (SemiBold) | 1.5 | Judul card kecil, modal dialog title, widget title |
-| `h6` | `0.875rem` (14px) | `0.875rem` (14px) | **600** (SemiBold) | 1.57 | Header tabel, item navigasi sidebar |
-| `subtitle1` | `0.875rem` (14px) | `0.875rem` (14px) | **600** (SemiBold) | 1.57 | **Kolom utama tabel (Nama/Kode MK)**, label tebal, subjudul penting |
-| `subtitle2` | `0.75rem` (12px) | `0.75rem` (12px) | **500** (Medium) | 1.66 | Sub-header badge, user card subtitle di drawer |
-| `body1` | `0.875rem` (14px) | `0.875rem` (14px) | **400** (Regular) | 1.57 | **Standar teks konten**, paragraf, isi sel tabel, form input |
-| `body2` | `0.75rem` (12px) | `0.75rem` (12px) | **400** (Regular) | 1.66 | Teks deskripsi pembantu, pesan kosong (*empty state*), modal desc |
-| `caption` | `0.75rem` (12px) | `0.75rem` (12px) | **400** (Regular) | 1.66 | **Metadata**, timestamp/waktu, form helper text, pagination label |
-| `overline` | `0.75rem` (12px) | `0.75rem` (12px) | **600** (SemiBold) | 1.66 | **Sidebar group header**, badge kategori UPPERCASE, tracking 0.8px |
-| `button` | `0.875rem` (14px) | `0.875rem` (14px) | **500** (Medium) | 1.57 | Label tombol interaktif (`textTransform: 'none'`) |
+| Variant     | Desktop Size      | Mobile Size (`<=600px`) | Weight             | Line Height                   | Penggunaan Semantik                                                 |
+| :---------- | :---------------- | :---------------------- | :----------------- | :---------------------------- | :------------------------------------------------------------------ |
+| `h1`        | `2.25rem` (36px)  | `1.75rem` (28px)        | **700** (Bold)     | 1.25 (desktop) / 1.3 (mobile) | Hero headline halaman login/publik                                  |
+| `h2`        | `1.875rem` (30px) | `1.5rem` (24px)         | **700** (Bold)     | 1.3 (desktop) / 1.35 (mobile) | Judul utama halaman aplikasi (`Page Title`), Judul Card Utama       |
+| `h3`        | `1.5rem` (24px)   | `1.25rem` (20px)        | **600** (SemiBold) | 1.33 (desktop) / 1.4 (mobile) | Judul section besar, welcome banners                                |
+| `h4`        | `1.25rem` (20px)  | `1.25rem` (20px)        | **600** (SemiBold) | 1.4                           | Judul sub-section, Card Header sekunder, KPI metrics                |
+| `h5`        | `1rem` (16px)     | `1rem` (16px)           | **600** (SemiBold) | 1.5                           | Judul card kecil, modal dialog title, widget title                  |
+| `h6`        | `0.875rem` (14px) | `0.875rem` (14px)       | **600** (SemiBold) | 1.57                          | Header tabel, item navigasi sidebar                                 |
+| `subtitle1` | `0.875rem` (14px) | `0.875rem` (14px)       | **600** (SemiBold) | 1.57                          | **Kolom utama tabel (Nama/Kode MK)**, label tebal, subjudul penting |
+| `subtitle2` | `0.75rem` (12px)  | `0.75rem` (12px)        | **500** (Medium)   | 1.66                          | Sub-header badge, user card subtitle di drawer                      |
+| `body1`     | `0.875rem` (14px) | `0.875rem` (14px)       | **400** (Regular)  | 1.57                          | **Standar teks konten**, paragraf, isi sel tabel, form input        |
+| `body2`     | `0.75rem` (12px)  | `0.75rem` (12px)        | **400** (Regular)  | 1.66                          | Teks deskripsi pembantu, pesan kosong (_empty state_), modal desc   |
+| `caption`   | `0.75rem` (12px)  | `0.75rem` (12px)        | **400** (Regular)  | 1.66                          | **Metadata**, form helper text, pagination label                    |
+| `overline`  | `0.75rem` (12px)  | `0.75rem` (12px)        | **600** (SemiBold) | 1.66                          | **Sidebar group header**, badge kategori UPPERCASE, tracking 0.8px  |
+| `button`    | `0.875rem` (14px) | `0.875rem` (14px)       | **500** (Medium)   | 1.57                          | Label tombol interaktif (`textTransform: 'none'`)                   |
 
 ---
 
@@ -32,15 +32,15 @@ Semua komponen **wajib** menggunakan variant bawaan Material UI yang telah dikon
 
 Gunakan token warna tema Material UI. **Dilarang keras menggunakan hex manual (`#fff`, `#333`) atau `color="secondary"` pada teks.**
 
-| Token Warna | Kegunaan | Contoh Kode |
-| :--- | :--- | :--- |
-| `text.primary` | Konten utama, heading, teks aktif, nilai input form | `<Typography variant="body1" color="text.primary">` |
-| `text.secondary` | Subjudul, deskripsi bantuan, timestamp, placeholder, copyright | `<Typography variant="body2" color="text.secondary">` |
-| `text.disabled` | Placeholder tidak aktif, copyright sekunder, disabled text | `<Typography variant="caption" color="text.disabled">` |
-| `common.white` | Teks di atas background solid gelap (solid chips/dark cards) | `sx={{ color: 'common.white' }}` |
-| `primary.main` | Teks tautan penting, link aktif, status brand | `<Typography variant="subtitle1" sx={{ color: 'primary.main' }}>` |
-| `success.main` | Status sukses, indikator nilai positif | `<Typography variant="body2" sx={{ color: 'success.main' }}>` |
-| `error.main` | Pesan galat, peringatan kritis | `<Typography variant="caption" sx={{ color: 'error.main' }}>` |
+| Token Warna      | Kegunaan                                                       | Contoh Kode                                                       |
+| :--------------- | :------------------------------------------------------------- | :---------------------------------------------------------------- |
+| `text.primary`   | Konten utama, heading, teks aktif, nilai input form            | `<Typography variant="body1" color="text.primary">`               |
+| `text.secondary` | Subjudul, deskripsi bantuan, timestamp, placeholder, copyright | `<Typography variant="body2" color="text.secondary">`             |
+| `text.disabled`  | Placeholder tidak aktif, copyright sekunder, disabled text     | `<Typography variant="caption" color="text.disabled">`            |
+| `common.white`   | Teks di atas background solid gelap (solid chips/dark cards)   | `sx={{ color: 'common.white' }}`                                  |
+| `primary.main`   | Teks tautan penting, link aktif, status brand                  | `<Typography variant="subtitle1" sx={{ color: 'primary.main' }}>` |
+| `success.main`   | Status sukses, indikator nilai positif                         | `<Typography variant="body2" sx={{ color: 'success.main' }}>`     |
+| `error.main`     | Pesan galat, peringatan kritis                                 | `<Typography variant="caption" sx={{ color: 'error.main' }}>`     |
 
 > ⚠️ **Peringatan Kritis Mengenai `color="secondary"`**:
 > Di Material UI, `<Typography color="secondary">` merujuk ke `theme.palette.secondary.main` (warna aksen ungu brand), **bukan** teks abu-abu sekunder. Untuk teks sekunder/redup, **selalu** gunakan `color="text.secondary"`.
@@ -54,7 +54,7 @@ Gunakan token warna tema Material UI. **Dilarang keras menggunakan hex manual (`
 1. **Header Tabel (`<thead>` / `TableHead`)**:
    - Diatur otomatis oleh tema: `fontSize: '0.75rem'` (12px), `fontWeight: 700`, `textTransform: 'uppercase'`.
 2. **Kolom Identitas Primer (Nama Mahasiswa, Judul Mata Kuliah, Kode MK)**:
-   - Gunakan `variant="subtitle1"` (14px SemiBold) agar data kunci langsung dapat diidentifikasi saat mata pengguna memindai tabel (*visual scanning*).
+   - Gunakan `variant="subtitle1"` (14px SemiBold) agar data kunci langsung dapat diidentifikasi saat mata pengguna memindai tabel (_visual scanning_).
 3. **Kolom Data Umum (Fakultas, Program Studi, Kelas)**:
    - Gunakan `variant="body1"` (14px Regular).
 4. **Kolom Angka, Tanggal, NIM, dan Nilai**:
@@ -100,6 +100,7 @@ Gunakan token warna tema Material UI. **Dilarang keras menggunakan hex manual (`
 ### B. Summary Cards & KPI Metrics
 
 Pada widget ringkasan atau KPI metric cards:
+
 - **Label Metrik**: Gunakan `variant="caption"` dengan `color="text.secondary"`.
 - **Angka Metrik (Counter / Nilai)**: Gunakan `variant="h4"` (atau `h3`) dengan `sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}` agar angka tidak bergeser saat data selesai dimuat.
 
@@ -120,7 +121,7 @@ Pada widget ringkasan atau KPI metric cards:
 ### C. Navigasi & Breadcrumbs (Aksesibilitas Semantik)
 
 1. **Menu Item Sidebar (`NavItem.tsx`)**:
-   - Menu item menggunakan `variant="h6"` untuk ukuran visual 14px 600, namun **WAJIB** menyertakan `component="span"`. Tanpa `component="span"`, MUI merender tag `<h6>` ke HTML yang memicu puluhan landmark heading palsu dan merusak navigasi pembaca layar (*screen reader accessibility*).
+   - Menu item menggunakan `variant="h6"` untuk ukuran visual 14px 600, namun **WAJIB** menyertakan `component="span"`. Tanpa `component="span"`, MUI merender tag `<h6>` ke HTML yang memicu puluhan landmark heading palsu dan merusak navigasi pembaca layar (_screen reader accessibility_).
 2. **Subheader Grup Sidebar (`NavGroup.tsx`)**:
    - Gunakan `variant="overline"` (12px uppercase semibold dengan letter-spacing 0.8px).
 3. **Breadcrumbs (`Breadcrumbs.tsx`)**:

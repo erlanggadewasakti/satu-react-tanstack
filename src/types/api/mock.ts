@@ -52,3 +52,23 @@ export interface MockPaginationParams {
   sortBy?: string;
   sortDir?: 'asc' | 'desc';
 }
+
+export interface CreateMockItemPayload {
+  name: string;
+  job: string;
+  address: string;
+  birth_date?: string | null;
+  phone_number?: string | null;
+}
+
+export interface UpdateMockItemPayload extends CreateMockItemPayload {
+  id: number | string;
+}
+
+export interface MockMutationApiResponse {
+  code: number;
+  data?: MockItem | [];
+  error?: string;
+  message?: string;
+}
+

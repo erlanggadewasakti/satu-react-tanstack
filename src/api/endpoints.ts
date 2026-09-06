@@ -9,6 +9,9 @@ export const ENDPOINTS = {
   },
   MOCK: {
     GET_ALL: 'https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/all',
-    PAGINATION: 'https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/pagination'
+    PAGINATION: 'https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/pagination',
+    CREATE: 'https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/create',
+    UPDATE: (id: string | number) => `https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/update/${id}`,
+    DELETE: (id: string | number) => `https://stg-service-satu.telkomuniversity.ac.id/framework-console/api/mockapi/delete/${id}`
   }
 } as const;

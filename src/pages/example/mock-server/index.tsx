@@ -1,41 +1,21 @@
-import { Box, Card, Chip, Grid, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
-import { Briefcase, Calendar, Call, DirectSend, DocumentText, Layer, Location, Refresh } from 'iconsax-reactjs';
-import { useMemo, useState } from 'react';
+import { Button, IconButton, Stack, Tooltip } from '@mui/material';
+import { Add, DirectSend, DocumentText, Layer, Refresh } from 'iconsax-reactjs';
+import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 // third-party
-import {
-  ColumnDef,
-  createSortedRowModel,
-  PaginationState,
-  SortingState,
-  StockFeatures,
-  stockFeatures,
-  tableFeatures,
-  useTable
-} from '@tanstack/react-table';
+import { createSortedRowModel, PaginationState, SortingState, stockFeatures, tableFeatures, useTable } from '@tanstack/react-table';
 
 // project-imports
+import { openSnackbar } from 'api/snackbar';
 import MainCard from 'components/MainCard';
 import { DataTable } from 'components/third-party/react-table';
-import { useGetPaginatedMockData } from 'hooks/queries/useMockData';
-import { MockItem } from 'types/api/mock';
-
-// Helper to format raw date string nicely
-function formatDate(dateStr?: string): string {
-  if (!dateStr) return '-';
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString('id-ID', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
-  } catch {
-    return dateStr;
-  }
-}
+import { useCreateMockData, useDeleteMockData, useGetPaginatedMockData, useUpdateMockData } from 'hooks/queries/useMockData';
+import MockDeleteModal from 'sections/example/MockDeleteModal';
+import MockFormModal from 'sections/example/MockFormModal';
+import MockStatsCards, { StatItem } from 'sections/example/MockStatsCards';
+import { useMockTableColumns } from 'sections/example/useMockTableColumns';
+import { CreateMockItemPayload, MockItem } from 'types/api/mock';
 
 // Features pipeline with sortedRowModel
 const features = tableFeatures({
@@ -47,6 +27,17 @@ const features = tableFeatures({
 
 export default function MockServerDataViewPage() {
   const intl = useIntl();
+
+  // Mutations
+  const createMutation = useCreateMockData();
+  const updateMutation = useUpdateMockData();
+  const deleteMutation = useDeleteMockData();
+
+  // Modal states
+  const [formModalOpen, setFormModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<MockItem | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<MockItem | null>(null);
 
   // Server-side query states
   const [pagination, setPagination] = useState<PaginationState>({
@@ -74,95 +65,87 @@ export default function MockServerDataViewPage() {
     sortDir: sortParam?.desc ? 'desc' : 'asc'
   });
 
-  // Column definitions
-  const columns = useMemo<ColumnDef<StockFeatures, MockItem, any>[]>(
-    () => [
-      {
-        header: intl.formatMessage({ id: 'example.column.id' }),
-        accessorKey: 'id',
-        meta: { align: 'center' },
-        cell: (cell: any) => (
-          <Chip label={`#${cell.getValue()}`} size="small" variant="outlined" color="secondary" sx={{ fontWeight: 600 }} />
-        )
-      },
-      {
-        header: intl.formatMessage({ id: 'example.column.name' }),
-        accessorKey: 'name',
-        meta: { align: 'left' },
-        cell: (cell: any) => (
-          <Typography variant="subtitle1" sx={{ color: 'text.primary' }}>
-            {cell.getValue() as string}
-          </Typography>
-        )
-      },
-      {
-        header: intl.formatMessage({ id: 'example.column.job' }),
-        accessorKey: 'job',
-        meta: { align: 'left' },
-        cell: (cell: any) => (
-          <Chip
-            icon={<Briefcase size={14} />}
-            label={cell.getValue() as string}
-            size="small"
-            color="primary"
-            variant="light"
-            sx={{ fontWeight: 500 }}
-          />
-        )
-      },
-      {
-        header: intl.formatMessage({ id: 'example.column.address' }),
-        accessorKey: 'address',
-        meta: { align: 'left' },
-        cell: (cell: any) => (
-          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
-            <Location size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
-            <Typography variant="body1" color="text.secondary" noWrap sx={{ maxWidth: 220 }}>
-              {cell.getValue() as string}
-            </Typography>
-          </Stack>
-        )
-      },
-      {
-        header: intl.formatMessage({ id: 'example.column.phone' }),
-        accessorKey: 'phone_number',
-        enableSorting: false,
-        meta: { align: 'left' },
-        cell: (cell: any) => (
-          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
-            <Call size={14} style={{ flexShrink: 0, opacity: 0.6 }} />
-            <Typography variant="body1" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
-              {cell.getValue() as string}
-            </Typography>
-          </Stack>
-        )
-      },
-      {
-        header: intl.formatMessage({ id: 'example.column.birth_date' }),
-        accessorKey: 'birth_date',
-        meta: { align: 'center' },
-        cell: (cell: any) => (
-          <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Calendar size={14} style={{ opacity: 0.6 }} />
-            <Typography variant="body1" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
-              {formatDate(cell.getValue() as string)}
-            </Typography>
-          </Stack>
-        )
-      },
-      {
-        header: intl.formatMessage({ id: 'example.column.created_at' }),
-        accessorKey: 'created_at',
-        meta: { align: 'center' },
-        cell: (cell: any) => (
-          <Typography variant="caption" color="text.secondary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
-            {formatDate(cell.getValue() as string)}
-          </Typography>
-        )
+  // Handlers for CRUD modals
+  const handleOpenCreate = () => {
+    setSelectedItem(null);
+    setFormModalOpen(true);
+  };
+
+  const handleOpenEdit = useCallback((item: MockItem) => {
+    setSelectedItem(item);
+    setFormModalOpen(true);
+  }, []);
+
+  const handleOpenDelete = useCallback((item: MockItem) => {
+    setItemToDelete(item);
+    setDeleteModalOpen(true);
+  }, []);
+
+  const handleSubmitForm = async (values: CreateMockItemPayload) => {
+    try {
+      if (selectedItem) {
+        await updateMutation.mutateAsync({ id: selectedItem.id, ...values });
+        openSnackbar({
+          open: true,
+          message: intl.formatMessage({ id: 'example.snackbar-update-success' }),
+          variant: 'alert',
+          alert: { color: 'success' },
+          close: false
+        });
+      } else {
+        await createMutation.mutateAsync(values);
+        openSnackbar({
+          open: true,
+          message: intl.formatMessage({ id: 'example.snackbar-create-success' }),
+          variant: 'alert',
+          alert: { color: 'success' },
+          close: false
+        });
       }
-    ],
-    [intl]
-  );
+    } catch (err: any) {
+      const errorMsg = err?.response?.data?.error || err?.message || intl.formatMessage({ id: 'example.system-error' });
+      openSnackbar({
+        open: true,
+        message: selectedItem
+          ? intl.formatMessage({ id: 'example.snackbar-update-error' }, { error: errorMsg })
+          : intl.formatMessage({ id: 'example.snackbar-create-error' }, { error: errorMsg }),
+        variant: 'alert',
+        alert: { color: 'error' },
+        close: false
+      });
+      throw err;
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!itemToDelete) return;
+    try {
+      await deleteMutation.mutateAsync(itemToDelete.id);
+      openSnackbar({
+        open: true,
+        message: intl.formatMessage({ id: 'example.snackbar-delete-success' }),
+        variant: 'alert',
+        alert: { color: 'success' },
+        close: false
+      });
+    } catch (err: any) {
+      const errorMsg = err?.response?.data?.error || err?.message || intl.formatMessage({ id: 'example.system-error' });
+      openSnackbar({
+        open: true,
+        message: intl.formatMessage({ id: 'example.snackbar-delete-error' }, { error: errorMsg }),
+        variant: 'alert',
+        alert: { color: 'error' },
+        close: false
+      });
+      throw err;
+    }
+  };
+
+  const columns = useMockTableColumns({
+    intl,
+    onEdit: handleOpenEdit,
+    onDelete: handleOpenDelete
+  });
 
   const data = useMemo(() => paginatedData?.data || [], [paginatedData?.data]);
 
@@ -182,66 +165,37 @@ export default function MockServerDataViewPage() {
     onSortingChange: setSorting
   });
 
+  const statItems = useMemo<StatItem[]>(
+    () => [
+      {
+        id: 'total-server',
+        icon: <DocumentText size={24} />,
+        color: 'primary',
+        label: <FormattedMessage id="example.stat-total-server" />,
+        value: paginatedData?.total ?? 0
+      },
+      {
+        id: 'active-page',
+        icon: <Layer size={24} />,
+        color: 'info',
+        label: <FormattedMessage id="example.stat-active-page" />,
+        value: `${paginatedData?.current_page ?? 1} / ${paginatedData?.last_page ?? 1}`
+      },
+      {
+        id: 'displayed-records',
+        icon: <DirectSend size={24} />,
+        color: 'success',
+        label: <FormattedMessage id="example.stat-displayed-records" />,
+        value: `${paginatedData?.data?.length ?? 0} Data`
+      }
+    ],
+    [paginatedData]
+  );
+
   return (
     <Stack spacing={3}>
-      {/* HEADER SUMMARY CARDS */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <Card variant="outlined" sx={{ p: 2.5, borderRadius: 2 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'primary.lighter', color: 'primary.main', display: 'flex' }}>
-                <DocumentText size={24} />
-              </Box>
-              <Box>
-                <Typography variant="caption" color="text.secondary">
-                  <FormattedMessage id="example.stat-total-server" />
-                </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
-                  {isLoading ? <Skeleton width={60} /> : (paginatedData?.total ?? 0)}
-                </Typography>
-              </Box>
-            </Stack>
-          </Card>
-        </Grid>
+      <MockStatsCards items={statItems} isLoading={isLoading} />
 
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <Card variant="outlined" sx={{ p: 2.5, borderRadius: 2 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'info.lighter', color: 'info.main', display: 'flex' }}>
-                <Layer size={24} />
-              </Box>
-              <Box>
-                <Typography variant="caption" color="text.secondary">
-                  <FormattedMessage id="example.stat-active-page" />
-                </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
-                  {isLoading ? <Skeleton width={60} /> : `${paginatedData?.current_page ?? 1} / ${paginatedData?.last_page ?? 1}`}
-                </Typography>
-              </Box>
-            </Stack>
-          </Card>
-        </Grid>
-
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <Card variant="outlined" sx={{ p: 2.5, borderRadius: 2 }}>
-            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-              <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'success.lighter', color: 'success.main', display: 'flex' }}>
-                <DirectSend size={24} />
-              </Box>
-              <Box>
-                <Typography variant="caption" color="text.secondary">
-                  <FormattedMessage id="example.stat-displayed-records" />
-                </Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
-                  {isLoading ? <Skeleton width={60} /> : `${paginatedData?.data?.length ?? 0} Data`}
-                </Typography>
-              </Box>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
-
-      {/* MAIN DATA TABLE CARD */}
       <MainCard
         title={<FormattedMessage id="example.mock-server-table-title" />}
         content={false}
@@ -253,6 +207,7 @@ export default function MockServerDataViewPage() {
                 onClick={() => refetch()}
                 disabled={isFetching}
                 sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}
+                aria-label={intl.formatMessage({ id: 'example.refresh-tooltip' })}
               >
                 <Refresh size={18} className={isFetching ? 'spin' : ''} />
               </IconButton>
@@ -282,6 +237,18 @@ export default function MockServerDataViewPage() {
             setPagination((prev) => ({ ...prev, pageIndex: 0 }));
           }}
           searchPlaceholder={intl.formatMessage({ id: 'example.mock-search-server-placeholder' })}
+          extraToolbarActions={
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Add size={18} />}
+              onClick={handleOpenCreate}
+              size="large"
+              sx={{ borderRadius: 1.5, textTransform: 'none', fontWeight: 600, whiteSpace: 'nowrap' }}
+            >
+              <FormattedMessage id="example.add-data-btn" />
+            </Button>
+          }
           emptyMessage={
             searchInput
               ? intl.formatMessage({ id: 'example.no-data-search' }, { search: searchInput })
@@ -289,6 +256,22 @@ export default function MockServerDataViewPage() {
           }
         />
       </MainCard>
+
+      <MockFormModal
+        open={formModalOpen}
+        onClose={() => setFormModalOpen(false)}
+        onSubmit={handleSubmitForm}
+        initialData={selectedItem}
+        isLoading={createMutation.isPending || updateMutation.isPending}
+      />
+
+      <MockDeleteModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        item={itemToDelete}
+        isLoading={deleteMutation.isPending}
+      />
     </Stack>
   );
 }
