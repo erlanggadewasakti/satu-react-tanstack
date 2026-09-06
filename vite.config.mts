@@ -58,6 +58,32 @@ function i18nParityPlugin(): Plugin {
   };
 }
 
+function sanitizeUrlPlugin(): Plugin {
+  const sanitize = (req: any, res: any, next: any) => {
+    if (req.url && req.url.startsWith('//')) {
+      const cleanPath = req.url.replace(/^\/+/, '/');
+      if (req.method === 'GET' && req.headers.accept?.includes('text/html')) {
+        res.writeHead(301, { Location: cleanPath });
+        res.end();
+        return;
+      }
+      req.url = cleanPath;
+    }
+    next();
+  };
+
+  return {
+    name: 'vite-plugin-sanitize-url',
+    enforce: 'pre',
+    configureServer(server) {
+      server.middlewares.use(sanitize);
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(sanitize);
+    }
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const API_URL = `${env.VITE_APP_BASE_NAME}`;
@@ -98,6 +124,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     plugins: [
+      sanitizeUrlPlugin(),
       tanstackRouter({
         target: 'react',
         autoCodeSplitting: true
