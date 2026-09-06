@@ -1,7 +1,7 @@
 import { Chip, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
 import { SearchableItem, resolveLocalizedText } from 'config/searchConfig';
 import { ArrowRight, DocumentText } from 'iconsax-reactjs';
-import { useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 
 interface SearchResultItemProps {
@@ -24,39 +24,105 @@ function getBadgeText(subAppName: { id: string; en?: string }, category: { id: s
   return '';
 }
 
-export default function SearchResultItem({ item, isSelected, onSelect, onMouseEnter }: SearchResultItemProps) {
-  const intl = useIntl();
-  const itemRef = useRef<HTMLDivElement | null>(null);
+function getLocalizedValue(text: { id: string; en?: string }, isEn: boolean): string {
+  return (isEn ? text.en || text.id : text.id || text.en) || '';
+}
 
+function getSearchResultTexts(item: SearchableItem, locale: string) {
+  const isEn = locale === 'en';
   const title = resolveLocalizedText(item.title);
   const subTitle = resolveLocalizedText(item.subTitle);
   const description = resolveLocalizedText(item.description);
   const subAppName = resolveLocalizedText(item.subAppName);
   const category = resolveLocalizedText(item.category);
 
-  const isEn = intl.locale === 'en';
-  const displayTitle = isEn ? title.en || title.id : title.id || title.en;
-  const displaySubTitle = isEn ? subTitle.en || subTitle.id : subTitle.id || subTitle.en;
-  const displayDescription = isEn ? description.en || description.id : description.id || description.en;
-  const badgeText = getBadgeText(subAppName, category, intl.locale);
+  const displayTitle = getLocalizedValue(title, isEn);
+  const displaySubTitle = getLocalizedValue(subTitle, isEn);
+  const displayDescription = getLocalizedValue(description, isEn);
+  const badgeText = getBadgeText(subAppName, category, locale);
+
+  const subAppMatch = isEn ? subAppName.en : subAppName.id;
+  const categoryMatch = isEn ? category.en : category.id;
 
   const hasSubTitle = Boolean(
     displaySubTitle &&
     displaySubTitle !== displayTitle &&
-    displaySubTitle !== (isEn ? subAppName.en : subAppName.id) &&
-    displaySubTitle !== (isEn ? category.en : category.id)
+    displaySubTitle !== subAppMatch &&
+    displaySubTitle !== categoryMatch
   );
   const hasDescription = Boolean(displayDescription && displayDescription !== displayTitle);
   const secondaryText = hasSubTitle ? displaySubTitle : hasDescription ? displayDescription : item.url;
 
+  return { displayTitle, secondaryText, badgeText };
+}
+
+function useAutoScrollIntoView(ref: RefObject<HTMLDivElement | null>, isSelected: boolean) {
+  useEffect(() => {
+    if (isSelected && ref.current) {
+      ref.current.scrollIntoView({ block: 'nearest' });
+    }
+  }, [isSelected, ref]);
+}
+
+function SearchResultIcon({ item, isSelected }: { item: SearchableItem; isSelected: boolean }) {
   const IconComponent = item.icon || DocumentText;
 
-  // Auto-scroll selected item into view smoothly
-  useEffect(() => {
-    if (isSelected && itemRef.current) {
-      itemRef.current.scrollIntoView({ block: 'nearest' });
-    }
-  }, [isSelected]);
+  return (
+    <ListItemIcon
+      sx={{
+        minWidth: 36,
+        width: 36,
+        height: 36,
+        borderRadius: 1.5,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bgcolor: isSelected ? 'background.paper' : 'secondary.100',
+        color: isSelected ? 'primary.main' : 'text.secondary',
+        mr: 1.5,
+        boxShadow: isSelected ? 1 : 0,
+        transition: 'none',
+        flexShrink: 0
+      }}
+    >
+      <IconComponent size={18} variant={isSelected ? 'Bold' : 'Linear'} />
+    </ListItemIcon>
+  );
+}
+
+function SearchResultBadge({ text, isSelected }: { text: string; isSelected: boolean }) {
+  if (!text) return null;
+
+  return (
+    <Chip
+      label={text}
+      size="small"
+      variant={isSelected ? 'filled' : 'outlined'}
+      sx={{
+        height: 20,
+        flexShrink: 0,
+        ml: 1,
+        borderRadius: 1,
+        transition: 'none',
+        borderColor: isSelected ? 'transparent' : 'divider',
+        bgcolor: isSelected ? 'primary.main' : 'secondary.100',
+        color: isSelected ? 'common.white' : 'text.secondary',
+        '& .MuiChip-label': {
+          px: 0.75,
+          py: 0,
+          fontWeight: isSelected ? 600 : 500
+        }
+      }}
+    />
+  );
+}
+
+export default function SearchResultItem({ item, isSelected, onSelect, onMouseEnter }: SearchResultItemProps) {
+  const intl = useIntl();
+  const itemRef = useRef<HTMLDivElement | null>(null);
+  useAutoScrollIntoView(itemRef, isSelected);
+
+  const { displayTitle, secondaryText, badgeText } = getSearchResultTexts(item, intl.locale);
 
   return (
     <ListItemButton
@@ -85,25 +151,7 @@ export default function SearchResultItem({ item, isSelected, onSelect, onMouseEn
         })
       })}
     >
-      <ListItemIcon
-        sx={{
-          minWidth: 36,
-          width: 36,
-          height: 36,
-          borderRadius: 1.5,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          bgcolor: isSelected ? 'background.paper' : 'secondary.100',
-          color: isSelected ? 'primary.main' : 'text.secondary',
-          mr: 1.5,
-          boxShadow: isSelected ? 1 : 0,
-          transition: 'none',
-          flexShrink: 0
-        }}
-      >
-        <IconComponent size={18} variant={isSelected ? 'Bold' : 'Linear'} />
-      </ListItemIcon>
+      <SearchResultIcon item={item} isSelected={isSelected} />
 
       <ListItemText
         disableTypography
@@ -122,28 +170,7 @@ export default function SearchResultItem({ item, isSelected, onSelect, onMouseEn
               {displayTitle}
             </Typography>
 
-            {Boolean(badgeText) && (
-              <Chip
-                label={badgeText}
-                size="small"
-                variant={isSelected ? 'filled' : 'outlined'}
-                sx={{
-                  height: 20,
-                  flexShrink: 0,
-                  ml: 1,
-                  borderRadius: 1,
-                  transition: 'none',
-                  borderColor: isSelected ? 'transparent' : 'divider',
-                  bgcolor: isSelected ? 'primary.main' : 'secondary.100',
-                  color: isSelected ? 'common.white' : 'text.secondary',
-                  '& .MuiChip-label': {
-                    px: 0.75,
-                    py: 0,
-                    fontWeight: isSelected ? 600 : 500
-                  }
-                }}
-              />
-            )}
+            <SearchResultBadge text={badgeText} isSelected={isSelected} />
           </Stack>
         }
         secondary={
