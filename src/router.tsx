@@ -4,6 +4,7 @@ import { Error404, Error500 } from 'components/maintenance';
 
 export const router = createRouter({
   routeTree,
+  basepath: import.meta.env.BASE_URL,
   defaultNotFoundComponent: Error404,
   defaultErrorComponent: Error500
 });

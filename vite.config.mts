@@ -86,7 +86,8 @@ function sanitizeUrlPlugin(): Plugin {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const API_URL = `${env.VITE_APP_BASE_NAME}`;
+  const rawBase = (env.VITE_APP_BASE_NAME || '/').trim();
+  const base = rawBase === '' || rawBase === '/' ? '/' : `/${rawBase.replace(/^\/+|\/+$/g, '')}/`;
   const PORT = 3000;
 
   return {
@@ -105,7 +106,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: []
     },
-    base: API_URL,
+    base,
     build: {
       rollupOptions: {
         output: {

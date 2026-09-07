@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useLocation } from '@tanstack/react-router';
 import { CSSProperties, ReactElement, useMemo } from 'react';
 
 // material-ui
@@ -12,7 +12,8 @@ import Typography from '@mui/material/Typography';
 import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
 import MainCard from 'components/MainCard';
 import { ThemeDirection } from 'config';
-import navigation from 'menu-items';
+import useSubApp from 'hooks/useSubApp';
+import navigation, { menuItemsBySubApp } from 'menu-items';
 
 // assets
 import { ArrowRight2, Buildings2, Home3 } from 'iconsax-reactjs';
@@ -51,6 +52,13 @@ interface Props {
 
 // ==============================|| HELPER - TREE SEARCH ||============================== //
 
+function matchesUrl(menuUrl?: string, target?: string) {
+  if (!menuUrl || !target) return false;
+  const cleanMenu = menuUrl.endsWith('/') && menuUrl.length > 1 ? menuUrl.slice(0, -1) : menuUrl;
+  const cleanTarget = target.endsWith('/') && target.length > 1 ? target.slice(0, -1) : target;
+  return cleanMenu === cleanTarget;
+}
+
 function findInCollapse(
   children: NavItemType[],
   targetPath: string,
@@ -58,7 +66,7 @@ function findInCollapse(
 ): { main?: NavItemType; item?: NavItemType } | null {
   for (const child of children) {
     if (child.type === 'collapse') {
-      if (child.url === targetPath) {
+      if (matchesUrl(child.url, targetPath)) {
         return { main: child, item: child };
       }
       if (child.children) {
@@ -66,7 +74,7 @@ function findInCollapse(
         if (nested) return nested;
       }
     } else if (child.type === 'item') {
-      if (targetPath === child.url) {
+      if (matchesUrl(child.url, targetPath)) {
         return { main: parent, item: child };
       }
     }
@@ -79,12 +87,24 @@ function findActiveBreadcrumbs(items: NavItemType[] | undefined, targetPath: str
 
   for (const menu of items) {
     if (menu.type === 'group') {
-      if (menu.url && menu.url === targetPath) {
+      if (matchesUrl(menu.url, targetPath)) {
         return { main: menu, item: menu };
       }
       if (menu.children) {
         const found = findInCollapse(menu.children, targetPath, menu);
         if (found) return found;
+      }
+    } else if (menu.type === 'collapse') {
+      if (matchesUrl(menu.url, targetPath)) {
+        return { main: menu, item: menu };
+      }
+      if (menu.children) {
+        const found = findInCollapse(menu.children, targetPath, menu);
+        if (found) return found;
+      }
+    } else if (menu.type === 'item') {
+      if (matchesUrl(menu.url, targetPath)) {
+        return { main: menu, item: menu };
       }
     }
   }
@@ -101,16 +121,34 @@ function getCardStyle(card?: boolean, sx?: BreadCrumbSxProps) {
 // ==============================|| CUSTOM HOOK ||============================== //
 
 function useBreadcrumbs({ custom, heading }: { custom?: boolean; heading?: string }) {
+  const location = useLocation();
+  const { menuItems: activeMenuItems } = useSubApp();
+
   const { main, item } = useMemo(() => {
     if (custom) return {};
-    let customLocation = window.location.pathname;
+    let customLocation = location.pathname;
     if (customLocation.includes('/components-overview/breadcrumbs')) {
       customLocation = '/apps/customer/customer-card';
     }
-    return findActiveBreadcrumbs(navigation?.items, customLocation);
-  }, [custom]);
 
-  const isVisible = Boolean(custom || (item && item.breadcrumbs !== false) || (main && main.breadcrumbs !== false));
+    // 1. Cari di menu sub-app yang sedang aktif
+    let found = findActiveBreadcrumbs(activeMenuItems, customLocation);
+    if (found.main || found.item) return found;
+
+    // 2. Fallback: Cari di seluruh sub-app jika route berasal dari sub-app lain
+    for (const subAppKey of Object.keys(menuItemsBySubApp)) {
+      found = findActiveBreadcrumbs(menuItemsBySubApp[subAppKey]?.items, customLocation);
+      if (found.main || found.item) return found;
+    }
+
+    // 3. Fallback: Cari di menu statis global
+    return findActiveBreadcrumbs(navigation?.items, customLocation);
+  }, [custom, location.pathname, activeMenuItems]);
+
+  // Sembunyikan jika item atau grup induknya menentukan breadcrumbs: false (Cara 1)
+  const isHidden = item?.breadcrumbs === false || (main?.breadcrumbs === false && item?.breadcrumbs !== true);
+  const hasItem = Boolean(item || main);
+  const isVisible = Boolean(custom || (!isHidden && hasItem));
   const pageTitle = custom ? heading : item?.title || main?.title;
 
   return { main, item, isVisible, pageTitle };
@@ -177,6 +215,7 @@ function DefaultBreadcrumbTrail({
   separatorIcon: ReactElement;
   iconSX: CSSProperties;
 }) {
+  const location = useLocation();
   const CollapseIcon = main?.icon || Buildings2;
   const ItemIcon = item?.icon || Buildings2;
 
@@ -197,7 +236,7 @@ function DefaultBreadcrumbTrail({
           {...(main.url && { component: Link, to: main.url })}
           variant="body1"
           sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
-          color={window.location.pathname === main.url ? 'text.primary' : 'text.secondary'}
+          color={location.pathname === main.url ? 'text.primary' : 'text.secondary'}
         >
           {icons && <CollapseIcon style={iconSX} />}
           <SafeFormattedMessage id={main.title} />
