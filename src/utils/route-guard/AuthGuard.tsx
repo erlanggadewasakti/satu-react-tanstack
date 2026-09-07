@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 // project-imports
 import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader';
+import { stripBasepath } from 'utils/auth';
 
 // types
 import { GuardProps } from 'types/auth';
@@ -19,7 +20,7 @@ export default function AuthGuard({ children }: GuardProps) {
     if (isInitialized && !isLoggedIn) {
       navigate({
         to: '/login',
-        state: (prev: any) => ({ ...prev, from: location.pathname }),
+        state: (prev: any) => ({ ...prev, from: stripBasepath(location.pathname) }),
         replace: true
       });
     }

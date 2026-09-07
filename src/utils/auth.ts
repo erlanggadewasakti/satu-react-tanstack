@@ -36,3 +36,18 @@ export function filterMenuItemsByRole(items: NavItemType[], user: UserProfile | 
 export function getDefaultSubAppPath(_user?: UserProfile | null): string {
   return '/home';
 }
+
+/**
+ * Menghapus prefix basepath (misalnya /lens) dari path jika ada,
+ * sehingga path selalu berupa path internal yang bersih dan aman untuk navigate() di TanStack Router.
+ */
+export function stripBasepath(path?: string): string {
+  if (!path || typeof path !== 'string') return '/';
+  const rawBase = (import.meta.env.BASE_URL || '/').trim();
+  const cleanBase = rawBase === '/' ? '' : `/${rawBase.replace(/^\/+|\/+$/g, '')}`;
+  if (cleanBase && path.startsWith(cleanBase)) {
+    const stripped = path.slice(cleanBase.length);
+    return stripped.startsWith('/') ? stripped : `/${stripped}`;
+  }
+  return path.startsWith('/') ? path : `/${path}`;
+}
