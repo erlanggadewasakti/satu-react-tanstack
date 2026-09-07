@@ -15,18 +15,16 @@ RUN bun install --frozen-lockfile
 # Copy application source code
 COPY . .
 
-# Build Arguments (can be overridden via --build-arg)
-ARG VITE_APP_VERSION=v3.0.0
-ARG VITE_APP_BASE_NAME=/
-ARG VITE_APP_API_URL=https://stg-service-satu.telkomuniversity.ac.id/system-information-academic-obe/
+# Optional build arguments (if passed via --build-arg, overrides values in .env)
+ARG VITE_APP_VERSION=""
+ARG VITE_APP_BASE_NAME=""
+ARG VITE_APP_API_URL=""
 
-# Ensure .env file exists and reflects build arguments
-RUN if [ ! -f .env ]; then \
-      cp .env.example .env; \
-    fi && \
-    sed -i "s|^VITE_APP_VERSION=.*|VITE_APP_VERSION=${VITE_APP_VERSION}|" .env && \
-    sed -i "s|^VITE_APP_BASE_NAME=.*|VITE_APP_BASE_NAME=${VITE_APP_BASE_NAME}|" .env && \
-    sed -i "s|^VITE_APP_API_URL=.*|VITE_APP_API_URL=${VITE_APP_API_URL}|" .env
+# Ensure .env file exists; use .env directly unless build args were explicitly passed
+RUN if [ ! -f .env ]; then cp .env.example .env; fi && \
+    if [ -n "${VITE_APP_VERSION}" ]; then sed -i "s|^VITE_APP_VERSION=.*|VITE_APP_VERSION=${VITE_APP_VERSION}|" .env; fi && \
+    if [ -n "${VITE_APP_BASE_NAME}" ]; then sed -i "s|^VITE_APP_BASE_NAME=.*|VITE_APP_BASE_NAME=${VITE_APP_BASE_NAME}|" .env; fi && \
+    if [ -n "${VITE_APP_API_URL}" ]; then sed -i "s|^VITE_APP_API_URL=.*|VITE_APP_API_URL=${VITE_APP_API_URL}|" .env; fi
 
 # Build the application (TypeScript validation + Vite + Nitro output bundling)
 RUN bun run build
@@ -46,8 +44,9 @@ ENV HOST=0.0.0.0
 # Run container as non-root unprivileged bun user
 USER bun
 
-# Copy self-contained Nitro server and client assets from the builder stage
+# Copy self-contained Nitro server, client assets, and .env from the builder stage
 COPY --from=builder --chown=bun:bun /app/.output ./.output
+COPY --from=builder --chown=bun:bun /app/.env ./.env
 
 # Expose production port
 EXPOSE 3000

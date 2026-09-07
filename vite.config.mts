@@ -134,7 +134,9 @@ export default defineConfig(({ mode }) => {
       react(),
       tsconfigPaths(),
       i18nParityPlugin(),
-      nitro()
+      nitro({
+        baseURL: base
+      })
     ]
   };
 });
