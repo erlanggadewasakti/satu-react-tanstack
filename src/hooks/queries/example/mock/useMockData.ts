@@ -1,6 +1,6 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ENDPOINTS } from 'api/endpoints';
-import { mockService } from 'api/services/mockService';
+import { mockService } from 'api/services/example/mock/mockService';
 import { CreateMockItemPayload, MockPaginationParams, UpdateMockItemPayload } from 'types/api/mock';
 
 /**
@@ -66,4 +66,3 @@ export const useDeleteMockData = () => {
     }
   });
 };
-

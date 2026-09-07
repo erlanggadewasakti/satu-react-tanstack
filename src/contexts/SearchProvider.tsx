@@ -3,11 +3,11 @@ import Fuse from 'fuse.js';
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 // project-imports
-import SearchModal from 'components/SearchMenu/SearchModal';
+import SearchModal from 'components/search-menu/SearchModal';
 import { getAllSearchableItems, SearchableItem } from 'config/searchConfig';
+import { SearchContext } from 'contexts/SearchContext';
 import useAuth from 'hooks/useAuth';
 import useSubApp from 'hooks/useSubApp';
-import { SearchContext } from 'contexts/SearchContext';
 
 // ==============================|| SEARCH PROVIDER ||============================== //
 

@@ -10,7 +10,7 @@ import { createSortedRowModel, PaginationState, SortingState, stockFeatures, tab
 import { openSnackbar } from 'api/snackbar';
 import MainCard from 'components/MainCard';
 import { DataTable } from 'components/third-party/react-table';
-import { useCreateMockData, useDeleteMockData, useGetPaginatedMockData, useUpdateMockData } from 'hooks/queries/useMockData';
+import { useCreateMockData, useDeleteMockData, useGetPaginatedMockData, useUpdateMockData } from 'hooks/queries/example/mock/useMockData';
 import MockDeleteModal from 'sections/example/MockDeleteModal';
 import MockFormModal from 'sections/example/MockFormModal';
 import MockStatsCards, { StatItem } from 'sections/example/MockStatsCards';
