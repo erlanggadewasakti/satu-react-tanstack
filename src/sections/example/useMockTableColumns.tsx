@@ -1,5 +1,5 @@
 import { Chip, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { ColumnDef, StockFeatures } from '@tanstack/react-table';
+import { CellContext, ColumnDef, StockFeatures } from '@tanstack/react-table';
 import { Briefcase, Calendar, Call, Edit, Location, Trash } from 'iconsax-reactjs';
 import { useMemo } from 'react';
 import { IntlShape } from 'react-intl';
@@ -35,7 +35,7 @@ export function useMockTableColumns({ intl, onEdit, onDelete }: UseMockTableColu
         header: intl.formatMessage({ id: 'example.column.id' }),
         accessorKey: 'id',
         meta: { align: 'center' },
-        cell: (cell: any) => (
+        cell: (cell: CellContext<StockFeatures, MockItem, any>) => (
           <Chip label={`#${cell.getValue()}`} size="small" variant="outlined" color="secondary" sx={{ fontWeight: 600 }} />
         )
       },

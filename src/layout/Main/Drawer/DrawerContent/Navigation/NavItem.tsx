@@ -2,7 +2,6 @@ import { useLocation } from '@tanstack/react-router';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
-import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import NavItemVertical from './NavItemVertical';
@@ -23,10 +22,10 @@ interface Props {
 export default function NavItem({ item, level, isParents = false, setSelectedID }: Props) {
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
   const {
-    state: { menuOrientation }
+    state: { menuOrientation },
+    drawerOpen,
+    handlerDrawerOpen
   } = useConfig();
 
   const itemTarget: LinkTarget = item.target ? '_blank' : '_self';

@@ -9,8 +9,8 @@ import Box from '@mui/material/Box';
 import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled';
 
-import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 import { DRAWER_WIDTH } from 'config';
+import useConfig from 'hooks/useConfig';
 
 interface Props {
   window?: () => Window;
@@ -21,8 +21,7 @@ interface Props {
 export default function MainDrawer({ window }: Props) {
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
+  const { drawerOpen, handlerDrawerOpen } = useConfig();
 
   // responsive drawer container
   const container = window !== undefined ? () => window().document.body : undefined;

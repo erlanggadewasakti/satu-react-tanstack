@@ -1,5 +1,5 @@
 // project-imports
-import { useGetMenuMaster } from 'api/menu';
+import useConfig from 'hooks/useConfig';
 import SimpleBar from 'components/third-party/SimpleBar';
 import SubAppSelector from 'components/SubAppSelector';
 import DrawerHeader from '../DrawerHeader';
@@ -9,8 +9,7 @@ import UserProfileCard from './UserProfileCard';
 // ==============================|| DRAWER CONTENT ||============================== //
 
 export default function DrawerContent() {
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
+  const { drawerOpen } = useConfig();
 
   return (
     <SimpleBar sx={{ '& .simplebar-content': { display: 'flex', flexDirection: 'column' }, height: '100%' }}>

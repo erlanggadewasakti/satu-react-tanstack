@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
 import { Box, Stack } from '@mui/material';
+import { ReactTable, RowData, StockFeatures } from '@tanstack/react-table';
 import DebouncedInput from './DebouncedInput';
 import SelectColumnSorting from './SelectColumnSorting';
 import SelectColumnVisibility from './SelectColumnVisibility';
 
-export interface DataTableToolbarProps {
-  table: any;
+export interface DataTableToolbarProps<TData extends RowData = any> {
+  table: ReactTable<StockFeatures, TData>;
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
@@ -14,7 +15,7 @@ export interface DataTableToolbarProps {
   extraToolbarActions?: ReactNode;
 }
 
-export default function DataTableToolbar({
+export default function DataTableToolbar<TData extends RowData = any>({
   table,
   searchValue,
   onSearchChange,
@@ -22,7 +23,7 @@ export default function DataTableToolbar({
   showSortingSelect = true,
   showVisibilitySelect = true,
   extraToolbarActions
-}: DataTableToolbarProps) {
+}: DataTableToolbarProps<TData>) {
   const showToolbar = Boolean(onSearchChange || showSortingSelect || showVisibilitySelect || extraToolbarActions);
   if (!showToolbar) return null;
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 // material-ui
 import Box from '@mui/material/Box';
@@ -35,22 +35,23 @@ export default function Localization() {
     setField
   } = useConfig();
 
-  const anchorRef = useRef<any>(null);
-  const [open, setOpen] = useState(false);
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl((prev) => (prev ? null : event.currentTarget));
   };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    if (anchorEl && anchorEl.contains(event.target as Node)) {
       return;
     }
-    setOpen(false);
+    setAnchorEl(null);
   };
 
   const handleListItemClick = (lang: I18n) => {
     setField('i18n', lang);
-    setOpen(false);
+    setAnchorEl(null);
   };
 
   return (
@@ -59,7 +60,6 @@ export default function Localization() {
         color="secondary"
         variant="light"
         aria-label="open localization"
-        ref={anchorRef}
         aria-controls={open ? 'localization-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
@@ -76,8 +76,7 @@ export default function Localization() {
       <Popper
         placement={downMD ? 'bottom-start' : 'bottom'}
         open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
+        anchorEl={anchorEl}
         transition
         disablePortal
         popperOptions={{

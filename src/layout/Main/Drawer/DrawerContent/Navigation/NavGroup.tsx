@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project-imports
-import { useGetMenuMaster } from 'api/menu';
 import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
@@ -58,10 +57,9 @@ export default function NavGroup({
   const { pathname } = useLocation();
 
   const {
-    state: { menuOrientation, menuCaption }
+    state: { menuOrientation, menuCaption },
+    drawerOpen
   } = useConfig();
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 

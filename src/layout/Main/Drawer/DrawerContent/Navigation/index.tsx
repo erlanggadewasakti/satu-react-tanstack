@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 // project-imports
 import NavGroup from './NavGroup';
 import NavItem from './NavItem';
-import { useGetMenuMaster } from 'api/menu';
 import { MenuOrientation, HORIZONTAL_MAX_ITEM } from 'config';
 import useConfig from 'hooks/useConfig';
 import useSubApp from 'hooks/useSubApp';
@@ -23,11 +22,10 @@ export default function Navigation() {
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   const {
-    state: { menuOrientation }
+    state: { menuOrientation },
+    drawerOpen
   } = useConfig();
   const { menuItems: activeMenuItems } = useSubApp();
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
   const [selectedID, setSelectedID] = useState<string | undefined>('');
   const [selectedItems, setSelectedItems] = useState<string | undefined>('');

@@ -11,7 +11,7 @@ import {
   TableHead,
   TableRow
 } from '@mui/material';
-import { flexRender } from '@tanstack/react-table';
+import { ReactTable, RowData, StockFeatures, flexRender } from '@tanstack/react-table';
 import { FormattedMessage } from 'react-intl';
 
 // project-imports
@@ -27,8 +27,8 @@ export interface DataTableToolbarConfig {
   showVisibilitySelect?: boolean;
 }
 
-export interface DataTableProps {
-  table: any;
+export interface DataTableProps<TData extends RowData = any> {
+  table: ReactTable<StockFeatures, TData>;
   isLoading?: boolean;
   isFetching?: boolean;
   isError?: boolean;
@@ -45,7 +45,7 @@ export interface DataTableProps {
   emptyMessage?: string;
 }
 
-export default function DataTable({
+export default function DataTable<TData extends RowData = any>({
   table,
   isLoading = false,
   isFetching = false,
@@ -59,7 +59,7 @@ export default function DataTable({
   extraToolbarActions,
   minWidth = 700,
   emptyMessage = 'No data available'
-}: DataTableProps) {
+}: DataTableProps<TData>) {
   return (
     <>
       {/* TOP SEARCH & ACTIONS TOOLBAR */}
@@ -95,9 +95,9 @@ export default function DataTable({
       <TableContainer>
         <Table sx={{ minWidth }} aria-label="data table">
           <TableHead>
-            {table.getHeaderGroups().map((headerGroup: any) => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header: any) => (
+                {headerGroup.headers.map((header) => (
                   <TableCell
                     key={header.id}
                     align={(header.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}

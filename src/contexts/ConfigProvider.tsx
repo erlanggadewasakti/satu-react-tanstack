@@ -1,9 +1,8 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 
 // project-imports
 import config from 'config';
 import useLocalStorage from 'hooks/useLocalStorage';
-import { registerDrawerSetter } from 'api/menu';
 import { ConfigContext } from 'contexts/ConfigContext';
 
 // types
@@ -21,13 +20,6 @@ export function ConfigProvider({ children }: ChildrenProps) {
 
   const handlerDrawerOpen = useCallback((open: boolean) => {
     setDrawerOpen(open);
-  }, []);
-
-  useEffect(() => {
-    registerDrawerSetter(setDrawerOpen);
-    return () => {
-      registerDrawerSetter(() => {});
-    };
   }, []);
 
   const memoizedValue = useMemo(

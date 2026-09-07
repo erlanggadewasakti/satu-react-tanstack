@@ -17,14 +17,13 @@ function SortToggler({ type }: { type?: SortType }) {
   return (
     <Stack
       sx={{
-        fontSize: '0.625rem',
         color: 'secondary.light',
         ...(type === SortType.ASC && { '& .caret-up': { color: 'secondary.main' } }),
         ...(type === SortType.DESC && { '& .caret-down': { color: 'secondary.main' } })
       }}
     >
-      <ArrowUp2 className="caret-up" size="15" variant="Bold" style={{ fontSize: '0.625rem' }} />
-      <ArrowDown2 className="caret-down" size="15" variant="Bold" style={{ fontSize: '0.625rem', marginTop: -8 }} />
+      <ArrowUp2 className="caret-up" size={12} variant="Bold" />
+      <ArrowDown2 className="caret-down" size={12} variant="Bold" style={{ marginTop: -4 }} />
     </Stack>
   );
 }

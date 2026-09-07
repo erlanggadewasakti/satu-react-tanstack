@@ -15,7 +15,6 @@ import HorizontalBar from './Drawer/HorizontalBar';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
 import ScrollTop from 'components/ScrollTop';
 
-import { handlerDrawerOpen } from 'api/menu';
 import { DRAWER_WIDTH, MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import AuthGuard from 'utils/route-guard/AuthGuard';
@@ -28,7 +27,8 @@ export default function MainLayout() {
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   const {
-    state: { container, menuOrientation }
+    state: { container, menuOrientation },
+    handlerDrawerOpen
   } = useConfig();
 
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG;

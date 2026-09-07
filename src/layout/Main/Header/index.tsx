@@ -10,7 +10,6 @@ import IconButton from 'components/@extended/IconButton';
 import AppBarStyled from './AppBarStyled';
 import HeaderContent from './HeaderContent';
 
-import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 import { DRAWER_WIDTH, MINI_DRAWER_WIDTH, MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import { HamburgerMenu } from 'iconsax-reactjs';
@@ -24,10 +23,10 @@ export default function Header() {
   const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   const {
-    state: { menuOrientation }
+    state: { menuOrientation },
+    drawerOpen,
+    handlerDrawerOpen
   } = useConfig();
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
   const isHorizontal = menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
 

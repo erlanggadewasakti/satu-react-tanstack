@@ -2,7 +2,6 @@ import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material'
 
 // assets
 import { SearchNormal1 } from 'iconsax-reactjs';
-import { FormattedMessage, useIntl } from 'react-intl';
 
 // project-imports
 import useMenuSearch from 'hooks/useMenuSearch';
@@ -14,20 +13,17 @@ interface Props {
 // ==============================|| SIDEBAR SEARCH MENU COMPONENT ||============================== //
 
 export default function SearchMenu({ collapsed }: Props) {
-  const intl = useIntl();
   const { openSearch } = useMenuSearch();
 
   const isMac = typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
   const shortcutText = isMac ? '⌘ + K' : 'Ctrl + K';
-  const searchLabel = `${intl.formatMessage({ id: 'header.search' })} (${shortcutText})`;
 
   if (collapsed) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
-        <Tooltip title={searchLabel} placement="right">
+        <Tooltip title={`Search (${shortcutText})`} placement="right">
           <IconButton
             onClick={openSearch}
-            aria-label={searchLabel}
             color="secondary"
             size="medium"
             sx={(theme) => ({
@@ -44,7 +40,7 @@ export default function SearchMenu({ collapsed }: Props) {
               }
             })}
           >
-            <SearchNormal1 size={20} aria-hidden="true" />
+            <SearchNormal1 size={20} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -55,7 +51,6 @@ export default function SearchMenu({ collapsed }: Props) {
     <Box sx={{ px: 2, py: 1 }}>
       <ButtonBase
         onClick={openSearch}
-        aria-label={searchLabel}
         sx={(theme) => ({
           width: '100%',
           height: 42,
@@ -81,9 +76,9 @@ export default function SearchMenu({ collapsed }: Props) {
       >
         {/* Left search icon & placeholder */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, color: 'text.secondary' }}>
-          <SearchNormal1 size={16} aria-hidden="true" />
+          <SearchNormal1 size={16} />
           <Typography variant="body1" color="text.secondary">
-            <FormattedMessage id="header.search" />
+            Search
           </Typography>
         </Box>
 

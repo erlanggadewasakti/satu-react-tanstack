@@ -22,7 +22,7 @@ import SafeFormattedMessage from 'components/@extended/SafeFormattedMessage';
 import Transitions from 'components/@extended/Transitions';
 import SimpleBar from 'components/third-party/SimpleBar';
 
-import { useGetMenuMaster } from 'api/menu';
+import useConfig from 'hooks/useConfig';
 import useMenuCollapse from 'hooks/useMenuCollapse';
 
 // assets
@@ -446,8 +446,7 @@ export default function NavCollapseVertical({
 }: Props) {
   const navigation = useNavigate();
   const { pathname } = useLocation();
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
+  const { drawerOpen } = useConfig();
 
   const isMatchedRoute = useMenuCollapse(menu, pathname);
 

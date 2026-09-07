@@ -7,7 +7,6 @@ import Stack from '@mui/material/Stack';
 // project-imports
 import useConfig from 'hooks/useConfig';
 import { MenuOrientation } from 'config';
-import { handlerDrawerOpen } from 'api/menu';
 import LayoutCard from './LayoutCard';
 
 // assets
@@ -28,7 +27,8 @@ const activeCardStyle = { borderColor: 'primary.main' };
 export default function ThemeLayout() {
   const {
     state: { menuOrientation },
-    setField
+    setField,
+    handlerDrawerOpen
   } = useConfig();
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {

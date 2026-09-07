@@ -124,7 +124,7 @@ export default function NavGroupHorizontal({
           }
         />
         {anchorEl && (
-          <PopperStyled id={popperId} open={openMini} anchorEl={anchorEl} placement="bottom-start" style={{ zIndex: 2001 }}>
+          <PopperStyled id={popperId} open={openMini} anchorEl={anchorEl} placement="bottom-start">
             {({ TransitionProps }) => (
               <Transitions in={openMini} {...TransitionProps}>
                 <Paper

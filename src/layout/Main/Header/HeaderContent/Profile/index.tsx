@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 // material-ui
@@ -40,17 +40,18 @@ export default function Profile() {
     }
   };
 
-  const anchorRef = useRef<any>(null);
-  const [open, setOpen] = useState(false);
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl((prev) => (prev ? null : event.currentTarget));
   };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    if (anchorEl && anchorEl.contains(event.target as Node)) {
       return;
     }
-    setOpen(false);
+    setAnchorEl(null);
   };
 
   return (
@@ -66,7 +67,6 @@ export default function Profile() {
           }
         })}
         aria-label="open profile"
-        ref={anchorRef}
         aria-controls={open ? 'profile-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
@@ -76,8 +76,7 @@ export default function Profile() {
       <Popper
         placement="bottom-end"
         open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
+        anchorEl={anchorEl}
         transition
         disablePortal
         popperOptions={{ modifiers: [{ name: 'offset', options: { offset: [0, 9] } }] }}

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 // material-ui
 import Badge from '@mui/material/Badge';
@@ -16,7 +16,6 @@ import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useIntl } from 'react-intl';
 
 // project-imports
 import Avatar from 'components/@extended/Avatar';
@@ -42,21 +41,21 @@ const actionSX = {
 // ==============================|| HEADER CONTENT - NOTIFICATION ||============================== //
 
 export default function NotificationPage() {
-  const intl = useIntl();
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  const anchorRef = useRef<any>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [read] = useState(2);
-  const [open, setOpen] = useState(false);
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const open = Boolean(anchorEl);
+
+  const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl((prev) => (prev ? null : event.currentTarget));
   };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    if (anchorEl && anchorEl.contains(event.target as Node)) {
       return;
     }
-    setOpen(false);
+    setAnchorEl(null);
   };
 
   return (
@@ -64,12 +63,7 @@ export default function NotificationPage() {
       <IconButton
         color="secondary"
         variant="light"
-        aria-label={
-          read > 0
-            ? intl.formatMessage({ id: 'header.notifications.unread' }, { count: read })
-            : intl.formatMessage({ id: 'header.notifications' })
-        }
-        ref={anchorRef}
+        aria-label="open profile"
         aria-controls={open ? 'profile-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
@@ -88,8 +82,7 @@ export default function NotificationPage() {
       <Popper
         placement={downMD ? 'bottom' : 'bottom-end'}
         open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
+        anchorEl={anchorEl}
         transition
         disablePortal
         popperOptions={{ modifiers: [{ name: 'offset', options: { offset: [downMD ? -5 : 0, 9] } }] }}

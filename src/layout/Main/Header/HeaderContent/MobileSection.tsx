@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 // material-ui
 import AppBar from '@mui/material/AppBar';
@@ -21,36 +21,26 @@ import { MoreSquare } from 'iconsax-reactjs';
 // ==============================|| HEADER CONTENT - MOBILE ||============================== //
 
 export default function MobileSection() {
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef<any>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl((prev) => (prev ? null : event.currentTarget));
   };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    if (anchorEl && anchorEl.contains(event.target as Node)) {
       return;
     }
 
-    setOpen(false);
+    setAnchorEl(null);
   };
-
-  const prevOpen = useRef(open);
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
 
   return (
     <>
       <Box sx={{ flexShrink: 0, ml: 0.75 }}>
         <IconButton
           aria-label="open more menu"
-          ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
@@ -70,8 +60,7 @@ export default function MobileSection() {
       <Popper
         placement="bottom-end"
         open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
+        anchorEl={anchorEl}
         transition
         disablePortal
         sx={{ width: '100%' }}

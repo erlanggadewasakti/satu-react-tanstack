@@ -18,7 +18,7 @@ interface TablePaginationProps {
   setPageSize: (updater: Updater<number>) => void;
   setPageIndex: (updater: Updater<number>) => void;
   getState?: () => TableState<StockFeatures>;
-  state?: TableState<StockFeatures>;
+  state?: TableState<StockFeatures> | { pagination?: { pageIndex: number; pageSize: number } } | any;
   getPageCount: () => number;
   initialPageSize?: number;
   color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
@@ -59,7 +59,7 @@ export default function TablePagination({
     setPageIndex(value - 1);
   };
 
-  const handleChange = (event: SelectChangeEvent<number>) => {
+  const handleChange = (event: SelectChangeEvent<any>) => {
     setPageSize(Number(event.target.value));
   };
 

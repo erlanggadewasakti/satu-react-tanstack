@@ -1,20 +1,24 @@
 import { Skeleton, TableBody, TableCell, TableRow } from '@mui/material';
-import { flexRender } from '@tanstack/react-table';
+import { ReactTable, RowData, StockFeatures, flexRender } from '@tanstack/react-table';
 import EmptyTable from './EmptyTable';
 
-interface DataTableBodyProps {
-  table: any;
+interface DataTableBodyProps<TData extends RowData = any> {
+  table: ReactTable<StockFeatures, TData>;
   isLoading?: boolean;
   emptyMessage?: string;
 }
 
-export default function DataTableBody({ table, isLoading = false, emptyMessage = 'No data available' }: DataTableBodyProps) {
+export default function DataTableBody<TData extends RowData = any>({
+  table,
+  isLoading = false,
+  emptyMessage = 'No data available'
+}: DataTableBodyProps<TData>) {
   if (isLoading) {
     return (
       <TableBody>
         {Array.from({ length: table.state?.pagination?.pageSize || 10 }).map((_, index) => (
           <TableRow key={index}>
-            {table.getVisibleLeafColumns().map((col: any) => (
+            {table.getVisibleLeafColumns().map((col) => (
               <TableCell key={col.id} align={(col.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}>
                 <Skeleton
                   sx={{
@@ -34,9 +38,9 @@ export default function DataTableBody({ table, isLoading = false, emptyMessage =
   if (rows.length > 0) {
     return (
       <TableBody>
-        {rows.map((row: any) => (
+        {rows.map((row) => (
           <TableRow key={row.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            {row.getVisibleCells().map((cell: any) => (
+            {row.getVisibleCells().map((cell) => (
               <TableCell
                 key={cell.id}
                 align={(cell.column.columnDef.meta as { align?: 'left' | 'center' | 'right' })?.align || 'left'}

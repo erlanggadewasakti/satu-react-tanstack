@@ -69,7 +69,6 @@ function SearchResultIcon({ item, isSelected }: { item: SearchableItem; isSelect
 
   return (
     <ListItemIcon
-      aria-hidden="true"
       sx={{
         minWidth: 36,
         width: 36,
@@ -98,7 +97,6 @@ function SearchResultBadge({ text, isSelected }: { text: string; isSelected: boo
     <Chip
       label={text}
       size="small"
-      aria-hidden="true"
       variant={isSelected ? 'filled' : 'outlined'}
       sx={{
         height: 20,
@@ -129,10 +127,6 @@ export default function SearchResultItem({ item, isSelected, onSelect, onMouseEn
   return (
     <ListItemButton
       ref={itemRef}
-      role="option"
-      id={`search-item-${item.id}`}
-      aria-selected={isSelected}
-      tabIndex={-1}
       selected={isSelected}
       onClick={() => onSelect(item)}
       onMouseEnter={onMouseEnter}
@@ -166,7 +160,6 @@ export default function SearchResultItem({ item, isSelected, onSelect, onMouseEn
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Typography
               variant="subtitle1"
-              component="span"
               noWrap
               sx={{
                 fontWeight: 600,
@@ -184,7 +177,6 @@ export default function SearchResultItem({ item, isSelected, onSelect, onMouseEn
           Boolean(secondaryText) && (
             <Typography
               variant="caption"
-              component="span"
               noWrap
               sx={{
                 color: 'text.secondary',
@@ -201,12 +193,7 @@ export default function SearchResultItem({ item, isSelected, onSelect, onMouseEn
       />
 
       {isSelected && (
-        <ArrowRight
-          size={16}
-          aria-hidden="true"
-          style={{ alignSelf: 'center', marginLeft: 10, opacity: 0.8, flexShrink: 0 }}
-          color="currentColor"
-        />
+        <ArrowRight size={16} style={{ alignSelf: 'center', marginLeft: 10, opacity: 0.8, flexShrink: 0 }} color="currentColor" />
       )}
     </ListItemButton>
   );

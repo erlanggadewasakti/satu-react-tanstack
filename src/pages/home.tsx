@@ -56,24 +56,18 @@ export default function UniversalHomePage() {
       </MainCard>
 
       {/* QUICK ACTION SUB-APPS LIST */}
-      <MainCard
-        title={
-          <Typography variant="h3">
-            <FormattedMessage id="home.available-sub-apps" />
-          </Typography>
-        }
-      >
+      <MainCard title={intl.formatMessage({ id: 'home.available-sub-apps' })}>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           <FormattedMessage id="home.sub-apps-guide" />
         </Typography>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={2.5}>
           {subApps.map((app) => {
             const localizedAppName = intl.formatMessage({ id: `subapp.${app.id}.name` as any });
             const localizedAppDesc = app.description ? intl.formatMessage({ id: `subapp.${app.id}.desc` as any }) : '';
 
             return (
-              <Grid key={app.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={app.id}>
                 <Card
                   variant="outlined"
                   sx={{
@@ -81,21 +75,21 @@ export default function UniversalHomePage() {
                     display: 'flex',
                     flexDirection: 'column',
                     borderRadius: 2,
-                    borderColor: 'divider',
                     transition: 'all 0.2s ease-in-out',
                     '&:hover': {
-                      boxShadow: (theme) => (theme as any).customShadows.z1,
-                      borderColor: 'primary.light'
+                      borderColor: 'primary.main',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                      transform: 'translateY(-2px)'
                     }
                   }}
                 >
                   <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Box>
                       <Stack direction="row" spacing={1.5} sx={{ mb: 1.5, alignItems: 'center' }}>
-                        <Box sx={{ p: 1, borderRadius: 1.5, bgcolor: 'primary.lighter', color: 'primary.main', display: 'flex' }} aria-hidden="true">
+                        <Box sx={{ p: 1, borderRadius: 1.5, bgcolor: 'primary.lighter', color: 'primary.main', display: 'flex' }}>
                           <Category size={22} />
                         </Box>
-                        <Typography variant="h5" component="h4">{localizedAppName}</Typography>
+                        <Typography variant="h5">{localizedAppName}</Typography>
                       </Stack>
 
                       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -106,7 +100,7 @@ export default function UniversalHomePage() {
                     <Button
                       variant="contained"
                       size="small"
-                      endIcon={<ArrowRight size={16} aria-hidden="true" />}
+                      endIcon={<ArrowRight size={16} />}
                       onClick={() => changeSubApp(app.id)}
                       sx={{ mt: 2, borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}
                     >
@@ -122,11 +116,10 @@ export default function UniversalHomePage() {
 
       {/* KONTAK INFORMASI SECTION */}
       <MainCard
-        disableTypography
         title={
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-            <CallCalling size={22} aria-hidden="true" />
-            <Typography variant="h3">
+            <CallCalling size={22} />
+            <Typography variant="h4">
               <FormattedMessage id="home.contact-info" />
             </Typography>
           </Stack>
@@ -147,15 +140,9 @@ export default function UniversalHomePage() {
                 href="https://wa.me/6282319949941"
                 target="_blank"
                 rel="noopener noreferrer"
-                sx={(theme) => ({
-                  color: 'success.darker',
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  '&:hover': { textDecoration: 'underline' },
-                  ...(theme.applyStyles && theme.applyStyles('dark', { color: 'success.light' }))
-                })}
+                sx={{ color: 'success.main', fontWeight: 700, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
               >
-                +62 823-1994-9941 <ExportSquare size={14} aria-hidden="true" style={{ verticalAlign: 'middle' }} />
+                +62 823-1994-9941 <ExportSquare size={14} style={{ verticalAlign: 'middle' }} />
               </Typography>
             </Typography>
           </Stack>

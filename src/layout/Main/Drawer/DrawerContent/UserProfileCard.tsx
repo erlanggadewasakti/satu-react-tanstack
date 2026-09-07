@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from 'components/@extended/Avatar';
 
 // project-imports
-import { useGetMenuMaster } from 'api/menu';
+import useConfig from 'hooks/useConfig';
 import useAuth from 'hooks/useAuth';
 
 // assets
@@ -15,8 +15,7 @@ import defaultAvatar from 'assets/images/users/avatar-6.png';
 // ==============================|| DRAWER CONTENT - USER PROFILE CARD ||============================== //
 
 export default function UserProfileCard() {
-  const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
+  const { drawerOpen } = useConfig();
 
   const { user } = useAuth();
 
