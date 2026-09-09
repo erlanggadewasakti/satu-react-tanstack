@@ -51,9 +51,9 @@ COPY --from=builder --chown=bun:bun /app/.env ./.env
 # Expose production port
 EXPOSE 3000
 
-# Health check using Bun's native fetch API (follows redirect for custom basepaths like /lens)
+# Health check using Bun's native fetch API (zero external dependencies)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD bun -e 'fetch("http://localhost:" + (process.env.PORT || 3000) + "/", { redirect: "follow" }).then(r => process.exit((r.ok || (r.status >= 300 && r.status < 400)) ? 0 : 1)).catch(() => process.exit(1))'
+  CMD bun -e 'fetch("http://localhost:" + (process.env.PORT || 3000) + "/").then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))'
 
 # Start production server using Bun runtime
 CMD ["bun", ".output/server/index.mjs"]

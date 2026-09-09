@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 // project-imports
 import Loader from 'components/Loader';
 import useAuth from 'hooks/useAuth';
-import { getDefaultSubAppPath, stripBasepath } from 'utils/auth';
 
 // types
 import { GuardProps } from 'types/auth';
@@ -15,34 +14,61 @@ const isValidInternalPath = (path?: string): boolean => {
   return path.startsWith('/') && !path.startsWith('//') && !path.includes('\\');
 };
 
+/**
+ * Normalizes redirect paths to prevent redirect loops and strip basepath prefixes if present
+ */
+const normalizeRedirectPath = (path?: string, basePath = import.meta.env.BASE_URL): string => {
+  if (!isValidInternalPath(path)) return '/home';
+
+  let cleanPath = path!.replace(/\\/g, '/').replace(/\/+/g, '/');
+
+  // Strip basepath if fromPath includes it (e.g. '/lens/home' -> '/home', or '/lens' -> '/')
+  const normalizedBase = basePath === '/' ? '' : basePath.replace(/^\/+|\/+$/g, '');
+  if (normalizedBase) {
+    const baseWithLeadingSlash = `/${normalizedBase}`;
+    if (cleanPath === baseWithLeadingSlash) {
+      cleanPath = '/';
+    } else if (cleanPath.startsWith(`${baseWithLeadingSlash}/`)) {
+      cleanPath = cleanPath.slice(baseWithLeadingSlash.length);
+    }
+  }
+
+  if (!cleanPath.startsWith('/')) {
+    cleanPath = `/${cleanPath}`;
+  }
+
+  if (cleanPath.includes('/login') || cleanPath.includes('/auth') || cleanPath === '/') {
+    return '/home';
+  }
+
+  return cleanPath;
+};
+
 // ==============================|| GUEST GUARD ||============================== //
 
 export default function GuestGuard({ children }: GuardProps) {
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const hasNavigatedRef = useRef(false);
+  const hasNavigated = useRef(false);
+
+  // Extract primitive string to avoid object reference instability in useEffect
+  const rawFromPath = (location?.state as unknown as Record<string, string> | undefined)?.from;
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      hasNavigatedRef.current = false;
-      return;
+    if (isLoggedIn) {
+      if (!hasNavigated.current) {
+        hasNavigated.current = true;
+        const targetPath = normalizeRedirectPath(rawFromPath);
+        navigate({
+          to: targetPath as any,
+          replace: true
+        });
+      }
+    } else {
+      hasNavigated.current = false;
     }
-
-    if (!hasNavigatedRef.current) {
-      hasNavigatedRef.current = true;
-      const fromPath = (location?.state as unknown as Record<string, string> | undefined)?.from;
-      const isLoginPath = fromPath && (fromPath.includes('/login') || fromPath.includes('/auth'));
-      const defaultPath = getDefaultSubAppPath(user);
-      const rawTarget = isValidInternalPath(fromPath) && !isLoginPath ? fromPath! : defaultPath;
-      const targetPath = stripBasepath(rawTarget);
-
-      navigate({
-        to: targetPath,
-        replace: true
-      });
-    }
-  }, [isLoggedIn, user, navigate, location?.state]);
+  }, [isLoggedIn, rawFromPath, navigate]);
 
   if (isLoggedIn) {
     return <Loader />;
@@ -50,3 +76,4 @@ export default function GuestGuard({ children }: GuardProps) {
 
   return children;
 }
+

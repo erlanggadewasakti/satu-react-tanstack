@@ -135,9 +135,22 @@ Fungsi `hasRoleAccess(user, allowedRoles)` memverifikasi hak akses dengan dua at
 
 ### C. Proteksi Rute Sub-Aplikasi (`SubAppGuard`)
 
-- File: [`src/utils/route-guard/SubAppGuard.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/utils/route-guard/SubAppGuard.tsx).
-- Komponen guard ini membungkus outlet konten di [`src/layout/Main/index.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/layout/Main/index.tsx).
+- File: [`src/utils/route-guard/SubAppGuard.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/utils/route-guard/SubAppGuard.tsx).
+- Komponen guard ini membungkus outlet konten di [`src/layout/Main/index.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/layout/Main/index.tsx).
 - Ketika pengguna mencoba mengetikkan URL sub-aplikasi secara manual di address bar peramban (misal: `/super-admin/home`) tanpa memiliki role yang sesuai, `SubAppGuard` langsung merender komponen `<Error404 />` alih-alih menampilkan halaman error permission generic. Pendekatan ini adalah praktik terbaik keamanan web modern untuk mencegah *route enumeration*.
+
+### D. Proteksi Akses Tamu & Sesi (`AuthGuard` & `GuestGuard`)
+
+1. **`AuthGuard` ([`src/utils/route-guard/AuthGuard.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/utils/route-guard/AuthGuard.tsx))**:
+   - Memastikan hanya pengguna yang telah terotentikasi (`isLoggedIn === true` dan `isInitialized === true`) yang dapat mengakses halaman beranda dan modul sub-aplikasi.
+   - Jika belum login, rute dialihkan ke `/login` dengan menyimpan rute asal (`state.from: location.pathname`).
+   - Dilengkapi dengan ref guard (`hasNavigated`) untuk mencegah eksekusi navigasi berulang selama transisi halaman.
+
+2. **`GuestGuard` ([`src/utils/route-guard/GuestGuard.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/utils/route-guard/GuestGuard.tsx))**:
+   - Membungkus halaman login / registrasi ([`src/layout/Auth/index.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/layout/Auth/index.tsx)).
+   - Jika pengguna yang telah login mengakses rute tamu (`/login`), pengguna otomatis dialihkan ke halaman tujuannya (`fromPath`) atau rute default (`/home`).
+   - **Normalisasi Basepath (`normalizeRedirectPath`)**: Saat aplikasi dijalankan di balik reverse proxy sub-path (misal: `VITE_APP_BASE_NAME=/lens` pada environment Staging), rute TanStack Router bekerja secara relatif terhadap basepath (`/home`, bukan `/lens/home`). Fungsi normalisasi ini otomatis memangkas prefix basepath pada `fromPath` agar tidak terjadi *double-prefixing* (`/lens/lens/...`) yang dapat menyebabkan *route mismatch* atau *infinite loop*.
+   - **Pencegahan Infinite Loop & Out of Memory**: Menggunakan primitive string extraction untuk dependency `useEffect` (bukan objek `location.state` yang selalu berganti referensi) serta flag `useRef(false)` (`hasNavigated`) agar navigasi hanya dipicu tepat satu kali saat status login berubah.
 
 ---
 
@@ -145,8 +158,8 @@ Fungsi `hasRoleAccess(user, allowedRoles)` memverifikasi hak akses dengan dua at
 
 ### A. Context Sub-Aplikasi (`SubAppContext` & `SubAppProvider`)
 
-- Context: [`src/contexts/SubAppContext.ts`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/contexts/SubAppContext.ts)
-- Provider: [`src/contexts/SubAppProvider.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/contexts/SubAppProvider.tsx)
+- Context: [`src/contexts/SubAppContext.ts`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/contexts/SubAppContext.ts)
+- Provider: [`src/contexts/SubAppProvider.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/contexts/SubAppProvider.tsx)
 
 **Tanggung Jawab**:
 1. **State Persistence**: Menyimpan ID sub-aplikasi aktif ke `localStorage` dengan key `'active-sub-app-id'` via hook `useLocalStorage`.
@@ -155,9 +168,10 @@ Fungsi `hasRoleAccess(user, allowedRoles)` memverifikasi hak akses dengan dua at
 
 ### B. Context Pencarian Global Omnibox (`SearchContext` & `SearchProvider`)
 
-- Context: [`src/contexts/SearchContext.ts`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/contexts/SearchContext.ts)
-- Provider: [`src/contexts/SearchProvider.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/contexts/SearchProvider.tsx)
-- Konfigurasi: [`src/config/searchConfig.ts`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/config/searchConfig.ts) & [`src/config/customSearchItems.ts`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/config/customSearchItems.ts)
+- Context: [`src/contexts/SearchContext.ts`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/contexts/SearchContext.ts)
+- Provider: [`src/contexts/SearchProvider.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/contexts/SearchProvider.tsx)
+- Konfigurasi: [`src/config/searchConfig.ts`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/config/searchConfig.ts) & [`src/config/customSearchItems.ts`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/config/customSearchItems.ts)
+
 
 **Tanggung Jawab**:
 1. **Pendaftaran Shortcut Global**: Menangkap event keyboard `Ctrl + K` atau `Cmd + K` dari mana saja di seluruh aplikasi untuk membuka modal pencarian.
@@ -169,13 +183,14 @@ Fungsi `hasRoleAccess(user, allowedRoles)` memverifikasi hak akses dengan dua at
 
 ## 🎨 5. Komponen UI Navigasi
 
-1. **`SubAppSelector` ([`src/components/SubAppSelector.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/components/SubAppSelector.tsx))**:
+1. **`SubAppSelector` ([`src/components/SubAppSelector.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/components/SubAppSelector.tsx))**:
    - Berada di header Drawer Sidebar.
    - Pada mode drawer normal: menampilkan Dropdown Outlined Select lengkap dengan nama dan icon sub-app.
    - Pada mode mini-drawer (sidebar collapsed): otomatis berubah menjadi Avatar badge inisial sub-app dengan Tooltip interaktif.
-2. **`Navigation` ([`src/layout/Main/Drawer/DrawerContent/Navigation/index.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/layout/Main/Drawer/DrawerContent/Navigation/index.tsx))**:
+2. **`Navigation` ([`src/layout/Main/Drawer/DrawerContent/Navigation/index.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/layout/Main/Drawer/DrawerContent/Navigation/index.tsx))**:
    - Merender struktur menu hierarkis: grup (`NavGroup`), dropdown bersarang (`NavCollapse`), dan item tunggal (`NavItem`).
    - Mendukung dua mode orientasi layout: Vertical Sidebar Drawer dan Top Horizontal Bar (`NavGroupHorizontal`, `NavItemHorizontal`).
-3. **`Breadcrumbs` ([`src/components/@extended/Breadcrumbs.tsx`](file:///d:/Coding/Project/Template/satu%20react%20aio/satu-react-tanstack/src/components/@extended/Breadcrumbs.tsx))**:
+3. **`Breadcrumbs` ([`src/components/@extended/Breadcrumbs.tsx`](file:///d:/Coding/Project/FE/PuTI/react-lens-learning-outcome-based-information-system/src/components/@extended/Breadcrumbs.tsx))**:
    - Menghasilkan rekam jejak navigasi halaman secara otomatis berdasarkan pohon rute aktif.
    - Mengikuti kaidah aksesibilitas tanpa merender tag `<h6>` palsu.
+

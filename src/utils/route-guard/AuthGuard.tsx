@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 
 // project-imports
 import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader';
-import { stripBasepath } from 'utils/auth';
 
 // types
 import { GuardProps } from 'types/auth';
@@ -15,14 +14,20 @@ export default function AuthGuard({ children }: GuardProps) {
   const { isLoggedIn, isInitialized } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const hasNavigated = useRef(false);
 
   useEffect(() => {
     if (isInitialized && !isLoggedIn) {
-      navigate({
-        to: '/login',
-        state: (prev: any) => ({ ...prev, from: stripBasepath(location.pathname) }),
-        replace: true
-      });
+      if (!hasNavigated.current) {
+        hasNavigated.current = true;
+        navigate({
+          to: '/login',
+          state: (prev: any) => ({ ...prev, from: location.pathname }),
+          replace: true
+        });
+      }
+    } else if (isLoggedIn) {
+      hasNavigated.current = false;
     }
   }, [isInitialized, isLoggedIn, navigate, location.pathname]);
 
@@ -32,3 +37,4 @@ export default function AuthGuard({ children }: GuardProps) {
 
   return children;
 }
+

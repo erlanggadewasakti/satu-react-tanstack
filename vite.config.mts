@@ -135,7 +135,8 @@ export default defineConfig(({ mode }) => {
       tsconfigPaths(),
       i18nParityPlugin(),
       nitro({
-        baseURL: base
+        baseURL: base,
+        preset: 'bun'
       })
     ]
   };

@@ -1,0 +1,79 @@
+stages:
+  - build
+
+build_to_MR:
+  image: docker:20
+  stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" 
+  script:
+    - echo "No job runs in merge request pipelines" 
+  after_script:
+    - echo "$MR_NOTIFY_SH" > notify.sh
+    - chmod +x notify.sh 
+    - if [ "$CI_JOB_STATUS" == "success" ]; then sh notify.sh "merge request is successfully initiated ✅";
+      elif [ "$CI_JOB_STATUS" == "failed" ]; then sh notify.sh "merge request is failed ❌";
+      elif [ "$CI_JOB_STATUS" == "canceled" ]; then sh notify.sh "merge request is canceled ❌";
+      else echo "Unknown status = $CI_JOB_STATUS"; fi 
+    - rm -f *.sh
+
+build_to_staging:
+  image: docker:20
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "staging" && $CI_PIPELINE_SOURCE != "merge_request_event"
+  stage: build
+  script:
+    - echo "$STG_DOCKERFILE" > Dockerfile
+    - echo "$STG_ENV" > .env
+    - echo "$STG_PRISMA_GENERATE_SH" > prisma_generate.sh
+    - chmod +x prisma_generate.sh
+    - cat Dockerfile
+    - cat .env 
+    - docker build --no-cache --network host -f Dockerfile -t telkomuniversity/aka-fe-lens-stg:$CI_COMMIT_SHORT_SHA .
+    - docker push telkomuniversity/aka-fe-lens-stg:$CI_COMMIT_SHORT_SHA
+    - echo "$STG_UNUSED_IMAGE_1" > STG_UNUSED_IMAGE_1.sh
+    - chmod +x STG_UNUSED_IMAGE_1.sh
+    - bash STG_UNUSED_IMAGE_1.sh
+    - echo "$STG_UNUSED_IMAGE_2" > STG_UNUSED_IMAGE_2.sh
+    - chmod +x STG_UNUSED_IMAGE_2.sh
+    - bash STG_UNUSED_IMAGE_2.sh
+    - rm -f *.sh
+  after_script:
+    - echo "$STG_NOTIFY_SH" > notify.sh
+    - chmod +x notify.sh
+    - if [ "$CI_JOB_STATUS" == "success" ]; then sh notify.sh "Image has been built and pushed successfully ✅";
+      elif [ "$CI_JOB_STATUS" == "failed" ]; then sh notify.sh "Image building is failed ❌";
+      elif [ "$CI_JOB_STATUS" == "canceled" ]; then sh notify.sh "Image building is canceled ❌";
+      else echo "Unknown status = $CI_JOB_STATUS"; fi
+    - rm -f *.sh
+
+build_to_production:
+  image: docker:20
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main" && $CI_PIPELINE_SOURCE != "merge_request_event"
+  # - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  stage: build
+  script:
+    - echo "$PROD_DOCKERFILE" > Dockerfile
+    - echo "$PROD_ENV" > .env
+    - echo "$PROD_PRISMA_GENERATE_SH" > prisma_generate.sh
+    - chmod +x prisma_generate.sh
+    - cat Dockerfile
+    - cat .env
+    - docker build --no-cache --network host -f Dockerfile -t telkomuniversity/aka-fe-lens:$CI_COMMIT_SHORT_SHA .
+    - docker push telkomuniversity/aka-fe-lens:$CI_COMMIT_SHORT_SHA
+    - echo "$PROD_UNUSED_IMAGE_1" > PROD_UNUSED_IMAGE_1.sh
+    - chmod +x PROD_UNUSED_IMAGE_1.sh
+    - bash PROD_UNUSED_IMAGE_1.sh
+    - echo "$PROD_UNUSED_IMAGE_2" > PROD_UNUSED_IMAGE_2.sh
+    - chmod +x PROD_UNUSED_IMAGE_2.sh
+    - bash PROD_UNUSED_IMAGE_2.sh
+    - rm -f *.sh
+  after_script:
+    - echo "$PROD_NOTIFY_SH" > notify.sh
+    - chmod +x notify.sh
+    - if [ "$CI_JOB_STATUS" == "success" ]; then sh notify.sh "Image has been built and pushed successfully ✅";
+      elif [ "$CI_JOB_STATUS" == "failed" ]; then sh notify.sh "Image building is failed ❌";
+      elif [ "$CI_JOB_STATUS" == "canceled" ]; then sh notify.sh "Image building is canceled ❌";
+      else echo "Unknown status = $CI_JOB_STATUS"; fi
+    - rm -f *.sh
