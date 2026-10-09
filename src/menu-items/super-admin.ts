@@ -1,5 +1,6 @@
 import { Home3, SecurityUser } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
+import { Role } from 'types/role';
 
 const icons = {
   home: Home3,
@@ -10,13 +11,15 @@ const superAdminMenuItems: NavItemType = {
   id: 'group-super-admin',
   title: 'group-super-admin',
   type: 'group',
+  allowedRoles: [Role.Developer],
   children: [
     {
       id: 'super-admin-home',
       title: 'super-admin-home',
       type: 'item',
       url: '/super-admin/home',
-      icon: icons.home
+      icon: icons.home,
+      allowedRoles: [Role.Developer]
     }
   ]
 };

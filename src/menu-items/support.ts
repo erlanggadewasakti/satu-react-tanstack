@@ -3,6 +3,7 @@ import { InfoCircle, Level, OceanProtocol, ShieldCross } from 'iconsax-reactjs';
 
 // types
 import { NavItemType } from 'types/menu';
+import { Role } from 'types/role';
 
 // icons
 const icons = {
@@ -12,12 +13,26 @@ const icons = {
   chipMenu: InfoCircle
 };
 
+const supportRoles = [
+  Role.Developer,
+  Role.Akademik,
+  Role.BAA,
+  Role.Kaprodi,
+  Role.KoordinatorMK,
+  Role.Dosen,
+  Role.Wadek1,
+  Role.Warek,
+  Role.LAA,
+  Role.User
+];
+
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
 
 const support: NavItemType = {
   id: 'other',
   title: 'others',
   type: 'group',
+  allowedRoles: supportRoles,
   children: [
     {
       id: 'menu-level',

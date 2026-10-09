@@ -23,7 +23,7 @@ export function hasRoleAccess(user: UserProfile | null | undefined, allowedRoles
 export function filterMenuItemsByRole(items: NavItemType[], user: UserProfile | null | undefined): NavItemType[] {
   const result: NavItemType[] = [];
   for (const item of items) {
-    if (hasRoleAccess(user, (item as NavItemType & { allowedRoles?: (Role | string)[] }).allowedRoles)) {
+    if (hasRoleAccess(user, item.allowedRoles)) {
       result.push(item.children ? { ...item, children: filterMenuItemsByRole(item.children, user) } : item);
     }
   }

@@ -14,6 +14,20 @@ import support from './support';
 
 // types
 import { NavItemType } from 'types/menu';
+import { Role } from 'types/role';
+
+const allRoles = [
+  Role.Developer,
+  Role.Akademik,
+  Role.BAA,
+  Role.Kaprodi,
+  Role.KoordinatorMK,
+  Role.Dosen,
+  Role.Wadek1,
+  Role.Warek,
+  Role.LAA,
+  Role.User
+];
 
 // ==============================|| UNIVERSAL GLOBAL HOME MENU ||============================== //
 
@@ -21,13 +35,15 @@ export const globalHomeMenuItem: NavItemType = {
   id: 'global-home',
   title: 'beranda-lens',
   type: 'group',
+  allowedRoles: allRoles,
   children: [
     {
       id: 'home',
       title: 'beranda-lens',
       type: 'item',
       url: '/home',
-      icon: Home3
+      icon: Home3,
+      allowedRoles: allRoles
     }
   ]
 };

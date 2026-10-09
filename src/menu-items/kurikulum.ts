@@ -1,5 +1,6 @@
 import { Home3, Teacher } from 'iconsax-reactjs';
 import { NavItemType } from 'types/menu';
+import { Role } from 'types/role';
 
 const icons = {
   home: Home3,
@@ -10,13 +11,15 @@ const kurikulumMenuItems: NavItemType = {
   id: 'group-kurikulum',
   title: 'group-kurikulum',
   type: 'group',
+  allowedRoles: [Role.Akademik, Role.Kaprodi, Role.BAA, Role.Developer],
   children: [
     {
       id: 'kurikulum-home',
       title: 'kurikulum-home',
       type: 'item',
       url: '/kurikulum/home',
-      icon: icons.home
+      icon: icons.home,
+      allowedRoles: [Role.Akademik, Role.Kaprodi, Role.BAA, Role.Developer]
     }
   ]
 };
